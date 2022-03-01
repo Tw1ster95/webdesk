@@ -1,0 +1,161 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  position: relative;
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+  font-family: sans-serif;
+}
+body .desktop-menu {
+  display: none;
+  z-index: 1000;
+  position: absolute;
+  border: 1px solid #ccc;
+  white-space: nowrap;
+  background: #fff;
+  color: #333;
+  border-radius: 5px;
+  padding: 0;
+}
+body .desktop-menu li {
+  position: relative;
+  padding: 8px 12px;
+  cursor: pointer;
+  list-style-type: none;
+  transition: all 0.3s ease;
+  user-select: none;
+  width: 150px;
+}
+body .desktop-menu li i {
+  position: absolute;
+  top: 50%;
+  right: 5%;
+  transform: translateY(-50%);
+}
+body .desktop-menu li .desktop-submenu {
+  display: none;
+  z-index: 1000;
+  position: absolute;
+  width: 150px;
+  left: 100%;
+  top: 0%;
+  border: 1px solid #ccc;
+  white-space: nowrap;
+  background: #fff;
+  color: #333;
+  border-radius: 5px;
+  padding: 0;
+}
+body .desktop-menu li .desktop-submenu li:hover {
+  background-color: #def;
+}
+body .desktop-menu li:has(ul) {
+  background-color: red;
+}
+body .desktop-menu li:hover {
+  background-color: #def;
+}
+body .desktop-menu li:hover .desktop-submenu {
+  display: block;
+}
+body .desktop-flex {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 97vh;
+}
+body .desktop-flex .flex-file-space {
+  display: flex;
+  width: 150px;
+  height: 150px;
+  align-items: center;
+  justify-content: center;
+}
+body .desktop-flex .flex-file-space .folder {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  bottom: 10px;
+  border: unset;
+  background: unset;
+  background: url(/assets/img/folder.png);
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  transition: 200ms;
+}
+body .desktop-flex .flex-file-space .folder span {
+  position: absolute;
+  background-color: rgba(221, 238, 255, 0.8);
+  padding: 2px 3px;
+  width: 100%;
+  max-height: 20px;
+  border-radius: 5px;
+  overflow: hidden;
+  text-align: center;
+  top: 95%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+body .desktop-flex .flex-file-space .folder span:active,
+body .desktop-flex .flex-file-space .folder span:focus {
+  max-height: none;
+  height: auto;
+  overflow: auto;
+}
+body .desktop-flex .flex-file-space .folder:hover {
+  transform: scale(1.1);
+}
+body .desktop-flex .flex-file-space .folder:hover span {
+  max-height: none;
+  height: auto;
+  overflow: auto;
+}
+body .bgimage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -999;
+}
+body .bgimage img {
+  width: 100%;
+  height: 100%;
+}
+body .bgimage.contain img {
+  object-fit: contain;
+}
+body .bgimage.fill img {
+  object-fit: fill;
+}
+body .bgimage.cover img {
+  object-fit: cover;
+}
+body .bgimage.revert img {
+  object-fit: revert;
+}
+body .dragging {
+  cursor: move;
+}
+body .taskbar {
+  position: relative;
+  background-color: #c4c4c4;
+  width: 100vw;
+  height: 3vh;
+}
+
+/*# sourceMappingURL=style.css.map */

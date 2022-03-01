@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Iphie</title>
+        <link rel="stylesheet" href="assets/css/style.css">
+        <script src="https://kit.fontawesome.com/7d5d311859.js" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="assets/js/main.js" defer></script>
+    </head>
+    <body>
+        <div class="bgimage cover">
+            <img src="/assets/img/bg/win10.jpg" alt="Background Image">
+        </div>
+        <ul class='desktop-menu'>
+            <li data-action="submenu">View<i class="fa fa-angle-right"></i>
+                <ul class='desktop-submenu'>
+                    <li data-action="l-icons">Large Icons</li>
+                    <li data-action="m-icons">Medium Icons</li>
+                    <li data-action="s-icons">Small Icons</li>
+                </ul>
+            </li>
+            <li data-action="submenu">Sort by<i class="fa fa-angle-right"></i>
+                <ul class='desktop-submenu'>
+                    <li data-action="l-icons">Name</li>
+                    <li data-action="m-icons">Size</li>
+                    <li data-action="s-icons">Item type</li>
+                </ul>
+            </li>
+            <li data-action="refresh">Refresh</li>
+            <li data-action="submenu">New<i class="fa fa-angle-right"></i>
+                <ul class='desktop-submenu'>
+                    <li data-action="newfolder">Folder</li>
+                    <li data-action="newtxtdoc">Text Document</li>
+                    <li data-action="newimage">Image</li>
+                </ul>
+            </li>
+        </ul>
+
+        <div class="desktop-flex"></div>
+        
+        <div class="taskbar"></div>
+    </body>
+</html>
