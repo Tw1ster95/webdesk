@@ -1,4 +1,5 @@
 let lastClickTime = new Date().getTime();
+let lastXpos, lastYpos;
 
 $(document).bind("contextmenu", (e) => {
     e.preventDefault();
@@ -27,7 +28,9 @@ $(".desktop-menu li").click((e) => {
         case "newfolder": {
             const emptySpace = $('.flex-file-space:empty')[0];
             if(emptySpace) {
-                $(emptySpace).append($('<div class="folder" ondragstart="drag(event)" draggable="true"><span contenteditable="true">Folder Name</span></div>'));
+                const folderEl = $('<div class="folder" ondragstart="drag(event)" draggable="true" folder-id="1"><span contenteditable="true">Folder Name</span></div>');
+                $(emptySpace).append(folderEl);
+                $(folderEl).click(onFolderClick);
             }
             else
                 alert('There is no space for a new folder!');
@@ -35,7 +38,10 @@ $(".desktop-menu li").click((e) => {
         }
         case "display": {
             if(!$('#displaySettingsModal').length) {
-                $('#modals').append($('<div class="modal" id="displaySettingsModal"></div>'));
+                const modalEl = $('<div class="modal" id="displaySettingsModal"></div>');
+                $('#modals').append(modalEl);
+                //addDisplaySettingsModalItems(modalEl);
+                positionModal(modalEl);
             }
             else {
                 $('#modals').append($('#displaySettingsModal'));
@@ -45,14 +51,6 @@ $(".desktop-menu li").click((e) => {
     }
 
     $(".desktop-menu").hide(100);
-});
-
-$(".folder").click((e) => {
-    time = new Date().getTime();
-    if(time - lastClickTime < 50) return;
-    lastClickTime = time;
-
-    console.log(e.target);
 });
 
 $(document).ready(() => {
@@ -70,11 +68,6 @@ function generateSquares() {
 
     const desktopEl = $('#desktop');
     squaresNum = $(desktopEl).children().length;
-
-    console.log('cols: ' + cols)
-    console.log('rows: ' + rows)
-    console.log('squaresNum: ' + squaresNum)
-    console.log('squares: ' + squares)
 
     if(squaresNum < squares) {
         let itemsNum = squares;
@@ -115,4 +108,44 @@ function drop(e) {
     $(dropPosEl).html('');
     $(dragPosEl).append($(dropElements).children());
     $(dropPosEl).append($(dragElements).children());
+    $(dragPosEl).click(onFolderClick);
+    $(dropPosEl).click(onFolderClick);
+}
+
+function addFolderModalItems(target) {
+    $(target).append('<div class="top"><div class="minimize">_</div><div class="expand">[ ]</div><div class="close">X</div></div>',
+    '<div class="menu"></div>',
+    '<div class="window"><div class="side"></div><div class="main"></div></div>');
+}
+
+function positionModal(target) {
+    const width = $(window).width();
+    const height = $(window).height();
+    $(target).css(`top`, `${Math.floor(height/3)}px`);
+    $(target).css(`left`, `${Math.floor(width/3)}px`);
+    $(target).css(`height`, `${Math.floor(height/3)}px`);
+    $(target).css(`width`, `${Math.floor(width/3)}px`);
+}
+
+function onFolderClick(e) {
+    time = new Date().getTime();
+    if(time - lastClickTime < 50) return;
+    lastClickTime = time;
+
+    const folderId = $(e.target).attr('folder-id');
+
+    if(!$(`.modal[for-folder-id="${folderId}"]`).length) {
+        const modalEl = $(`<div class="modal" for-folder-id=${folderId}></div>`);
+        $('#modals').append(modalEl);
+        addFolderModalItems(modalEl);
+        positionModal(modalEl);
+        addToTaskbar('folder', folderId);
+    }
+    else {
+        $('#modals').append($(`.modal[for-folder-id="${folderId}"]`));
+    }
+}
+
+function addToTaskbar(target) {
+
 }

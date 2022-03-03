@@ -1,9 +1,17 @@
 .taskbar {
-  position: relative;
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
   background-color: #c4c4c4;
   width: 100vw;
   height: 3vh;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
+  gap: 2px;
+
+  * {
+    height: 100%;
+    width: 40px;
+  }
 }

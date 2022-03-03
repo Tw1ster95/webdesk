@@ -1,11 +1,64 @@
 .modals {
   .modal {
-    display: block;
-    position: relative;
-    top: 50%;
-    left: 50%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    position: fixed;
     background-color: #fff;
-    width: 100px;
-    height: 100px;
+    border-radius: 5px;
+    overflow: hidden;
+
+    .top {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      gap: 5px;
+      background-color: blue;
+      height: 30px;
+      align-items: center;
+      justify-content: end;
+
+      .minimize,
+      .expand,
+      .close {
+        border: 1px solid #000;
+        width: 20px;
+        height: 20px;
+        text-align: center;
+        font-weight: 700;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .minimize {
+        background-color: lightblue;
+      }
+      .expand {
+        background-color: lightblue;
+      }
+      .close {
+        background-color: red;
+      }
+    }
+    .menu {
+      background-color: grey;
+      height: 40px;
+    }
+    .window {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      height: 100%;
+
+      .side {
+        background-color: rgb(195, 195, 195);
+        height: 100%;
+        width: 200px;
+      }
+      .main {
+        height: 100%;
+        width: 100%;
+        overflow-y: scroll;
+      }
+    }
   }
 }
