@@ -33,6 +33,15 @@ $(".desktop-menu li").click((e) => {
                 alert('There is no space for a new folder!');
             break;
         }
+        case "display": {
+            if(!$('#displaySettingsModal').length) {
+                $('#modals').append($('<div class="modal" id="displaySettingsModal"></div>'));
+            }
+            else {
+                $('#modals').append($('#displaySettingsModal'));
+            }
+            break;
+        }
     }
 
     $(".desktop-menu").hide(100);
@@ -59,8 +68,8 @@ function generateSquares() {
     const rows = Math.floor(height / 150);
     const squares = cols * rows;
 
-    const desktopEl = document.querySelector('.desktop-flex');
-    squaresNum = desktopEl.childElementCount;
+    const desktopEl = $('#desktop');
+    squaresNum = $(desktopEl).children().length;
 
     console.log('cols: ' + cols)
     console.log('rows: ' + rows)
@@ -71,12 +80,12 @@ function generateSquares() {
         let itemsNum = squares;
 
         for(let i = squaresNum; i < itemsNum; i++) {
-            $(".desktop-flex").append(`<div class="flex-file-space" data-desktop-pos="${i}" ondrop="drop(event)" ondragover="allowDrop(event)"></div>`);
+            $("#desktop").append(`<div class="flex-file-space" data-desktop-pos="${i}" ondrop="drop(event)" ondragover="allowDrop(event)"></div>`);
         }
     }
     else if(squaresNum > squares) {
         for(let i = squaresNum; i > squares; i--) {
-            desktopEl.children[i-1].remove();
+            $(desktopEl).children()[i-1].remove();
         }
     }
 }

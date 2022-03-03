@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Iphie</title>
+        <title>Web OS</title>
         <link rel="stylesheet" href="assets/css/style.css">
         <script src="https://kit.fontawesome.com/7d5d311859.js" crossorigin="anonymous"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -37,10 +37,19 @@
                     <li data-action="newimage">Image</li>
                 </ul>
             </li>
+            <li data-action="display">Display</li>
         </ul>
 
-        <div class="desktop-flex"></div>
+        <div class="desktop-flex" id="desktop"></div>
         
-        <div class="taskbar"></div>
+        <div class="taskbar" id="taskbar">
+            <div class="os-logo">
+                <img src="assets/img/win10logo.png" alt="OS Logo">
+            </div>
+        </div>
+
+        <div class="modals" id="modals">
+            <!-- <div class="modal" id="loginModal"></div> -->
+        </div>
     </body>
 </html>
