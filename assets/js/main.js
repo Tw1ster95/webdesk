@@ -1,6 +1,12 @@
 let lastClickTime = new Date().getTime();
 let lastXpos, lastYpos;
 
+const settings = {
+    iconsize: 100,
+    bgImageStyle: 'cover',
+    bgImageUrl: '/assets/img/bg/win10.jpg'
+}
+
 $(document).bind("contextmenu", (e) => {
     e.preventDefault();
 
@@ -25,6 +31,18 @@ $(".desktop-menu li").click((e) => {
 
     switch($(e.target).attr("data-action")) {
         case "submenu": return;
+        case "l-icons": {
+            setIconSize(150);
+            break;
+        }
+        case "m-icons": {
+            setIconSize(100);
+            break;
+        }
+        case "s-icons": {
+            setIconSize(50);
+            break;
+        }
         case "newfolder": {
             const emptySpace = $('.flex-file-space:empty')[0];
             if(emptySpace) {
@@ -53,17 +71,21 @@ $(".desktop-menu li").click((e) => {
     $(".desktop-menu").hide(100);
 });
 
-$(document).ready(() => {
-    generateSquares();
+$(document).ready(async () => {
+    $('body').css('cursor', 'wait');
+
+    getUserSettings();
+    $('body').css('cursor', 'auto');
 });
+
 $( window ).resize(function() {
     generateSquares();
 });
 function generateSquares() {
     const width = window.innerWidth;
     const height = window.innerHeight;
-    const cols = Math.floor(width / 150);
-    const rows = Math.floor(height / 150);
+    const cols = Math.floor(width / settings.iconsize);
+    const rows = Math.floor(height / settings.iconsize);
     const squares = cols * rows;
 
     const desktopEl = $('#desktop');
@@ -81,6 +103,10 @@ function generateSquares() {
             $(desktopEl).children()[i-1].remove();
         }
     }
+
+    $('.flex-file-space').css('width', `${settings.iconsize}px`);
+    $('.flex-file-space').css('height', `${settings.iconsize}px`);
+    $('.flex-file-space').css('font-size', `${Math.floor(settings.iconsize/6)}px`);
 }
 
 function allowDrop(e) {
@@ -146,6 +172,31 @@ function onFolderClick(e) {
     }
 }
 
-function addToTaskbar(target) {
+function addToTaskbar(type, id) {
 
+}
+
+function setIconSize(size) {
+    settings.iconsize = size;
+    generateSquares();
+}
+
+function getUserSettings() {
+    const fd = new FormData();
+
+    fd.append('userid', 1);
+
+    $.ajax({
+        url: 'inc/get_settings.php',
+        type: 'post',
+        data: fd,
+        contentType: false,
+        processData: false,
+        success: function(response){
+            console.log(response);
+        },
+    });
+    generateSquares();
+    $('.bgimage').addClass(settings.bgImageStyle);
+    $('.bgimage img').attr('src', settings.bgImageUrl);
 }
