@@ -1,13 +1,13 @@
+// Imports
+import { loadBackground, generateSquares } from '../js/os-load.js';
+import { iconAllowDrop, iconDragStart, iconDrop, onFolderClick } from '../js/events.js';
+import { createModal, toggleModal } from '../js/modal.js';
+
 // Add loading screen and wait cursor to page
 $('body').css('cursor', 'wait');
 
-// Imports
-
-
 // Global Variables
-
 let lastClickTime = new Date().getTime();
-let lastXpos, lastYpos;
 
 let userinfo = {
     id: null,
@@ -22,7 +22,6 @@ let settings = {
 }
 
 // Global Variables End
-
 
 $(window).on('load', async () => {
     await getUserInfo();
@@ -39,104 +38,9 @@ $(window).on('load', async () => {
     $('#loadingScreen').remove();
 });
 
-function generateSquares() {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-    const cols = Math.floor(width / settings.icon_size);
-    const rows = Math.floor(height / settings.icon_size);
-    const squares = cols * rows;
-
-    const desktopEl = $('#desktop');
-    squaresNum = $(desktopEl).children().length;
-
-    if(squaresNum < squares) {
-        let itemsNum = squares;
-
-        for(let i = squaresNum; i < itemsNum; i++) {
-            $("#desktop").append(`<div class="flex-file-space" data-desktop-pos="${i}" ondrop="drop(event)" ondragover="allowDrop(event)"></div>`);
-        }
-    }
-    else if(squaresNum > squares) {
-        for(let i = squaresNum; i > squares; i--) {
-            $(desktopEl).children()[i-1].remove();
-        }
-    }
-
-    $('.flex-file-space').css('width', `${settings.icon_size}px`);
-    $('.flex-file-space').css('height', `${settings.icon_size}px`);
-    $('.flex-file-space').css('font-size', `${Math.floor(settings.icon_size/6)}px`);
-}
-
-function allowDrop(e) {
-    e.preventDefault();
-}
-function drag(e) {
-    e.dataTransfer.setData("text", $(e.currentTarget).parents()[0].getAttribute('data-desktop-pos'));
-}
-function drop(e) {
-    e.preventDefault();
-
-    const dragPos = e.dataTransfer.getData("text");
-
-    if(dragPos == undefined)
-        return;
-    
-    const dragPosEl = $(`.flex-file-space[data-desktop-pos="${dragPos}"]`);
-    const dropPosEl = $(e.currentTarget);
-    const drPos = $(dropPosEl).attr('data-desktop-pos');
-    if(dragPos == drPos)
-        return;
-    const dragElements = $(dragPosEl).clone();
-    const dropElements = $(dropPosEl).clone();
-    $(dragPosEl).html('');
-    $(dropPosEl).html('');
-    $(dragPosEl).append($(dropElements).children());
-    $(dropPosEl).append($(dragElements).children());
-    $(dragPosEl).click(onFolderClick);
-    $(dropPosEl).click(onFolderClick);
-}
-
-function addFolderModalItems(target) {
-    $(target).append('<div class="top"><div class="minimize">_</div><div class="expand">[ ]</div><div class="close">X</div></div>',
-    '<div class="menu"></div>',
-    '<div class="window"><div class="side"></div><div class="main"></div></div>');
-}
-
-function positionModal(target) {
-    const width = $(window).width();
-    const height = $(window).height();
-    $(target).css(`top`, `${Math.floor(height/3)}px`);
-    $(target).css(`left`, `${Math.floor(width/3)}px`);
-    $(target).css(`height`, `${Math.floor(height/3)}px`);
-    $(target).css(`width`, `${Math.floor(width/3)}px`);
-}
-
-function onFolderClick(e) {
-    time = new Date().getTime();
-    if(time - lastClickTime < 50) return;
-    lastClickTime = time;
-
-    const folderId = $(e.target).attr('folder-id');
-
-    if(!$(`.modal[for-folder-id="${folderId}"]`).length) {
-        const modalEl = $(`<div class="modal" for-folder-id=${folderId}></div>`);
-        $('#modals').append(modalEl);
-        addFolderModalItems(modalEl);
-        positionModal(modalEl);
-        addToTaskbar('folder', folderId);
-    }
-    else {
-        $('#modals').append($(`.modal[for-folder-id="${folderId}"]`));
-    }
-}
-
-function addToTaskbar(type, id) {
-
-}
-
 function setIconSize(size) {
     settings.icon_size = size;
-    generateSquares();
+    generateSquares(settings, iconAllowDrop, iconDrop);
 }
 
 async function getUserInfo() {
@@ -179,14 +83,7 @@ async function getUserSettings() {
 }
 
 function loadOS() {
-    // Remove current background
-    $('#desktopBackground').remove();
-
-    // Insert background image
-    if(settings.bg_type == 'img')
-        $('body').append(`<div id="desktopBackground" class="bgimage ${settings.bg_style}"><img src="${settings.bg_url}" alt="Background Image"></div>`);
-    else
-        $('body').append(`<div id="desktopBackground" class="bgvid ${settings.bg_style}"><video src="${settings.bg_url}" alt="Background Video"></div>`);
+    loadBackground(settings);
 
     // Insert Desktop Menu
     $('body').append(`<ul class='desktop-menu'>
@@ -230,13 +127,13 @@ function loadOS() {
 
     // Load event listeners
     loadEvents();
-    generateSquares();
+    generateSquares(settings, iconAllowDrop, iconDrop);
 }
 
 function loadEvents() {
     // On window resize change desktop grid
     $(window).resize(() =>{
-        generateSquares();
+        generateSquares(settings, iconAllowDrop, iconDrop);
     });
     
     // On right click open custom menu
@@ -260,7 +157,7 @@ function loadEvents() {
 
     // Load Desktop right click menu items
     $(".desktop-menu li").click((e) => {
-        time = new Date().getTime();
+        const time = new Date().getTime();
         if(time - lastClickTime < 50) return;
         lastClickTime = time;
     
@@ -281,9 +178,10 @@ function loadEvents() {
             case "newfolder": {
                 const emptySpace = $('.flex-file-space:empty')[0];
                 if(emptySpace) {
-                    const folderEl = $('<div class="folder" ondragstart="drag(event)" draggable="true" folder-id="1"><span contenteditable="true">Folder Name</span></div>');
+                    const folderEl = $('<div class="folder" draggable="true" folder-id="1"><span contenteditable="true">Folder Name</span></div>');
                     $(emptySpace).append(folderEl);
                     $(folderEl).click(onFolderClick);
+                    $(folderEl).on('dragstart', iconDragStart);
                 }
                 else
                     alert('There is no space for a new folder!');
@@ -291,13 +189,10 @@ function loadEvents() {
             }
             case "display": {
                 if(!$('#displaySettingsModal').length) {
-                    const modalEl = $('<div class="modal" id="displaySettingsModal"></div>');
-                    $('#modals').append(modalEl);
-                    //addDisplaySettingsModalItems(modalEl);
-                    positionModal(modalEl);
+                    createModal('display');
                 }
                 else {
-                    $('#modals').append($('#displaySettingsModal'));
+                    toggleModal('display');
                 }
                 break;
             }
