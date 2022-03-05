@@ -72,6 +72,7 @@ body {
   width: 100vw;
   height: 100vh;
   font-family: sans-serif;
+  background-color: #000;
 }
 
 body .desktop-flex {
@@ -242,6 +243,168 @@ img {
   height: 100%;
   width: 100%;
   overflow-y: scroll;
+}
+
+.loading-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000;
+}
+.loading-screen .lds-ellipsis {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.loading-screen .lds-ellipsis div {
+  position: absolute;
+  top: 33px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #fff;
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+.loading-screen .lds-ellipsis div:nth-child(1) {
+  left: 8px;
+  animation: lds-ellipsis1 0.6s infinite;
+}
+.loading-screen .lds-ellipsis div:nth-child(2) {
+  left: 8px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.loading-screen .lds-ellipsis div:nth-child(3) {
+  left: 32px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.loading-screen .lds-ellipsis div:nth-child(4) {
+  left: 56px;
+  animation: lds-ellipsis3 0.6s infinite;
+}
+@keyframes lds-ellipsis1 {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes lds-ellipsis3 {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+@keyframes lds-ellipsis2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(24px, 0);
+  }
+}
+
+.login-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  height: auto;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 255, 255, 0.75);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.login-container .login-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  position: relative;
+  width: 200%;
+  transition: transform 200ms ease-in-out;
+}
+.login-container .login-wrapper .login-form,
+.login-container .login-wrapper .register-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 100%;
+  padding: 20px;
+}
+.login-container .login-wrapper .login-form h2,
+.login-container .login-wrapper .register-form h2 {
+  text-align: center;
+  padding: 20px;
+}
+.login-container .login-wrapper .login-form button,
+.login-container .login-wrapper .register-form button {
+  margin: 20px;
+}
+.login-container .login-wrapper .login-form .err-msg,
+.login-container .login-wrapper .register-form .err-msg {
+  color: red;
+}
+.login-container .login-wrapper.login-form-transition {
+  transform: translateX(-50%);
+}
+
+input {
+  border-radius: 5px;
+  border-width: 1px;
+  padding: 5px;
+  text-align: center;
+}
+
+button,
+.button {
+  display: inline-block;
+  padding: 10px;
+  margin: 5px;
+  text-align: center;
+  cursor: pointer;
+  font-weight: 700;
+  border: unset;
+  border-radius: 15px 0px 15px 0px;
+  background: linear-gradient(45deg, rgba(0, 0, 0, 0.5) 0%, white 100%);
+  background-size: 200% 200%;
+}
+
+button:hover,
+.button:hover,
+button:active,
+.button:active {
+  animation: animateButtonHover 1s infinite;
+}
+
+@keyframes animateButtonHover {
+  0% {
+    background-position: 10% 0%;
+  }
+  50% {
+    background-position: 91% 100%;
+  }
+  100% {
+    background-position: 10% 0%;
+  }
+}
+button.small,
+.button.small {
+  width: 100px;
+}
+
+button.medium,
+.button.medium {
+  width: 200px;
 }
 
 /*# sourceMappingURL=style.css.map */

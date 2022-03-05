@@ -11,45 +11,10 @@
         <script src="assets/js/main.js" defer></script>
     </head>
     <body>
-        <div class="bgimage">
-            <img src="" alt="Background Image">
-        </div>
-        <ul class='desktop-menu'>
-            <li data-action="submenu">View<i class="fa fa-angle-right"></i>
-                <ul class='desktop-submenu'>
-                    <li data-action="l-icons">Large Icons</li>
-                    <li data-action="m-icons">Medium Icons</li>
-                    <li data-action="s-icons">Small Icons</li>
-                </ul>
-            </li>
-            <li data-action="submenu">Sort by<i class="fa fa-angle-right"></i>
-                <ul class='desktop-submenu'>
-                    <li data-action="l-icons">Name</li>
-                    <li data-action="m-icons">Size</li>
-                    <li data-action="s-icons">Item type</li>
-                </ul>
-            </li>
-            <li data-action="refresh">Refresh</li>
-            <li data-action="submenu">New<i class="fa fa-angle-right"></i>
-                <ul class='desktop-submenu'>
-                    <li data-action="newfolder">Folder</li>
-                    <li data-action="newtxtdoc">Text Document</li>
-                    <li data-action="newimage">Image</li>
-                </ul>
-            </li>
-            <li data-action="display">Display</li>
-        </ul>
+        <div id="desktopBackground" class="bgimage cover"><img src="/assets/img/bg/win10.jpg" alt="Background Image"></div>
 
-        <div class="desktop-flex" id="desktop"></div>
-        
-        <div class="taskbar" id="taskbar">
-            <div class="os-logo">
-                <img src="assets/img/win10logo.png" alt="OS Logo">
-            </div>
-        </div>
-
-        <div class="modals" id="modals">
-            <!-- <div class="modal" id="loginModal"></div> -->
+        <div class="loading-screen" id="loadingScreen">
+            <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
         </div>
     </body>
 </html>

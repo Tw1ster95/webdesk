@@ -1,0 +1,48 @@
+.login-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  height: auto;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 255, 255, 0.75);
+  border-radius: 10px;
+  overflow: hidden;
+
+  .login-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    position: relative;
+    width: 200%;
+    transition: transform 200ms ease-in-out;
+
+    .login-form,
+    .register-form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      width: 100%;
+      padding: 20px;
+
+      h2 {
+        text-align: center;
+        padding: 20px;
+      }
+
+      button {
+        margin: 20px;
+      }
+
+      .err-msg {
+        color: red;
+      }
+    }
+  }
+
+  .login-wrapper.login-form-transition {
+    transform: translateX(-50%);
+  }
+}
