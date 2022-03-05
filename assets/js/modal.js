@@ -9,7 +9,7 @@ const positionModal = (target) => {
     $(target).css(`width`, `${Math.floor(width/3)}px`);
 }
 
-const createModal = (type, id) => {
+const createModal = ({ type, id, name }) => {
     switch(type) {
         case "display": {
             const modalEl = $('<div class="modal" id="displaySettingsModal"></div>');
@@ -21,7 +21,7 @@ const createModal = (type, id) => {
         case "folder": {
             const modalEl = $(`<div class="modal" for-folder-id=${id}></div>`);
             $('#modals').append(modalEl);
-            addFolderModalItems(modalEl);
+            addFolderModalItems(modalEl, name);
             positionModal(modalEl);
             addToTaskbar('folder', id);
             break;
@@ -29,14 +29,13 @@ const createModal = (type, id) => {
     }
 }
 
-const addFolderModalItems = (target) => {
-    $(target).append('<div class="top"><div class="title">Folder</div><div class="top-buttons"><div class="minimize">_</div><div class="expand">[ ]</div><div class="close">X</div></div></div><div class="menu"></div><div class="window"><div class="side"></div><div class="main"></div></div>');
+const addFolderModalItems = (target, name) => {
+    $(target).append(`<div class="top"><div class="title">${name}</div><div class="top-buttons"><div class="minimize">_</div><div class="expand">[ ]</div><div class="close">X</div></div></div><div class="menu"></div><div class="window"><div class="side"></div><div class="main"></div></div>`);
 
     addTopModalEvents(target);
 }
-
 const addDisplaySettingsModalItems = (target) => {
-    $(target).append('<div class="top"><div class="title">Display Settings</div><div class="top-buttons"><div class="minimize">_</div><div class="expand disabled">[ ]</div><div class="close">X</div></div></div><div class="window"><div class="main no-scroll"></div></div>');
+    $(target).append(`<div class="top"><div class="title">Display Settings</div><div class="top-buttons"><div class="minimize">_</div><div class="expand disabled">[ ]</div><div class="close">X</div></div></div><div class="window"><div class="main no-scroll"></div></div>`);
     addTopModalEvents(target);
 }
 
@@ -91,7 +90,7 @@ const addTopModalEvents = (target) => {
     }
 }
 
-const toggleModal = (type, id) => {
+const toggleModal = ({ type, id }) => {
     switch(type) {
         case "display": {
             $('#modals').append($('#displaySettingsModal'));

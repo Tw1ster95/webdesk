@@ -68,10 +68,14 @@ const desktopMenuAction = (action) => {
         }
         case "display": {
             if(!$('#displaySettingsModal').length) {
-                createModal('display');
+                createModal({
+                    type: 'display'
+                });
             }
             else {
-                toggleModal('display');
+                toggleModal({
+                    type: 'display'
+                });
             }
             break;
         }
@@ -117,10 +121,18 @@ const onFolderClick = (e) => {
     const folderId = $(e.target).attr('folder-id');
 
     if(!$(`.modal[for-folder-id="${folderId}"]`).length) {
-        createModal('folder', folderId);
+        const name = $(e.target).find('span').text();
+        createModal({
+            type: 'folder',
+            id: folderId,
+            name: name
+        });
     }
     else {
-        toggleModal('folder', folderId);
+        toggleModal({
+            type: 'folder',
+            id: folderId
+        });
     }
 }
 
