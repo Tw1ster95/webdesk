@@ -1,5 +1,6 @@
-import { loadOS, generateSquares, getData, setData, getUserSettings, getUserInfo } from './os-load.js';
-import { displayLoginWindow } from './login-window.js';
+import { loadOS, generateSquares, getUserSettings } from './os-load.js';
+import { displayLoginModal } from './login-modal.js';
+import { getUserInfo, getData } from './data.js';
 
 // Add loading screen and wait cursor to page
 $('body').css('cursor', 'wait');
@@ -13,7 +14,7 @@ $(window).on('load', async () => {
         loadOS();
     }
     else
-        displayLoginWindow();
+        displayLoginModal();
 
     $('body').css('cursor', 'auto');
     $('#loadingScreen').remove();

@@ -198,15 +198,27 @@ img {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
-  gap: 5px;
+  justify-content: space-between;
   background-color: blue;
   height: 30px;
   align-items: center;
+}
+.modals .modal .top .title {
+  margin-left: 10px;
+  font-weight: 700;
+}
+.modals .modal .top .top-buttons {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 5px;
+  align-items: center;
   justify-content: end;
 }
-.modals .modal .top .minimize,
-.modals .modal .top .expand,
-.modals .modal .top .close {
+.modals .modal .top .top-buttons .minimize,
+.modals .modal .top .top-buttons .expand,
+.modals .modal .top .top-buttons .close {
+  position: relative;
   border: 1px solid #000;
   width: 20px;
   height: 20px;
@@ -215,13 +227,29 @@ img {
   border-radius: 5px;
   cursor: pointer;
 }
-.modals .modal .top .minimize {
+.modals .modal .top .top-buttons .minimize.disabled,
+.modals .modal .top .top-buttons .expand.disabled,
+.modals .modal .top .top-buttons .close.disabled {
+  cursor: pointer;
+}
+.modals .modal .top .top-buttons .minimize.disabled::after,
+.modals .modal .top .top-buttons .expand.disabled::after,
+.modals .modal .top .top-buttons .close.disabled::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #0006;
+}
+.modals .modal .top .top-buttons .minimize {
   background-color: lightblue;
 }
-.modals .modal .top .expand {
+.modals .modal .top .top-buttons .expand {
   background-color: lightblue;
 }
-.modals .modal .top .close {
+.modals .modal .top .top-buttons .close {
   background-color: red;
 }
 .modals .modal .menu {
@@ -242,7 +270,15 @@ img {
 .modals .modal .window .main {
   height: 100%;
   width: 100%;
+}
+.modals .modal .window .main:not(.no-scroll) {
   overflow-y: scroll;
+}
+.modals .modal.expanded {
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
 }
 
 .loading-screen {

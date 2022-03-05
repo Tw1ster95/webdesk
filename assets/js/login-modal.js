@@ -1,6 +1,7 @@
-import { loadOS, setData, getUserSettings } from './os-load.js';
+import { loadOS, getUserSettings } from './os-load.js';
+import { setData } from './data.js';
 
-const displayLoginWindow = () => {
+const displayLoginModal = () => {
     $('body').append(`<div class="login-container">
         <div class="login-wrapper">
             <form class="login-form" id="loginForm">
@@ -132,5 +133,5 @@ const loadLoginEvents = () => {
 }
 
 export {
-    displayLoginWindow
+    displayLoginModal
 }

@@ -1,13 +1,5 @@
 import { loadEvents, iconAllowDrop, iconDrop } from './events.js';
-
-let dataObj = {
-    userid: null,
-    username: '',
-    icon_size: 100,
-    bg_type: '',
-    bg_style: '',
-    bg_url: ''
-}
+import { setData, getData } from './data.js';
 
 const loadOS = () => {
     loadBackground();
@@ -18,14 +10,6 @@ const loadOS = () => {
 
     loadEvents();
     generateSquares(iconAllowDrop, iconDrop);
-}
-
-const getData = ($key) => {
-    return dataObj[$key];
-}
-const setData = ($key, $val) => {
-    if(dataObj[$key] !== undefined)
-        dataObj[$key] = $val;
 }
 
 const loadBackground = () => {
@@ -147,23 +131,6 @@ const setIconSize = (size) => {
     generateSquares();
 }
 
-const getUserInfo = async () => {
-    await $.ajax({
-        url: 'inc/get_user_info.php',
-        type: 'post',
-        contentType: false,
-        processData: false,
-        success: function(response){
-            const result = JSON.parse(response);
-
-            if(result.status == 'ok') {
-                setData('userid', result.id);
-                setData('username', result.username);
-            }
-        },
-    });
-}
-
 export {
-    loadOS, loadBackground, loadDesktopMenu, loadDesktop, loadTaskbar, generateSquares, loadModals, getData, setData, getUserSettings, setIconSize, getUserInfo
+    loadOS, loadBackground, loadDesktopMenu, loadDesktop, loadTaskbar, generateSquares, loadModals, getUserSettings, setIconSize
 }
