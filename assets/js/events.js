@@ -1,6 +1,82 @@
 import { createModal, toggleModal } from './modal.js';
+import { setIconSize } from './os-load.js'
 
 let lastClickTime = new Date().getTime();
+
+const loadEvents = () => {
+    // On right click open custom menu
+    $(document).bind("contextmenu", (e) => {
+        e.preventDefault();
+    
+        if($(e.target).hasClass('flex-file-space')) {
+            $(".desktop-menu").finish().toggle(100).
+                css({
+                    top: e.pageY + "px",
+                    left: e.pageX + "px"
+                });
+        }
+    });
+    
+    // On mousedown hide desktop menu
+    $(document).bind("mousedown", (e) => {
+        if(!$(e.target).parents(".desktop-menu").length > 0)
+            $(".desktop-menu").hide(100);
+    });
+
+    // Load Desktop right click menu items
+    $(".desktop-menu li").click((e) => {
+        const time = new Date().getTime();
+        if(time - lastClickTime < 50) return;
+        lastClickTime = time;
+
+        const action = $(e.target).attr("data-action");
+
+        if(action == 'submenu')
+            return;
+    
+        desktopMenuAction(action);
+
+        $(".desktop-menu").hide(100);
+    });
+}
+
+const desktopMenuAction = (action) => {
+    switch(action) {
+        case "l-icons": {
+            setIconSize(150);
+            break;
+        }
+        case "m-icons": {
+            setIconSize(100);
+            break;
+        }
+        case "s-icons": {
+            setIconSize(50);
+            break;
+        }
+        case "newfolder": {
+            const emptySpace = $('.flex-file-space:empty')[0];
+            if(emptySpace) {
+                const folderEl = $('<div class="folder" draggable="true" folder-id="1"><span contenteditable="true">Folder Name</span></div>');
+                $(emptySpace).append(folderEl);
+                $(folderEl).dblclick(onFolderClick);
+                $(folderEl).on('dragstart', iconDragStart);
+            }
+            else
+                alert('There is no space for a new folder!');
+            break;
+        }
+        case "display": {
+            if(!$('#displaySettingsModal').length) {
+                createModal('display');
+            }
+            else {
+                toggleModal('display');
+            }
+            break;
+        }
+    }
+}
 
 const iconAllowDrop = (e) => {
     e.preventDefault();
@@ -27,8 +103,8 @@ const iconDrop = (e) => {
     $(dropPosEl).html('');
     $(dragPosEl).append($(dropElements).children());
     $(dropPosEl).append($(dragElements).children());
-    $(dragPosEl).click(onFolderClick);
-    $(dropPosEl).click(onFolderClick);
+    $(dragPosEl).dblclick(onFolderClick);
+    $(dropPosEl).dblclick(onFolderClick);
     $(dragPosEl).on('dragstart', iconDragStart);
     $(dropPosEl).on('dragstart', iconDragStart);
 }
@@ -49,5 +125,5 @@ const onFolderClick = (e) => {
 }
 
 export {
-    iconAllowDrop, iconDragStart, iconDrop, onFolderClick
+    loadEvents, iconAllowDrop, iconDragStart, iconDrop, onFolderClick
 }

@@ -1,4 +1,4 @@
-import { addToTaskbar } from '../js/taskbar.js';
+import { addToTaskbar } from './taskbar.js';
 
 const positionModal = (target) => {
     const width = $(window).width();
@@ -33,6 +33,21 @@ const addFolderModalItems = (target) => {
     $(target).append('<div class="top"><div class="minimize">_</div><div class="expand">[ ]</div><div class="close">X</div></div>',
     '<div class="menu"></div>',
     '<div class="window"><div class="side"></div><div class="main"></div></div>');
+
+    addFolderModalEvents(target);
+}
+
+const addFolderModalEvents = (target) => {
+    const topEl = $(target).find('.top');
+    $(topEl).find('.minimize').click((e) => {
+        console.log(`minimize`);
+    });
+    $(topEl).find('.expand').click((e) => {
+        console.log(`expand`);
+    });
+    $(topEl).find('.close').click((e) => {
+        console.log(`close`);
+    });
 }
 
 const toggleModal = (type, id) => {
