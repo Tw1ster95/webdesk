@@ -2,16 +2,35 @@
   position: fixed;
   bottom: 0px;
   left: 0px;
-  background-color: #c4c4c4;
   width: 100vw;
-  height: 3vh;
+  height: 30px;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
-  gap: 2px;
+
+  .start-menu-btn {
+    margin-right: 5px;
+  }
 
   * {
-    height: 100%;
-    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    width: 30px;
+    cursor: pointer;
+  }
+
+  *[window-type]:hover:not(:active) {
+    box-shadow: inset 1px 1px 2px #000;
+  }
+
+  *[window-type].active:not(:hover) {
+    box-shadow: inset -2px -2px 5px #fff;
+  }
+
+  *[window-type] img {
+    width: 80%;
+    height: 80%;
   }
 }

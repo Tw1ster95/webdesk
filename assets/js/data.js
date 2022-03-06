@@ -1,18 +1,10 @@
-let dataObj = {
-    userid: null,
-    username: '',
-    icon_size: 100,
-    bg_type: '',
-    bg_style: '',
-    bg_url: ''
-}
+let dataObj = Array();
 
 const getData = ($key) => {
     return dataObj[$key];
 }
 const setData = ($key, $val) => {
-    if(dataObj[$key] !== undefined)
-        dataObj[$key] = $val;
+    dataObj[$key] = $val;
 }
 
 const getUserInfo = async () => {

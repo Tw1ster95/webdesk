@@ -84,7 +84,7 @@ body .desktop-flex {
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 97vh;
+  height: calc(100vh - 30px);
   padding: 5px;
 }
 body .desktop-flex .flex-file-space {
@@ -167,17 +167,32 @@ body .desktop-flex .flex-file-space .folder:hover span {
   position: fixed;
   bottom: 0px;
   left: 0px;
-  background-color: #c4c4c4;
   width: 100vw;
-  height: 3vh;
+  height: 30px;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
-  gap: 2px;
+}
+.taskbar .start-menu-btn {
+  margin-right: 5px;
 }
 .taskbar * {
-  height: 100%;
-  width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  width: 30px;
+  cursor: pointer;
+}
+.taskbar *[window-type]:hover:not(:active) {
+  box-shadow: inset 1px 1px 2px #000;
+}
+.taskbar *[window-type].active:not(:hover) {
+  box-shadow: inset -2px -2px 5px #fff;
+}
+.taskbar *[window-type] img {
+  width: 80%;
+  height: 80%;
 }
 
 img {
@@ -193,13 +208,13 @@ img {
   background-color: #fff;
   border-radius: 5px;
   overflow: hidden;
+  box-shadow: 1px 2px 10px #0008;
 }
 .modals .modal .top {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: space-between;
-  background-color: blue;
   height: 30px;
   align-items: center;
 }
@@ -214,6 +229,7 @@ img {
   gap: 5px;
   align-items: center;
   justify-content: end;
+  margin-right: 5px;
 }
 .modals .modal .top .top-buttons .minimize,
 .modals .modal .top .top-buttons .expand,
@@ -230,18 +246,8 @@ img {
 .modals .modal .top .top-buttons .minimize.disabled,
 .modals .modal .top .top-buttons .expand.disabled,
 .modals .modal .top .top-buttons .close.disabled {
-  cursor: pointer;
-}
-.modals .modal .top .top-buttons .minimize.disabled::after,
-.modals .modal .top .top-buttons .expand.disabled::after,
-.modals .modal .top .top-buttons .close.disabled::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #0006;
+  cursor: default;
+  background-color: rgba(100, 100, 100, 0.5);
 }
 .modals .modal .top .top-buttons .minimize {
   background-color: lightblue;
@@ -276,7 +282,7 @@ img {
 }
 .modals .modal.expanded {
   width: 100vw;
-  height: 100vh;
+  height: calc(100vh - 30px);
   top: 0;
   left: 0;
 }

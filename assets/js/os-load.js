@@ -60,8 +60,8 @@ const loadDesktop = () => {
 }
 
 const loadTaskbar = () => {
-    $('body').append(`<div class="taskbar" id="taskbar">
-        <div class="os-logo">
+    $('body').append(`<div class="taskbar" id="taskbar" style="background-color: ${getData('taskbar_color')}">
+        <div class="start-menu-btn" id="startMenuBtn">
             <img src="assets/img/win10logo.png" alt="OS Logo">
         </div>
     </div>`);
@@ -114,8 +114,8 @@ const getUserSettings = async () => {
             const result = JSON.parse(response);
 
             if(result.status == 'ok') {
-                Object.keys(result).forEach(key => {
-                    setData(key, result[key]);
+                Object.keys(result.data).forEach(key => {
+                    setData(key, result.data[key]);
                 });
             }
             else {

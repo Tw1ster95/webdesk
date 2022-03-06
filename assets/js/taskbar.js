@@ -1,7 +1,78 @@
-const addToTaskbar = (type, id) => {
+import { mTypes, toggleModal } from './modal.js';
 
+const addToTaskbar = ({ type, id }) => {
+    let el;
+    switch(type) {
+        case mTypes.display: {
+            el = $(`<div window-type="display"><img src="/assets/img/display-settings.png" alt="Taskbar Icon" /></div>`);
+            $('#taskbar').append(el);
+            break;
+        }
+        case mTypes.folder: {
+            el = $(`<div window-type="folder" window-id="${id}"><img src="/assets/img/folder.png" alt="Taskbar Icon" /></div>`);
+            $('#taskbar').append(el);
+            break;
+        }
+    }
+    $(el).click((e) => {
+        const type = $(el).attr('window-type');
+        const id = $(el).attr('window-id');
+        toggleModal({
+            type: mTypes[type],
+            id: id,
+            taskbar: true
+        })
+    });
+
+    setTopTaskActive();
+}
+
+const removeFromTaskbar = ({ type, id }) => {
+    switch(type) {
+        case mTypes.display: {
+            $(`#taskbar [window-type="display"]`).remove();
+            break;
+        }
+        case mTypes.folder: {
+            $(`#taskbar [window-type="folder"][window-id="${id}"]`).remove();
+            break;
+        }
+    }
+    
+    setTopTaskActive();
+}
+
+const setTopTaskActive = () => {
+    $('#taskbar').children().removeClass('active');
+
+    const modals = $('#modals [window-type]');
+
+    if(modals.length == 0)
+        return;
+    
+    const targetModal = $($(modals)[modals.length - 1]);
+
+    if($(targetModal).css('display') == 'none')
+        return;
+    
+    const type = $(targetModal).attr('window-type');
+    const id = $(targetModal).attr('for-folder-id');
+
+    let target;
+    switch(mTypes[type]) {
+        case mTypes.display: {
+            target = $(`#taskbar [window-type="display"]`);
+            break;
+        }
+        case mTypes.folder: {
+            target = $(`#taskbar [window-type="folder"][window-id="${id}"]`);
+            break;
+        }
+    }
+
+    $(target).addClass('active');
 }
 
 export {
-    addToTaskbar
+    addToTaskbar, removeFromTaskbar, setTopTaskActive
 }

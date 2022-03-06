@@ -1,4 +1,4 @@
-import { createModal, toggleModal } from './modal.js';
+import { createModal, toggleModal, mTypes } from './modal.js';
 import { setIconSize } from './os-load.js'
 
 let lastClickTime = new Date().getTime();
@@ -69,12 +69,12 @@ const desktopMenuAction = (action) => {
         case "display": {
             if(!$('#displaySettingsModal').length) {
                 createModal({
-                    type: 'display'
+                    type: mTypes.display
                 });
             }
             else {
                 toggleModal({
-                    type: 'display'
+                    type: mTypes.display
                 });
             }
             break;
@@ -114,23 +114,19 @@ const iconDrop = (e) => {
 }
 
 const onFolderClick = (e) => {
-    const time = new Date().getTime();
-    if(time - lastClickTime < 50) return;
-    lastClickTime = time;
-
-    const folderId = $(e.target).attr('folder-id');
+    const folderId = $(e.currentTarget).attr('folder-id');
 
     if(!$(`.modal[for-folder-id="${folderId}"]`).length) {
-        const name = $(e.target).find('span').text();
+        const name = $(e.currentTarget).find('span').text();
         createModal({
-            type: 'folder',
+            type: mTypes.folder,
             id: folderId,
             name: name
         });
     }
     else {
         toggleModal({
-            type: 'folder',
+            type: mTypes.folder,
             id: folderId
         });
     }

@@ -22,12 +22,14 @@ if (isset($_SESSION['id'])) {
     $settings = $fetchInfo->fetch_assoc();
     $arr = array();
 
-    $arr['status'] = 'ok';
     foreach ($settings as $key => $val) {
         $arr[$key] = $val;
     }
 
-    echo json_encode($arr);
+    echo json_encode(array(
+        'status' => 'ok',
+        'data' => $arr
+    ));
 } else {
     echo json_encode(array(
         'status' => 'fail',
