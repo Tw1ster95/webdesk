@@ -134,7 +134,7 @@ body .desktop-flex .flex-file-space .folder:hover span {
   overflow: auto;
 }
 
-.bgimage {
+.background {
   position: absolute;
   top: 0;
   left: 0;
@@ -142,24 +142,24 @@ body .desktop-flex .flex-file-space .folder:hover span {
   height: 100%;
 }
 
-.bgimage img {
+.background * {
   width: 100%;
   height: 100%;
 }
 
-.bgimage.contain img {
+.background .contain {
   object-fit: contain;
 }
 
-.bgimage.fill img {
+.background .fill {
   object-fit: fill;
 }
 
-.bgimage.cover img {
+.background .cover {
   object-fit: cover;
 }
 
-.bgimage.revert img {
+.background .revert {
   object-fit: revert;
 }
 
@@ -407,6 +407,17 @@ input {
   text-align: center;
 }
 
+input[type=color] {
+  border: unset;
+  padding: unset;
+}
+
+select {
+  border-radius: 5px;
+  border-width: 1px;
+  padding: 5px;
+}
+
 button,
 .button {
   display: inline-block;
@@ -447,6 +458,15 @@ button.small,
 button.medium,
 .button.medium {
   width: 200px;
+}
+
+.settings-table {
+  width: 100%;
+}
+.settings-table tr td {
+  padding: 5px 10px;
+  border-bottom: 1px solid #a3a3a3;
+  width: 50%;
 }
 
 /*# sourceMappingURL=style.css.map */

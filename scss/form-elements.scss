@@ -4,6 +4,15 @@ input {
   padding: 5px;
   text-align: center;
 }
+input[type="color"] {
+  border: unset;
+  padding: unset;
+}
+select {
+  border-radius: 5px;
+  border-width: 1px;
+  padding: 5px;
+}
 
 button,
 .button {

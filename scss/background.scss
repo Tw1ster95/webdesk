@@ -1,23 +1,23 @@
-.bgimage {
+.background {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
 }
-.bgimage img {
+.background * {
   width: 100%;
   height: 100%;
 }
-.bgimage.contain img {
+.background .contain {
   object-fit: contain;
 }
-.bgimage.fill img {
+.background .fill {
   object-fit: fill;
 }
-.bgimage.cover img {
+.background .cover {
   object-fit: cover;
 }
-.bgimage.revert img {
+.background .revert {
   object-fit: revert;
 }

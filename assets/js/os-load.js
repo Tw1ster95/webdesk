@@ -22,9 +22,9 @@ const loadBackground = () => {
 
     // Insert background image/video
     if(bg_type == 'img')
-        $('body').prepend(`<div id="desktopBackground" class="bgimage ${bg_style}"><img src="${bg_url}" alt="Background Image"></div>`);
+        $('body').prepend(`<div id="desktopBackground" class="background"><img class="${bg_style}" src="${bg_url}" alt="Background Image"></div>`);
     else
-        $('body').prepend(`<div id="desktopBackground" class="bgvid ${bg_style}"><video src="${bg_url}" alt="Background Video"></div>`);
+        $('body').prepend(`<div id="desktopBackground" class="background"><video class="${bg_style}" src="${bg_url}" alt="Background Video"></div>`);
 }
 
 const loadDesktopMenu = () => {

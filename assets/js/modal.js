@@ -1,5 +1,6 @@
 import { getData } from './data.js';
 import { addToTaskbar, removeFromTaskbar, setTopTaskActive } from './taskbar.js';
+import { addDisplayModalItems } from './display-settings.js';
 
 const mTypes = {
     display: Symbol("display"),
@@ -62,10 +63,12 @@ const addModalItems = ({ target, type, name }) => {
     switch(type) {
         case mTypes.display: {
             $(target).append(`<div class="top" style="background-color: ${getData('modal_top_color')}"><label class="title">Display Settings</label><div class="top-buttons"><div class="minimize">_</div><div class="expand disabled">[ ]</div><div class="close">X</div></div></div><div class="window"><div class="main no-scroll"></div></div>`);
+
+            addDisplayModalItems(target);
             break;
         }
         case mTypes.folder: {
-            $(target).append(`<div class="top"><label class="title">${name}</label><div class="top-buttons"><div class="minimize">_</div><div class="expand">[ ]</div><div class="close">X</div></div></div><div class="menu"></div><div class="window"><div class="side"></div><div class="main"></div></div>`);
+            $(target).append(`<div class="top" style="background-color: ${getData('modal_top_color')}"><label class="title">${name}</label><div class="top-buttons"><div class="minimize">_</div><div class="expand">[ ]</div><div class="close">X</div></div></div><div class="menu"></div><div class="window"><div class="side"></div><div class="main"></div></div>`);
             break;
         }
     }
