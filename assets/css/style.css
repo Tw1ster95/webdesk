@@ -75,11 +75,9 @@ body {
   background-color: #000;
 }
 
-body .desktop-flex {
+body .desktop-grid {
   position: relative;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  display: grid;
   align-content: center;
   align-items: center;
   justify-content: center;
@@ -87,12 +85,12 @@ body .desktop-flex {
   height: calc(100vh - 30px);
   padding: 5px;
 }
-body .desktop-flex .flex-file-space {
+body .desktop-grid .flex-file-space {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-body .desktop-flex .flex-file-space .folder {
+body .desktop-grid .flex-file-space .folder {
   position: relative;
   width: 70%;
   height: 70%;
@@ -106,7 +104,7 @@ body .desktop-flex .flex-file-space .folder {
   cursor: pointer;
   transition: 200ms;
 }
-body .desktop-flex .flex-file-space .folder span {
+body .desktop-grid .flex-file-space .folder span {
   position: absolute;
   background-color: rgba(221, 238, 255, 0.8);
   padding: 2px 3px;
@@ -119,16 +117,16 @@ body .desktop-flex .flex-file-space .folder span {
   left: 50%;
   transform: translateX(-50%);
 }
-body .desktop-flex .flex-file-space .folder span:active,
-body .desktop-flex .flex-file-space .folder span:focus {
+body .desktop-grid .flex-file-space .folder span:active,
+body .desktop-grid .flex-file-space .folder span:focus {
   max-height: none;
   height: auto;
   overflow: auto;
 }
-body .desktop-flex .flex-file-space .folder:hover {
+body .desktop-grid .flex-file-space .folder:hover {
   transform: scale(1.1);
 }
-body .desktop-flex .flex-file-space .folder:hover span {
+body .desktop-grid .flex-file-space .folder:hover span {
   max-height: none;
   height: auto;
   overflow: auto;

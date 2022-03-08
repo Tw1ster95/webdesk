@@ -56,7 +56,7 @@ const loadDesktopMenu = () => {
 }
 
 const loadDesktop = () => {
-    $('body').append(`<div class="desktop-flex" id="desktop"></div>`);
+    $('body').append(`<div class="desktop-grid" id="desktop"></div>`);
 }
 
 const loadTaskbar = () => {
@@ -80,7 +80,12 @@ const generateSquares = () => {
     const squares = cols * rows;
 
     const desktopEl = $('#desktop');
-    let squaresNum = $(desktopEl).children().length;
+    const squaresNum = $(desktopEl).children().length;
+
+    $(desktopEl).css({
+        "grid-template-columns": `repeat(${cols}, auto)`,
+        "grid-template-rows": `repeat(${rows}, auto)`
+    });
 
     if(squaresNum < squares) {
         let itemsNum = squares;

@@ -1,9 +1,7 @@
 body {
-  .desktop-flex {
+  .desktop-grid {
     position: relative;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    display: grid;
     align-content: center;
     align-items: center;
     justify-content: center;
