@@ -109,33 +109,11 @@ const generateSquares = () => {
     $('.flex-file-space').css('font-size', `${Math.floor(icon_size/6)}px`);
 }
 
-const getUserSettings = async () => {
-    await $.ajax({
-        url: 'inc/get_settings.php',
-        type: 'post',
-        contentType: false,
-        processData: false,
-        success: function(response){
-            const result = JSON.parse(response);
-
-            if(result.status == 'ok') {
-                Object.keys(result.data).forEach(key => {
-                    setData(key, result.data[key]);
-                });
-            }
-            else {
-                alert(result.message);
-                location.href = location;
-            }
-        },
-    });
-}
-
 const setIconSize = (size) => {
     setData('icon_size', size);
     generateSquares();
 }
 
 export {
-    loadOS, loadBackground, loadDesktopMenu, loadDesktop, loadTaskbar, generateSquares, loadModals, getUserSettings, setIconSize
+    loadOS, loadBackground, loadDesktopMenu, loadDesktop, loadTaskbar, generateSquares, loadModals, setIconSize
 }

@@ -1,5 +1,5 @@
-import { loadOS, getUserSettings } from './os-load.js';
-import { setData } from './data.js';
+import { loadOS } from './os-load.js';
+import { setData, getUserSettings } from './data.js';
 
 const displayLoginModal = () => {
     $('body').append(`<div class="login-container">

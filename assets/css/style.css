@@ -170,6 +170,7 @@ body .desktop-grid .flex-file-space .folder:hover span {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
+  z-index: 10;
 }
 .taskbar .start-menu-btn {
   margin-right: 5px;

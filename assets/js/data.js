@@ -30,6 +30,9 @@ const setData = (key, val) => {
         case 'bg_style': {
             $('#desktopBackground *').removeClass(getData('bg_style'));
             $('#desktopBackground *').addClass(val);
+
+            $('#bgStyleSetting').val(val);
+            
             break;
         }
     }
@@ -54,6 +57,28 @@ const getUserInfo = async () => {
     });
 }
 
+const getUserSettings = async () => {
+    await $.ajax({
+        url: 'inc/get_settings.php',
+        type: 'post',
+        contentType: false,
+        processData: false,
+        success: function(response){
+            const result = JSON.parse(response);
+
+            if(result.status == 'ok') {
+                Object.keys(result.data).forEach(key => {
+                    setData(key, result.data[key]);
+                });
+            }
+            else {
+                alert(result.message);
+                location.href = location;
+            }
+        },
+    });
+}
+
 export {
-    getData, setData, getUserInfo
+    getData, setData, getUserInfo, getUserSettings
 }
