@@ -66,7 +66,7 @@ const addDisplayModalItems = (target) => {
     $('#bgStyleSetting').change((e) => {
         setData('bg_style', e.currentTarget.value);
     });
-    $('#saveDisplaySettings').click((e) => {
+    $('#resetDisplaySettings').click((e) => {
         getUserSettings();
     });
 }
