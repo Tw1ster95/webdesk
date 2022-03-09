@@ -114,6 +114,28 @@ const setIconSize = (size) => {
     generateSquares();
 }
 
+const startLoading = () => {
+    $('body').css('cursor', 'wait');
+    $('#loadingScreen').show();
+}
+
+const endLoading = () => {
+    $('body').css('cursor', 'auto');
+    $('#loadingScreen').hide();
+}
+
+const displayQuickMessage = (message) => {
+    let msgEl = $('#quickMsgBlock');
+    if(msgEl.length == 0) {
+        msgEl = $(`<div id="quickMsgBlock" class="quick-msg-block" style="display: none;">${message}</div>`);
+        $('body').append(msgEl);
+    }
+    else
+        $(msgEl).stop().hide().text(message);
+    
+    $(msgEl).show(100).delay(3000).fadeOut();
+}
+
 export {
-    loadOS, loadBackground, loadDesktopMenu, loadDesktop, loadTaskbar, generateSquares, loadModals, setIconSize
+    loadOS, loadBackground, loadDesktopMenu, loadDesktop, loadTaskbar, generateSquares, loadModals, setIconSize, startLoading, endLoading, displayQuickMessage
 }

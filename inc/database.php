@@ -70,30 +70,14 @@ class Database
             exit;
         }
 
-        $qry = "INSERT INTO " . $table . " (";
-        $first = TRUE;
-
-        foreach ($tags as &$tag) {
-            if (!$first)
-                $qry = $qry . ", ";
-            $first = FALSE;
-            $qry = $qry . "`" . $tag . "`";
-        }
-
-        $qry = $qry . ") VALUES (";
-        $first = TRUE;
-
         foreach ($values as &$val) {
-            if (!$first)
-                $qry = $qry . ", ";
-            $first = FALSE;
             if (is_string($val))
-                $qry = $qry . "'" . $val . "'";
-            else
-                $qry = $qry . $val;
+                $val = "'" . $val . "'";
         }
 
-        $qry = $qry . ")";
+        $qry = "INSERT INTO " . $table .
+            " (" . implode(', ', $tags) . ") 
+        VALUES (" . implode(', ', $values) . ")";
 
         return $this->conn->query($qry);
     }

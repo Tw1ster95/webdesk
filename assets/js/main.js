@@ -1,7 +1,4 @@
-// Add loading screen and wait cursor to page
-$('body').css('cursor', 'wait');
-
-import { loadOS, generateSquares } from './os-load.js';
+import { loadOS, generateSquares, startLoading, endLoading } from './os-load.js';
 import { displayLoginModal } from './login-modal.js';
 import { getUserInfo, getData, getUserSettings } from './data.js';
 
@@ -15,9 +12,6 @@ $(window).on('load', async () => {
     }
     else
         displayLoginModal();
-
-    $('body').css('cursor', 'auto');
-    $('#loadingScreen').remove();
 });
 
 // On window resize change desktop grid

@@ -1,4 +1,5 @@
-import { setData, getData, getUserSettings } from "./data.js";
+import { setData, getData, getUserSettings, saveUserSettings } from "./data.js";
+import { displayQuickMessage } from "./os-load.js";
 import { checkFileExists } from './utils.js';
 
 const addDisplayModalItems = (target) => {
@@ -53,21 +54,24 @@ const addDisplayModalItems = (target) => {
                     break;
                 }
                 default: {
-                    alert('Invalid file type provided.');
+                    displayQuickMessage('Invalid file type provided.');
                     break;
                 }
             }
         }
         else {
             e.currentTarget.value = getData('bg_url');
-            alert('Url to file is invalid.');
+            displayQuickMessage('Url to file is invalid.');
         }
     });
     $('#bgStyleSetting').change((e) => {
         setData('bg_style', e.currentTarget.value);
     });
+    $('#saveDisplaySettings').click((e) => {
+        saveUserSettings();
+    });
     $('#resetDisplaySettings').click((e) => {
-        getUserSettings();
+        getUserSettings(true);
     });
 }
 

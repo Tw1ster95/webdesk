@@ -1,3 +1,5 @@
+import { startLoading, endLoading, displayQuickMessage } from './os-load.js';
+
 let dataObj = Array();
 
 const getData = (key) => {
@@ -9,12 +11,18 @@ const setData = (key, val) => {
             $('.modal .top').css({
                 'background-color': val
             });
+            
+            $('#windowTopColorSetting').val(val);
+
             break;
         }
         case 'taskbar_color': {
             $('#taskbar').css({
                 'background-color': val
             });
+
+            $('#taskbarColorSetting').val(val);
+
             break;
         }
         case 'bg_url': {
@@ -25,6 +33,9 @@ const setData = (key, val) => {
             else {
                 $('#desktopBackground').append(`<video class="${getData('bg_style')}" autoplay loop src="${val}" alt="Background Video">`);
             }
+
+            $('#backgroundSetting').val(val);
+
             break;
         }
         case 'bg_style': {
@@ -41,6 +52,7 @@ const setData = (key, val) => {
 }
 
 const getUserInfo = async () => {
+    startLoading();
     await $.ajax({
         url: 'inc/get_user_info.php',
         type: 'post',
@@ -55,9 +67,11 @@ const getUserInfo = async () => {
             }
         },
     });
+    endLoading();
 }
 
-const getUserSettings = async () => {
+const getUserSettings = async (reset = false) => {
+    startLoading();
     await $.ajax({
         url: 'inc/get_settings.php',
         type: 'post',
@@ -70,6 +84,8 @@ const getUserSettings = async () => {
                 Object.keys(result.data).forEach(key => {
                     setData(key, result.data[key]);
                 });
+                if(reset)
+                    displayQuickMessage(`Settings reseted.`);
             }
             else {
                 alert(result.message);
@@ -77,8 +93,36 @@ const getUserSettings = async () => {
             }
         },
     });
+    endLoading();
+}
+
+const saveUserSettings = async () => {
+    startLoading();
+    const fd = new FormData();
+    
+    for (const [key, value] of Object.entries(dataObj)) {
+        fd.append(key, value);
+    }
+    await $.ajax({
+        url: 'inc/save_settings.php',
+        type: 'post',
+        data: fd,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+            const result = JSON.parse(response);
+
+            if(result.status == 'ok') {
+                displayQuickMessage(result.message);
+            }
+            else {
+                displayQuickMessage(result.message);
+            }
+        },
+    });
+    endLoading();
 }
 
 export {
-    getData, setData, getUserInfo, getUserSettings
+    getData, setData, getUserInfo, getUserSettings, saveUserSettings
 }

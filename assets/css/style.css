@@ -171,6 +171,7 @@ body .desktop-grid .flex-file-space .folder:hover span {
   flex-direction: row;
   flex-wrap: nowrap;
   z-index: 10;
+  user-select: none;
 }
 .taskbar .start-menu-btn {
   margin-right: 5px;
@@ -216,6 +217,7 @@ img {
   justify-content: space-between;
   height: 30px;
   align-items: center;
+  user-select: none;
 }
 .modals .modal .top .title {
   margin-left: 10px;
@@ -295,7 +297,8 @@ img {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: #000;
+  background-color: #0005;
+  z-index: 999;
 }
 .loading-screen .lds-ellipsis {
   display: inline-block;
@@ -466,6 +469,22 @@ button.medium,
   padding: 5px 10px;
   border-bottom: 1px solid #a3a3a3;
   width: 50%;
+}
+
+.quick-msg-block {
+  position: fixed;
+  width: 300px;
+  height: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 5px;
+  text-align: center;
+  padding: 20px;
+  border: 1px solid #a3a3a3;
+  user-select: none;
+  font-weight: 700;
 }
 
 /*# sourceMappingURL=style.css.map */
