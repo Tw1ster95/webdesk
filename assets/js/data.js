@@ -27,13 +27,11 @@ const setData = (key, val) => {
         }
         case 'bg_url': {
             $('#desktopBackground').empty();
-            if(getData('bg_type') == 'img') {
-                $('#desktopBackground').append(`<img class="${getData('bg_style')}" src="${val}" alt="Background Image">`);
-            }
-            else {
-                $('#desktopBackground').append(`<video class="${getData('bg_style')}" autoplay loop src="${val}" alt="Background Video">`);
-            }
-
+            $('#desktopBackground').append(
+                (getData('bg_type') == 'img') ?
+                $(`<img class="${getData('bg_style')}" src="${val}" alt="Background Image">`) :
+                $(`<video class="${getData('bg_style')}" muted autoplay loop src="${val}" alt="Background Video">`)
+            );
             $('#backgroundSetting').val(val);
 
             break;

@@ -1,4 +1,4 @@
-import { loadOS } from './os-load.js';
+import { displayQuickMessage, loadOS } from './os-load.js';
 import { setData, getUserSettings } from './data.js';
 
 const displayLoginModal = () => {
@@ -44,14 +44,11 @@ const loadLoginEvents = () => {
         e.preventDefault();
         const form = e.target;
 
-        // Remove previous error messages
-        $(form).find('.err-msg').remove();
-
         const username = $(form).find('[name="username"]').val();
         const password = $(form).find('[name="password"]').val();
 
         if(username.length == 0 || password.length == 0) {
-            $(form).prepend(`<div class="err-msg">Please fill in all fields.</div>`);
+            displayQuickMessage('Please fill in all fields.');
             return;
         }
         
@@ -80,7 +77,7 @@ const loadLoginEvents = () => {
                     loadOS();
                 }
                 else {
-                    $(form).prepend(`<div class="err-msg">${result.message}</div>`);
+                    displayQuickMessage(result.message);
                 }
             },
         });
@@ -89,15 +86,12 @@ const loadLoginEvents = () => {
         e.preventDefault();
         const form = e.target;
 
-        // Remove previous error messages
-        $(form).find('.err-msg').remove();
-
         const username = $(form).find('[name="username"]').val();
         const password = $(form).find('[name="password"]').val();
         const password2 = $(form).find('[name="password2"]').val();
 
         if(username.length == 0 || password.length == 0 || password2.length == 0) {
-            $(form).prepend(`<div class="err-msg">Please fill in all fields.</div>`);
+            displayQuickMessage('Please fill in all fields.');
             return;
         }
         
@@ -125,7 +119,7 @@ const loadLoginEvents = () => {
                     loadOS();
                 }
                 else {
-                    $(form).prepend(`<div class="err-msg">${result.message}</div>`);
+                    displayQuickMessage(result.message);
                 }
             },
         });

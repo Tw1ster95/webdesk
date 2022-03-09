@@ -394,10 +394,6 @@ img {
 .login-container .login-wrapper .register-form button {
   margin: 20px;
 }
-.login-container .login-wrapper .login-form .err-msg,
-.login-container .login-wrapper .register-form .err-msg {
-  color: red;
-}
 .login-container .login-wrapper.login-form-transition {
   transform: translateX(-50%);
 }

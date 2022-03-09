@@ -18,13 +18,14 @@ const loadBackground = () => {
     const bg_url = getData('bg_url');
 
     // Remove current background
-    $('#desktopBackground').remove();
+    $('#desktopBackground').empty();
 
     // Insert background image/video
-    if(bg_type == 'img')
-        $('body').prepend(`<div id="desktopBackground" class="background"><img class="${bg_style}" src="${bg_url}" alt="Background Image"></div>`);
-    else
-        $('body').prepend(`<div id="desktopBackground" class="background"><video class="${bg_style}" src="${bg_url}" alt="Background Video"></div>`);
+    $('#desktopBackground').append(
+        (bg_type == 'img') ?
+        $(`<img class="${bg_style}" src="${bg_url}" alt="Background Image">`) :
+        $(`<video class="${bg_style}" muted autoplay loop src="${bg_url}" alt="Background Video">`)
+    );
 }
 
 const loadDesktopMenu = () => {
@@ -133,7 +134,7 @@ const displayQuickMessage = (message) => {
     else
         $(msgEl).stop().hide().text(message);
     
-    $(msgEl).show(100).delay(3000).fadeOut();
+    $(msgEl).show(100).delay(2500).fadeOut();
 }
 
 export {

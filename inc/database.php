@@ -121,4 +121,9 @@ class Database
     {
         return $this->conn->real_escape_string($string);
     }
+
+    public function getLastInsertedId()
+    {
+        return $this->conn->insert_id;
+    }
 }
