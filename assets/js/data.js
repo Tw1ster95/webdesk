@@ -16,6 +16,15 @@ const setData = (key, val) => {
 
             break;
         }
+        case 'modal_top_text_color': {
+            $('.modal .top label').css({
+                'color': val
+            });
+            
+            $('#windowTopTextColorSetting').val(val);
+
+            break;
+        }
         case 'taskbar_color': {
             $('#taskbar').css({
                 'background-color': val

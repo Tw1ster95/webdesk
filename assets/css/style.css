@@ -278,8 +278,24 @@ img {
   height: 100%;
   width: 100%;
 }
+.modals .modal .window .main .buttons-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  padding: 10px 0;
+}
 .modals .modal .window .main:not(.no-scroll) {
   overflow-y: scroll;
+}
+.modals .modal .resize {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 15px;
+  height: 15px;
+  background-color: #fff;
+  color: #000;
 }
 .modals .modal.expanded {
   width: 100vw;

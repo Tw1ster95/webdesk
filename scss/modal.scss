@@ -81,10 +81,28 @@
       .main {
         height: 100%;
         width: 100%;
+
+        .buttons-container {
+          width: 100%;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-evenly;
+          padding: 10px 0;
+        }
       }
       .main:not(.no-scroll) {
         overflow-y: scroll;
       }
+    }
+
+    .resize {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 15px;
+      height: 15px;
+      background-color: #fff;
+      color: #000;
     }
   }
 

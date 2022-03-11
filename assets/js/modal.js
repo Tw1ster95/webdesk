@@ -23,7 +23,7 @@ const createModal = ({ type, id, name }) => {
             $(modalEl).css({
                 top: `${Math.floor(height/3)}px`,
                 left: `${Math.floor(width/3)}px`,
-                height: `500px`,
+                height: `auto`,
                 width: `400px`
             });
 
@@ -62,13 +62,13 @@ const createModal = ({ type, id, name }) => {
 const addModalItems = ({ target, type, name }) => {
     switch(type) {
         case mTypes.display: {
-            $(target).append(`<div class="top" style="background-color: ${getData('modal_top_color')}"><label class="title">Display Settings</label><div class="top-buttons"><div class="minimize">_</div><div class="expand disabled">[ ]</div><div class="close">X</div></div></div><div class="window"><div class="main no-scroll"></div></div>`);
+            $(target).append(`<div class="top" style="background-color: ${getData('modal_top_color')}"><label class="title" style="color: ${getData('modal_top_text_color')}">Display Settings</label><div class="top-buttons"><div class="minimize">_</div><div class="expand disabled">[ ]</div><div class="close">X</div></div></div><div class="window"><div class="main no-scroll"></div></div>`);
 
             addDisplayModalItems(target);
             break;
         }
         case mTypes.folder: {
-            $(target).append(`<div class="top" style="background-color: ${getData('modal_top_color')}"><label class="title">${name}</label><div class="top-buttons"><div class="minimize">_</div><div class="expand">[ ]</div><div class="close">X</div></div></div><div class="menu"></div><div class="window"><div class="side"></div><div class="main"></div></div>`);
+            $(target).append(`<div class="top" style="background-color: ${getData('modal_top_color')}"><label class="title" style="color: ${getData('modal_top_text_color')}">${name}</label><div class="top-buttons"><div class="minimize">_</div><div class="expand">[ ]</div><div class="close">X</div></div></div><div class="menu"></div><div class="window"><div class="side"></div><div class="main"></div></div><div class="resize"><i class="fa-solid fa-up-right-and-down-left-from-center"></i></div>`);
             break;
         }
     }
