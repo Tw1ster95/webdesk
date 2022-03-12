@@ -1,6 +1,18 @@
-import { loadOS, generateSquares, startLoading, endLoading } from './os-load.js';
 import { displayLoginModal } from './login-modal.js';
 import { getUserInfo, getData, getUserSettings } from './data.js';
+import { updateFolderGrid, loadDesktop } from './desktop.js';
+import { loadRightClickMenu } from './rightclick-menu.js';
+import { loadTaskbar } from './taskbar.js';
+import { loadModals } from './modal.js';
+import { loadBackground } from './background.js';
+
+const loadOS = () => {
+    loadBackground();
+    loadRightClickMenu();
+    loadDesktop();
+    loadTaskbar();
+    loadModals();
+}
 
 // Load os on window load
 $(window).on('load', async () => {
@@ -8,6 +20,7 @@ $(window).on('load', async () => {
 
     if(getData('userid')) {
         await getUserSettings();
+        
         loadOS();
     }
     else
@@ -17,5 +30,9 @@ $(window).on('load', async () => {
 // On window resize change desktop grid
 $(window).resize(() => {
     if(getData('userid'))
-        generateSquares();
+        updateFolderGrid('#desktop');
 });
+
+export {
+    loadOS
+}

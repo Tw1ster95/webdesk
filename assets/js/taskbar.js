@@ -1,4 +1,13 @@
 import { mTypes, toggleModal } from './modal.js';
+import { getData } from './data.js';
+
+const loadTaskbar = () => {
+    $('body').append(`<div class="taskbar" id="taskbar" style="background-color: ${getData('taskbar_color')}">
+        <div class="start-menu-btn" id="startMenuBtn">
+            <img src="assets/img/win10logo.png" alt="OS Logo">
+        </div>
+    </div>`);
+}
 
 const addToTaskbar = ({ type, id }) => {
     let el;
@@ -56,7 +65,7 @@ const setTopTaskActive = () => {
         return;
     
     const type = $(targetModal).attr('window-type');
-    const id = $(targetModal).attr('for-folder-id');
+    const id = $(targetModal).attr('for-icon-id');
 
     let target;
     switch(mTypes[type]) {
@@ -74,5 +83,5 @@ const setTopTaskActive = () => {
 }
 
 export {
-    addToTaskbar, removeFromTaskbar, setTopTaskActive
+    addToTaskbar, removeFromTaskbar, setTopTaskActive, loadTaskbar
 }

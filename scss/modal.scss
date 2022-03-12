@@ -8,6 +8,8 @@
     border-radius: 5px;
     overflow: hidden;
     box-shadow: 1px 2px 10px #0008;
+    min-width: 400px;
+    min-height: 300px;
 
     .top {
       display: flex;
@@ -101,8 +103,8 @@
       right: 0;
       width: 15px;
       height: 15px;
-      background-color: #fff;
-      color: #000;
+      user-select: none;
+      cursor: nw-resize;
     }
   }
 

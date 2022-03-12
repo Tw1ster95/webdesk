@@ -1,6 +1,5 @@
 import { setData, getData, getUserSettings, saveUserSettings } from "./data.js";
-import { displayQuickMessage } from "./os-load.js";
-import { checkFileExists } from './utils.js';
+import { checkFileExists, displayQuickMessage } from './utils.js';
 
 const addDisplayModalItems = (target) => {
     const table = $(`<table class="settings-table"></table>`);
@@ -87,7 +86,6 @@ const addDisplayModalItems = (target) => {
 }
 
 const toggleDisableDisplaySettingButtons = (toggle) => {
-    console.log($('#saveDisplaySettings, #resetDisplaySettings'));
     $('#saveDisplaySettings, #resetDisplaySettings').prop('disabled', toggle);
 }
 

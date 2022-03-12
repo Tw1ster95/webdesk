@@ -8,6 +8,37 @@ const checkFileExists = async (url) => {
     return false;
 }
 
+const GetGridElementsPosition = (index) => {
+    const colCount = $('#desktop').css('grid-template-columns').split(' ').length;
+
+    const rowPosition = Math.floor(index / colCount);
+    const colPosition = index % colCount;
+
+    return { row: rowPosition, column: colPosition } ;
+}
+
+const displayQuickMessage = (message) => {
+    let msgEl = $('#quickMsgBlock');
+    if(msgEl.length == 0) {
+        msgEl = $(`<div id="quickMsgBlock" class="quick-msg-block" style="display: none;">${message}</div>`);
+        $('body').append(msgEl);
+    }
+    else
+        $(msgEl).stop().hide().text(message);
+    
+    $(msgEl).show(100).delay(2500).fadeOut();
+}
+
+const startLoading = () => {
+    $('body').css('cursor', 'wait');
+    $('#loadingScreen').show();
+}
+
+const endLoading = () => {
+    $('body').css('cursor', 'auto');
+    $('#loadingScreen').hide();
+}
+
 export {
-    checkFileExists
+    checkFileExists, GetGridElementsPosition, displayQuickMessage, startLoading, endLoading
 }

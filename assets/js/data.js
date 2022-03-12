@@ -1,4 +1,4 @@
-import { startLoading, endLoading, displayQuickMessage } from './os-load.js';
+import { displayQuickMessage, startLoading, endLoading } from './utils.js';
 
 let dataObj = Array();
 

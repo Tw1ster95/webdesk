@@ -1,5 +1,6 @@
-import { displayQuickMessage, loadOS } from './os-load.js';
+import { loadOS } from './main.js';
 import { setData, getUserSettings } from './data.js';
+import { displayQuickMessage } from './utils.js';
 
 const displayLoginModal = () => {
     $('body').append(`<div class="login-container">

@@ -7,6 +7,10 @@ const mTypes = {
     folder: Symbol("folder")
 }
 
+const loadModals = () => {
+    $('body').append(`<div class="modals" id="modals"></div>`);
+}
+
 const createModal = ({ type, id, name }) => {
     const width = $(window).width();
     const height = $(window).height();
@@ -34,7 +38,7 @@ const createModal = ({ type, id, name }) => {
             break;
         }
         case mTypes.folder: {
-            const modalEl = $(`<div class="modal" window-type="folder" for-folder-id=${id}></div>`);
+            const modalEl = $(`<div class="modal" window-type="folder" for-icon-id=${id}></div>`);
             $('#modals').append(modalEl);
 
             addModalItems({
@@ -68,7 +72,7 @@ const addModalItems = ({ target, type, name }) => {
             break;
         }
         case mTypes.folder: {
-            $(target).append(`<div class="top" style="background-color: ${getData('modal_top_color')}"><label class="title" style="color: ${getData('modal_top_text_color')}">${name}</label><div class="top-buttons"><div class="minimize">_</div><div class="expand">[ ]</div><div class="close">X</div></div></div><div class="menu"></div><div class="window"><div class="side"></div><div class="main"></div></div><div class="resize"><i class="fa-solid fa-up-right-and-down-left-from-center"></i></div>`);
+            $(target).append(`<div class="top" style="background-color: ${getData('modal_top_color')}"><label class="title" style="color: ${getData('modal_top_text_color')}">${name}</label><div class="top-buttons"><div class="minimize">_</div><div class="expand">[ ]</div><div class="close">X</div></div></div><div class="menu"></div><div class="window"><div class="side"></div><div class="main"></div></div><div class="resize"></div>`);
             break;
         }
     }
@@ -81,13 +85,18 @@ const addTopModalEvents = (target) => {
     const minimize = $(topEl).find('.minimize:not(.disabled)');
     const expand = $(topEl).find('.expand:not(.disabled)');
     const close = $(topEl).find('.close:not(.disabled)');
+    const resize = $(target).find('.resize');
+
+    let lastPos = { x: null, y: null };
+    let lastClickTime = new Date().getTime();
+    let dragModal = false, resizeModal = false;
+
     if(minimize.length > 0) {
         $(minimize).click((e) => {
             $(target).hide(100);
             setTopTaskActive();
         });
     }
-    
     if(expand.length > 0) {
         $(expand).click((e) => {
             toggleModalExpand(target);
@@ -96,56 +105,79 @@ const addTopModalEvents = (target) => {
     if(close.length > 0) {
         $(close).click((e) => {
             const type = mTypes[$(target).attr('window-type')];
-            const forId = $(target).attr('for-folder-id');
+            const forId = $(target).attr('for-icon-id');
             $(target).remove();
             removeFromTaskbar({ type: type, id: forId });
         });
     }
+    if(resize.length > 0) {
+        $(resize).on('mousedown', (e) => {
+            lastPos = {
+                x: e.pageX,
+                y: e.pageY
+            }
+            resizeModal = true;
+        });
+    }
 
-    let lastPos = { x: null, y: null };
-    let lastClickTime = new Date().getTime();
-    let dragModal = null;
     $(topEl).on('mousedown', (e) => {
         if($(e.target).hasClass('minimize')
         || $(e.target).hasClass('expand')
         || $(e.target).hasClass('close'))
             return;
         
-        const modal = $(e.currentTarget).closest('.modal');
-        $('#modals').append(modal);
+        $('#modals').append(target);
         setTopTaskActive();
 
         const time = new Date().getTime();
         if(expand.length > 0 && (time - lastClickTime) < 200)
-            toggleModalExpand(modal);
+            toggleModalExpand(target);
         lastClickTime = time;
 
-        if($(modal).hasClass('expanded'))
+        if($(target).hasClass('expanded'))
             return;
-        
-        dragModal = modal;
         
         lastPos = {
             x: e.pageX,
             y: e.pageY
         }
+
+        dragModal = true;
     });
     $(window).on('mousemove', (e) => {
-        if(!dragModal)
-            return;
-        
         const width = $(window).width();
         const height = $(window).height();
-        if(e.pageY > (height - (height * 0.05))
+        const modalOffset = $(target).offset();
+
+        if(e.pageY > (height - 30)
             || e.pageY < 10
             || e.pageX > width - 10
             || e.pageX < 10)
             return;
         
-        $(dragModal).css({
-            top: (parseInt($(dragModal).css('top').replace('px', '')) + (e.pageY - lastPos.y)) + `px`,
-            left: (parseInt($(dragModal).css('left').replace('px', '')) + (e.pageX - lastPos.x)) + `px`
-        });
+        if(dragModal) {
+            $(target).css({
+                top: (modalOffset.top + (e.pageY - lastPos.y)) + `px`,
+                left: (modalOffset.left + (e.pageX - lastPos.x)) + `px`
+            });
+        }
+        else if(resizeModal) {
+            const modalWidth = $(target).width() + (e.pageX - lastPos.x);
+            const modalHeight = $(target).height() + (e.pageY - lastPos.y);
+            const modalBottom = modalOffset.top + modalHeight;
+            const modalRight = modalOffset.left + modalWidth;
+            
+            if((modalBottom - 20) < e.pageY && (modalOffset.top + modalHeight) < (height - 30)) {
+                $(target).css({
+                    height: modalHeight + `px`,
+                });
+            }
+            if((modalRight - 20) < e.pageX && (modalOffset.left + modalWidth) < width - 10) {
+                $(target).css({
+                    width: modalWidth + `px`
+                });
+            }
+        }
         
         lastPos = {
             x: e.pageX,
@@ -153,11 +185,8 @@ const addTopModalEvents = (target) => {
         }
     });
     $(window).on('mouseup', (e) => {
-        dragModal = null;
-        lastPos = {
-            x: null,
-            y: null
-        }
+        dragModal = false;
+        resizeModal = false;
     });
 }
 
@@ -202,7 +231,7 @@ const toggleModal = ({ type, id, taskbar }) => {
             break;
         }
         case mTypes.folder: {
-            target = $(`.modal[for-folder-id="${id}"]`);
+            target = $(`.modal[for-icon-id="${id}"]`);
             break;
         }
     }
@@ -228,5 +257,5 @@ const toggleModal = ({ type, id, taskbar }) => {
 }
 
 export {
-    createModal, toggleModal, mTypes
+    createModal, toggleModal, mTypes, loadModals
 }
