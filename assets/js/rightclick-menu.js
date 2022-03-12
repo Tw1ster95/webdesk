@@ -1,4 +1,4 @@
-import { createNewFolder, setIconSize } from './icons.js'
+import { createNewIcon, setIconSize } from './icons.js'
 import { createModal, toggleModal, mTypes } from './modal.js';
 
 let lastClickTime = new Date().getTime();
@@ -83,7 +83,11 @@ const desktopMenuAction = (action) => {
             break;
         }
         case "newfolder": {
-            createNewFolder('#desktop');
+            createNewIcon({
+                type: 'folder',
+                in_folder_id: 0,
+                name: 'New Folder'
+            });
             break;
         }
         case "display": {

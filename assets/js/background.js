@@ -1,9 +1,9 @@
 import { getData } from './data.js';
 
 const loadBackground = () => {
-    const bg_type = getData('bg_type');
-    const bg_style = getData('bg_style');
-    const bg_url = getData('bg_url');
+    const bg_type = getData('settings', 'bg_type');
+    const bg_style = getData('settings', 'bg_style');
+    const bg_url = getData('settings', 'bg_url');
 
     // Remove current background
     $('#desktopBackground').empty();

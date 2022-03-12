@@ -4,15 +4,15 @@ import { checkFileExists, displayQuickMessage } from './utils.js';
 const addDisplayModalItems = (target) => {
     const table = $(`<table class="settings-table"></table>`);
     
-    $(table).append(`<tr><td>Window Top Color</td><td><input type="color" value="${getData('modal_top_color')}" id="windowTopColorSetting"></td></tr>`);
+    $(table).append(`<tr><td>Window Top Color</td><td><input type="color" value="${getData('settings', 'modal_top_color')}" id="windowTopColorSetting"></td></tr>`);
 
-    $(table).append(`<tr><td>Window Top Text Color</td><td><input type="color" value="${getData('modal_top_text_color')}" id="windowTopTextColorSetting"></td></tr>`);
+    $(table).append(`<tr><td>Window Top Text Color</td><td><input type="color" value="${getData('settings', 'modal_top_text_color')}" id="windowTopTextColorSetting"></td></tr>`);
 
-    $(table).append(`<tr><td>Taskbar Color</td><td><input type="color" value="${getData('taskbar_color')}" id="taskbarColorSetting"></td></tr>`);
+    $(table).append(`<tr><td>Taskbar Color</td><td><input type="color" value="${getData('settings', 'taskbar_color')}" id="taskbarColorSetting"></td></tr>`);
 
-    $(table).append(`<tr><td>Background</td><td><input type="text" value="${getData('bg_url')}" id="backgroundSetting"></td></tr>`);
+    $(table).append(`<tr><td>Background</td><td><input type="text" value="${getData('settings', 'bg_url')}" id="backgroundSetting"></td></tr>`);
 
-    const bgType = getData('bg_style');
+    const bgType = getData('settings', 'bg_style');
     $(table).append(`<tr><td>Background Style</td><td><select id="bgStyleSetting">
         <option ${(bgType == 'contain' ? 'selected' : '')} value="contain">Contain</option>
         <option ${(bgType == 'fill' ? 'selected' : '')} value="fill">Fill</option>
@@ -66,7 +66,7 @@ const addDisplayModalItems = (target) => {
             }
         }
         else {
-            e.currentTarget.value = getData('bg_url');
+            e.currentTarget.value = getData('settings', 'bg_url');
             displayQuickMessage('Url to file is invalid.');
         }
         toggleDisableDisplaySettingButtons(false);

@@ -2,7 +2,7 @@ import { mTypes, toggleModal } from './modal.js';
 import { getData } from './data.js';
 
 const loadTaskbar = () => {
-    $('body').append(`<div class="taskbar" id="taskbar" style="background-color: ${getData('taskbar_color')}">
+    $('body').append(`<div class="taskbar" id="taskbar" style="background-color: ${getData('settings', 'taskbar_color')}">
         <div class="start-menu-btn" id="startMenuBtn">
             <img src="assets/img/win10logo.png" alt="OS Logo">
         </div>

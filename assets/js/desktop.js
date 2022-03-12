@@ -1,15 +1,16 @@
-import { iconAllowDrop, iconDrop } from './icons.js';
+import { iconAllowDrop, iconDrop, loadIcons } from './icons.js';
 import { getData } from './data.js';
 
 const loadDesktop = () => {
     $('body').append(`<div class="desktop-grid" id="desktop"></div>`);
     generateFolderGrid('#desktop');
+    loadIcons(0);
 }
 
 const generateFolderGrid = (selector) => {
     const target = $(selector);
 
-    const icon_size = getData('icon_size');
+    const icon_size = getData('settings', 'icon_size');
     const width = window.innerWidth;
     const height = window.innerHeight;
     const cols = Math.floor(width / icon_size);
@@ -38,7 +39,7 @@ const generateFolderGrid = (selector) => {
 const updateFolderGrid = (selector) => {
     const target = $(selector);
 
-    const icon_size = getData('icon_size');
+    const icon_size = getData('settings', 'icon_size');
     const width = window.innerWidth;
     const height = window.innerHeight;
     const cols = Math.floor(width / icon_size);

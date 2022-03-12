@@ -14,16 +14,15 @@ if (isset($_SESSION['id'])) {
 
     $userid = $database->escape_string($_SESSION['id']);
 
-    $fetchInfo = $database->get(array(
-        'table' => 'settings',
-        'filter' => "user_id = " . $userid
-    ));
-
-    $settings = $fetchInfo->fetch_assoc();
     $arr = array();
 
-    foreach ($settings as $key => $val) {
-        $arr[$key] = $val;
+    $fetch_tables = ['icon_types'];
+
+    foreach ($fetch_tables as $table) {
+        $fetchInfo = $database->get(array(
+            'table' => $table
+        ));
+        $arr[$table] = $fetchInfo->fetch_all(MYSQLI_ASSOC);
     }
 
     echo json_encode(array(
@@ -33,6 +32,6 @@ if (isset($_SESSION['id'])) {
 } else {
     echo json_encode(array(
         'status' => 'fail',
-        'message' => 'Error getting user settings. Try reloading the page.'
+        'message' => 'Error getting website data. Try reloading the page.'
     ));
 }

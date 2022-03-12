@@ -66,13 +66,13 @@ const createModal = ({ type, id, name }) => {
 const addModalItems = ({ target, type, name }) => {
     switch(type) {
         case mTypes.display: {
-            $(target).append(`<div class="top" style="background-color: ${getData('modal_top_color')}"><label class="title" style="color: ${getData('modal_top_text_color')}">Display Settings</label><div class="top-buttons"><div class="minimize">_</div><div class="expand disabled">[ ]</div><div class="close">X</div></div></div><div class="window"><div class="main no-scroll"></div></div>`);
+            $(target).append(`<div class="top" style="background-color: ${getData('settings', 'modal_top_color')}"><label class="title" style="color: ${getData('settings', 'modal_top_text_color')}">Display Settings</label><div class="top-buttons"><div class="minimize">_</div><div class="expand disabled">[ ]</div><div class="close">X</div></div></div><div class="window"><div class="main no-scroll"></div></div>`);
 
             addDisplayModalItems(target);
             break;
         }
         case mTypes.folder: {
-            $(target).append(`<div class="top" style="background-color: ${getData('modal_top_color')}"><label class="title" style="color: ${getData('modal_top_text_color')}">${name}</label><div class="top-buttons"><div class="minimize">_</div><div class="expand">[ ]</div><div class="close">X</div></div></div><div class="menu"></div><div class="window"><div class="side"></div><div class="main"></div></div><div class="resize"></div>`);
+            $(target).append(`<div class="top" style="background-color: ${getData('settings', 'modal_top_color')}"><label class="title" style="color: ${getData('settings', 'modal_top_text_color')}">${name}</label><div class="top-buttons"><div class="minimize">_</div><div class="expand">[ ]</div><div class="close">X</div></div></div><div class="menu"></div><div class="window"><div class="side"></div><div class="main"></div></div><div class="resize"></div>`);
             break;
         }
     }

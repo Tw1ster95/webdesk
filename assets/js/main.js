@@ -1,5 +1,5 @@
 import { displayLoginModal } from './login-modal.js';
-import { getUserInfo, getData, getUserSettings } from './data.js';
+import { getUserInfo, getData, getUserSettings, loadWebsiteData } from './data.js';
 import { updateFolderGrid, loadDesktop } from './desktop.js';
 import { loadRightClickMenu } from './rightclick-menu.js';
 import { loadTaskbar } from './taskbar.js';
@@ -18,7 +18,8 @@ const loadOS = () => {
 $(window).on('load', async () => {
     await getUserInfo();
 
-    if(getData('userid')) {
+    if(getData('user', 'userid')) {
+        await loadWebsiteData();
         await getUserSettings();
         
         loadOS();
@@ -29,7 +30,7 @@ $(window).on('load', async () => {
 
 // On window resize change desktop grid
 $(window).resize(() => {
-    if(getData('userid'))
+    if(getData('user', 'userid'))
         updateFolderGrid('#desktop');
 });
 

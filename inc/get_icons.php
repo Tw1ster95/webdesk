@@ -3,7 +3,10 @@ session_start();
 include_once 'config.php';
 include_once 'database.php';
 
-if (isset($_SESSION['id'])) {
+if (
+    isset($_SESSION['id'])
+    && isset($_POST['folder_id'])
+) {
     $database = new Database();
     $database->connect(
         MAIN_MYSQL_HOST,
@@ -13,26 +16,22 @@ if (isset($_SESSION['id'])) {
     );
 
     $userid = $database->escape_string($_SESSION['id']);
+    $folder_id = $database->escape_string($_POST['folder_id']);
 
     $fetchInfo = $database->get(array(
-        'table' => 'settings',
-        'filter' => "user_id = " . $userid
+        'table' => 'icons',
+        'filter' => "user_id = " . $userid . " AND folder_id = " . $folder_id
     ));
 
-    $settings = $fetchInfo->fetch_assoc();
-    $arr = array();
-
-    foreach ($settings as $key => $val) {
-        $arr[$key] = $val;
-    }
+    $icons = $fetchInfo->fetch_all(MYSQLI_ASSOC);
 
     echo json_encode(array(
         'status' => 'ok',
-        'data' => $arr
+        'data' => $icons
     ));
 } else {
     echo json_encode(array(
         'status' => 'fail',
-        'message' => 'Error getting user settings. Try reloading the page.'
+        'message' => 'Error getting user icons. Try reloading the page.'
     ));
 }

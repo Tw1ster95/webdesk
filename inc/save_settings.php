@@ -14,11 +14,10 @@ if (isset($_POST['userid'])) {
     );
     $arrVals = array();
 
-    foreach($arrKeys as $key) {
-        if(isset($_POST[$key])) {
+    foreach ($arrKeys as $key) {
+        if (isset($_POST[$key])) {
             array_push($arrVals, $_POST[$key]);
-        }
-        else {
+        } else {
             unset($arrKeys[array_search($key, $arrKeys)]);
         }
     }
@@ -33,7 +32,7 @@ if (isset($_POST['userid'])) {
 
     $userid = $database->escape_string($_POST['userid']);
 
-    if(count($arrKeys) > 0) {
+    if (count($arrKeys) > 0) {
         $database->update(
             'settings',
             $arrKeys,
@@ -41,7 +40,7 @@ if (isset($_POST['userid'])) {
             'user_id',
             $_POST['userid']
         );
-    
+
         echo json_encode(array(
             'status' => 'ok',
             'message' => 'Settings saved successfuly'
@@ -52,5 +51,5 @@ if (isset($_POST['userid'])) {
 
 echo json_encode(array(
     'status' => 'fail',
-    'message' => 'Error saving user settings. Please try again.'
+    'message' => 'Error saving user settings. Try reloading the page.'
 ));
