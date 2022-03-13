@@ -68,8 +68,8 @@ const loadLoginEvents = () => {
                 const result = JSON.parse(response);
 
                 if(result.status == 'ok') {
-                    setData('userid', result.id);
-                    setData('username', result.username);
+                    setData('user', 'userid', result.id);
+                    setData('user', 'username', result.username);
 
                     removeLoginWindow();
 
@@ -112,8 +112,8 @@ const loadLoginEvents = () => {
                 const result = JSON.parse(response);
 
                 if(result.status == 'ok') {
-                    setData('userid', result.id);
-                    setData('username', result.username);
+                    setData('user', 'userid', result.id);
+                    setData('user', 'username', result.username);
 
                     await getUserSettings();
 

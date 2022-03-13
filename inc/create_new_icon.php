@@ -8,8 +8,8 @@ if (
     && isset($_POST['type'])
     && isset($_POST['in_folder_id'])
     && isset($_POST['name'])
-    && isset($_POST['row'])
-    && isset($_POST['col'])
+    && isset($_POST['pos_row'])
+    && isset($_POST['pos_col'])
 ) {
     $database = new Database();
     $database->connect(
@@ -19,17 +19,17 @@ if (
         MAIN_MYSQL_DB
     );
 
-    $id = $database->escape_string($_SESSION['id']);
+    $user_id = $database->escape_string($_SESSION['id']);
     $type = $database->escape_string($_POST['type']);
     $in_folder_id = $database->escape_string($_POST['in_folder_id']);
     $name = $database->escape_string($_POST['name']);
-    $row = $database->escape_string($_POST['row']);
-    $col = $database->escape_string($_POST['col']);
+    $row = $database->escape_string($_POST['pos_row']);
+    $col = $database->escape_string($_POST['pos_col']);
 
     if ($database->create(
         'icons',
-        array('name', 'type', 'folder_id', 'user_id', 'pos_row', 'pos_col'),
-        array($name, $type, $in_folder_id, $id, $row, $col)
+        array('name', 'type', 'in_folder_id', 'user_id', 'pos_row', 'pos_col'),
+        array($name, $type, $in_folder_id, $user_id, $row, $col)
     ) == TRUE) {
         $id = $database->getLastInsertedId();
 

@@ -125,18 +125,14 @@ const saveUserSettings = async () => {
 
     const result = JSON.parse(response);
 
-    if(result.status == 'ok')
-        displayQuickMessage(result.message);
-    else
-        displayQuickMessage(result.message);
-    
+    displayQuickMessage(result.message);
     endLoading();
 }
 
 const getIcons = async (id) => {
     startLoading();
     const fd = new FormData();
-    fd.append('folder_id', id);
+    fd.append('in_folder_id', id);
 
     const response = await $.ajax({
         url: 'inc/get_icons.php',
@@ -189,8 +185,8 @@ const generateNewIconData = async ({
     fd.append('type', type);
     fd.append('in_folder_id', in_folder_id);
     fd.append('name', name);
-    fd.append('row', row);
-    fd.append('col', col);
+    fd.append('pos_row', row);
+    fd.append('pos_col', col);
 
     const response = await $.ajax({
         url: 'inc/create_new_icon.php',
@@ -211,6 +207,39 @@ const generateNewIconData = async ({
     return null;
 }
 
+const changeIconData = async ({
+    id,
+    type = null,
+    in_folder_id = null,
+    name = null,
+    row = null,
+    col = null
+}) => {
+    const fd = new FormData();
+    fd.append('id', id);
+    if(type !== null) fd.append('type', type);
+    if(in_folder_id !== null) fd.append('in_folder_id', in_folder_id);
+    if(name !== null) fd.append('name', name);
+    if(row !== null) fd.append('pos_row', row);
+    if(col !== null) fd.append('pos_col', col);
+
+    if(fd.length < 2)
+        return;
+
+    const response = await $.ajax({
+        url: 'inc/update_icon.php',
+        type: 'post',
+        data: fd,
+        contentType: false,
+        processData: false
+    });
+
+    const result = JSON.parse(response);
+    
+    if(result.status !== 'ok')
+        displayQuickMessage(result.message);
+}
+
 export {
-    getData, setData, getUserInfo, getUserSettings, saveUserSettings, getIcons, loadWebsiteData, generateNewIconData
+    getData, setData, getUserInfo, getUserSettings, saveUserSettings, getIcons, loadWebsiteData, generateNewIconData, changeIconData
 }

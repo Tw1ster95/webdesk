@@ -1,6 +1,6 @@
 import { createModal, toggleModal, mTypes } from './modal.js';
 import { displayQuickMessage } from './utils.js';
-import { setData, getData, getIcons, generateNewIconData } from './data.js';
+import { setData, getData, getIcons, generateNewIconData, changeIconData } from './data.js';
 import { updateFolderGrid } from './desktop.js';
 
 const loadIcons = async (id) => {
@@ -46,6 +46,9 @@ const iconDrop = (e) => {
     const [dragRow, dragCol] = dragPos.split('|');
     
     const dragPosEl = $(`.flex-file-space[data-row="${dragRow}"][data-col="${dragCol}"]`);
+    if(!dragPosEl.length)
+        return;
+    
     const dropPosEl = $(e.currentTarget);
     const dropRow = $(dropPosEl).attr('data-row');
     const dropCol = $(dropPosEl).attr('data-col');
@@ -63,6 +66,19 @@ const iconDrop = (e) => {
     $(dropPosEl).dblclick(onFolderClick);
     $(dragPosEl).on('dragstart', iconDragStart);
     $(dropPosEl).on('dragstart', iconDragStart);
+
+    if(!$(dragPosEl).is(':empty'))
+        changeIconData({
+            id: $($(dragPosEl).children()[0]).attr('icon-id'),
+            row: dragRow,
+            col: dragCol
+        });
+    if(!$(dropPosEl).is(':empty'))
+        changeIconData({
+            id: $($(dropPosEl).children()[0]).attr('icon-id'),
+            row: dropRow,
+            col: dropCol
+        });
 }
 
 const onFolderClick = (e) => {
@@ -84,10 +100,16 @@ const onFolderClick = (e) => {
     }
 }
 
+const onFolderChangeSpanText = (e) => {
+    changeIconData({
+        id: $(e.currentTarget).parent().attr('icon-id'),
+        name: $(e.currentTarget).text()
+    });
+}
+
 const onFolderSpanTypeText = (e) => {
-    if($(e.currentTarget).text().length === 100 && event.keyCode != 8) { 
-        event.preventDefault();
-    }
+    if($(e.currentTarget).text().length >= 100 && e.keyCode != 8)
+        e.preventDefault();
 }
 
 const createNewIcon = async ({
@@ -139,13 +161,14 @@ const createNewIcon = async ({
         $(iconEl).dblclick(onFolderClick);
         $(iconEl).on('dragstart', iconDragStart);
         $(iconSpan).on('keydown paste', onFolderSpanTypeText);
+        $(iconSpan).on('keyup', onFolderChangeSpanText);
     }
     else if(New)
         displayQuickMessage('There is no space for a new folder!');
 }
 
 const setIconSize = (size) => {
-    setData('icon_size', size);
+    setData('settings', 'icon_size', size);
     updateFolderGrid('#desktop');
 }
 

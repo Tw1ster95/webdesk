@@ -5,7 +5,7 @@ include_once 'database.php';
 
 if (
     isset($_SESSION['id'])
-    && isset($_POST['folder_id'])
+    && isset($_POST['in_folder_id'])
 ) {
     $database = new Database();
     $database->connect(
@@ -16,11 +16,11 @@ if (
     );
 
     $userid = $database->escape_string($_SESSION['id']);
-    $folder_id = $database->escape_string($_POST['folder_id']);
+    $folder_id = $database->escape_string($_POST['in_folder_id']);
 
     $fetchInfo = $database->get(array(
         'table' => 'icons',
-        'filter' => "user_id = " . $userid . " AND folder_id = " . $folder_id
+        'filter' => "user_id = " . $userid . " AND in_folder_id = " . $folder_id
     ));
 
     $icons = $fetchInfo->fetch_all(MYSQLI_ASSOC);

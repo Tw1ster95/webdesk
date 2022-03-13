@@ -28,15 +28,15 @@ const addDisplayModalItems = (target) => {
     </div>`);
 
     $('#windowTopColorSetting').on('input', (e) => {
-        setData('modal_top_color', e.currentTarget.value);
+        setData('settings', 'modal_top_color', e.currentTarget.value);
         toggleDisableDisplaySettingButtons(false);
     });
     $('#windowTopTextColorSetting').on('input', (e) => {
-        setData('modal_top_text_color', e.currentTarget.value);
+        setData('settings', 'modal_top_text_color', e.currentTarget.value);
         toggleDisableDisplaySettingButtons(false);
     });
     $('#taskbarColorSetting').on('input', (e) => {
-        setData('taskbar_color', e.currentTarget.value);
+        setData('settings', 'taskbar_color', e.currentTarget.value);
         toggleDisableDisplaySettingButtons(false);
     });
     $('#backgroundSetting').change(async (e) => {
@@ -49,14 +49,14 @@ const addDisplayModalItems = (target) => {
                 case 'png':
                 case 'gif':
                 case 'jpeg': {
-                    setData('bg_type', 'img');
-                    setData('bg_url', val);
+                    setData('settings', 'bg_type', 'img');
+                    setData('settings', 'bg_url', val);
                     break;
                 }
                 case 'mp4':
                 case 'avi': {
-                    setData('bg_type', 'vid');
-                    setData('bg_url', val);
+                    setData('settings', 'bg_type', 'vid');
+                    setData('settings', 'bg_url', val);
                     break;
                 }
                 default: {
@@ -72,7 +72,7 @@ const addDisplayModalItems = (target) => {
         toggleDisableDisplaySettingButtons(false);
     });
     $('#bgStyleSetting').change((e) => {
-        setData('bg_style', e.currentTarget.value);
+        setData('settings', 'bg_style', e.currentTarget.value);
         toggleDisableDisplaySettingButtons(false);
     });
     $('#saveDisplaySettings').click((e) => {
