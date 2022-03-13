@@ -1,0 +1,55 @@
+.flex-file-space {
+  .icon {
+    position: relative;
+    width: 70%;
+    height: 70%;
+    bottom: 10%;
+    border: unset;
+    cursor: pointer;
+    transition: 200ms;
+
+    span {
+      position: absolute;
+      background-color: rgba(221, 238, 255, 0.8);
+      padding: 2px 3px;
+      width: 100%;
+      max-height: 30%;
+      border-radius: 5px;
+      overflow: hidden;
+      text-align: center;
+      top: 95%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    span:active,
+    span:focus {
+      max-height: none;
+      height: auto;
+      overflow: auto;
+    }
+  }
+  .icon:hover {
+    z-index: 999;
+    transform: scale(1.1);
+    span {
+      max-height: none;
+      height: auto;
+      overflow: auto;
+    }
+  }
+
+  .icon.folder {
+    background: unset;
+    background: url(/assets/img/folder.png);
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+  .icon.txt {
+    background: unset;
+    background: url(/assets/img/txt.png);
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+}

@@ -164,8 +164,12 @@ const loadWebsiteData = async () => {
     const result = JSON.parse(response);
 
     if(result.status == 'ok') {
+        let arr;
         for(const table in result.data) {
-            setData('website', table, result.data[table]);
+            arr = Array();
+            for(const key in result.data[table])
+                arr.push(result.data[table][key]);
+            setData('website', table, arr);
         }
     }
     else

@@ -22,10 +22,10 @@ const loadIcons = async (id) => {
 }
 
 const getIconTypeText = (type_id) => {
-    return getData('website', 'icon_types').find(t => t.id = type_id).label;
+    return getData('website', 'icon_types').find(t => t.id == type_id).label;
 }
 const getIconTypeId = (type_text) => {
-    return getData('website', 'icon_types').find(t => t.label = type_text).id;
+    return getData('website', 'icon_types').find(t => t.label == type_text).id;
 }
 
 const iconAllowDrop = (e) => {
@@ -108,7 +108,7 @@ const onFolderChangeSpanText = (e) => {
 }
 
 const onFolderSpanTypeText = (e) => {
-    if($(e.currentTarget).text().length >= 100 && e.keyCode != 8)
+    if($(e.currentTarget).text().length > 50 && e.keyCode != 8)
         e.preventDefault();
 }
 
@@ -116,7 +116,7 @@ const createNewIcon = async ({
         id = null,
         type = null,
         in_folder_id = 0,
-        name = 'Folder Name',
+        name = '',
         row = null,
         col = null,
         New = true
@@ -154,7 +154,7 @@ const createNewIcon = async ({
         if(!id)
             return;
         
-        const iconEl = $(`<div class="${type}" draggable="true" icon-id="${id}">    </div>`);
+        const iconEl = $(`<div class="icon ${type}" draggable="true" icon-id="${id}"></div>`);
         const iconSpan = $(`<span contenteditable="true">${name}</span>`);
         $(iconEl).append(iconSpan);
         $(space).append(iconEl);

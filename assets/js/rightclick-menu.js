@@ -90,6 +90,14 @@ const desktopMenuAction = (action) => {
             });
             break;
         }
+        case "newtxtdoc": {
+            createNewIcon({
+                type: 'txt',
+                in_folder_id: 0,
+                name: 'Text Document'
+            });
+            break;
+        }
         case "display": {
             if(!$('#displaySettingsModal').length) {
                 createModal({
