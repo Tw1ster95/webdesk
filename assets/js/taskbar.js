@@ -22,6 +22,11 @@ const addToTaskbar = ({ type, id }) => {
             $('#taskbar').append(el);
             break;
         }
+        case mTypes.txt: {
+            el = $(`<div window-type="txt" window-id="${id}"><img src="/assets/img/txt.png" alt="Taskbar Icon" /></div>`);
+            $('#taskbar').append(el);
+            break;
+        }
     }
     $(el).click((e) => {
         const type = $(el).attr('window-type');
@@ -42,8 +47,9 @@ const removeFromTaskbar = ({ type, id }) => {
             $(`#taskbar [window-type="display"]`).remove();
             break;
         }
-        case mTypes.folder: {
-            $(`#taskbar [window-type="folder"][window-id="${id}"]`).remove();
+        case mTypes.folder:
+        case mTypes.txt: {
+            $(`#taskbar [window-id="${id}"]`).remove();
             break;
         }
     }
@@ -73,8 +79,9 @@ const setTopTaskActive = () => {
             target = $(`#taskbar [window-type="display"]`);
             break;
         }
-        case mTypes.folder: {
-            target = $(`#taskbar [window-type="folder"][window-id="${id}"]`);
+        case mTypes.folder:
+        case mTypes.txt: {
+            target = $(`#taskbar [window-id="${id}"]`);
             break;
         }
     }

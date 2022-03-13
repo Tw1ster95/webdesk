@@ -1,5 +1,5 @@
 import { loadOS } from './main.js';
-import { setData, getUserSettings } from './data.js';
+import { setData } from './data.js';
 import { displayQuickMessage } from './utils.js';
 
 const displayLoginModal = () => {
@@ -73,8 +73,6 @@ const loadLoginEvents = () => {
 
                     removeLoginWindow();
 
-                    await getUserSettings();
-
                     loadOS();
                 }
                 else {
@@ -114,8 +112,6 @@ const loadLoginEvents = () => {
                 if(result.status == 'ok') {
                     setData('user', 'userid', result.id);
                     setData('user', 'username', result.username);
-
-                    await getUserSettings();
 
                     loadOS();
                 }

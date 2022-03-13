@@ -6,7 +6,10 @@ import { loadTaskbar } from './taskbar.js';
 import { loadModals } from './modal.js';
 import { loadBackground } from './background.js';
 
-const loadOS = () => {
+const loadOS = async () => {
+    await getUserSettings();
+    await loadWebsiteData();
+
     loadBackground();
     loadRightClickMenu();
     loadDesktop();
@@ -18,12 +21,8 @@ const loadOS = () => {
 $(window).on('load', async () => {
     await getUserInfo();
 
-    if(getData('user', 'userid')) {
-        await loadWebsiteData();
-        await getUserSettings();
-        
+    if(getData('user', 'userid'))
         loadOS();
-    }
     else
         displayLoginModal();
 });

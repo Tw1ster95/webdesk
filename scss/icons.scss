@@ -38,14 +38,14 @@
     }
   }
 
-  .icon.folder {
+  .icon[icon-type="folder"] {
     background: unset;
     background: url(/assets/img/folder.png);
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
   }
-  .icon.txt {
+  .icon[icon-type="txt"] {
     background: unset;
     background: url(/assets/img/txt.png);
     background-position: center;

@@ -62,8 +62,8 @@ const iconDrop = (e) => {
     $(dropPosEl).html('');
     $(dragPosEl).append($(dropElements).children());
     $(dropPosEl).append($(dragElements).children());
-    $(dragPosEl).dblclick(onFolderClick);
-    $(dropPosEl).dblclick(onFolderClick);
+    $(dragPosEl).dblclick(onIconClick);
+    $(dropPosEl).dblclick(onIconClick);
     $(dragPosEl).on('dragstart', iconDragStart);
     $(dropPosEl).on('dragstart', iconDragStart);
 
@@ -81,21 +81,21 @@ const iconDrop = (e) => {
         });
 }
 
-const onFolderClick = (e) => {
-    const folderId = $(e.currentTarget).attr('icon-id');
+const onIconClick = (e) => {
+    const iconId = $(e.currentTarget).attr('icon-id');
+    const type = $(e.currentTarget).attr('icon-type');
 
-    if(!$(`.modal[for-icon-id="${folderId}"]`).length) {
-        const name = $(e.currentTarget).find('span').text();
+    if(!$(`.modal[for-icon-id="${iconId}"]`).length) {
         createModal({
-            type: mTypes.folder,
-            id: folderId,
-            name: name
+            type: mTypes[type],
+            id: iconId,
+            name: $(e.currentTarget).find('span').text()
         });
     }
     else {
         toggleModal({
-            type: mTypes.folder,
-            id: folderId
+            type: mTypes[type],
+            id: iconId
         });
     }
 }
@@ -154,11 +154,11 @@ const createNewIcon = async ({
         if(!id)
             return;
         
-        const iconEl = $(`<div class="icon ${type}" draggable="true" icon-id="${id}"></div>`);
+        const iconEl = $(`<div class="icon" draggable="true" icon-id="${id}" icon-type="${type}"></div>`);
         const iconSpan = $(`<span contenteditable="true">${name}</span>`);
         $(iconEl).append(iconSpan);
         $(space).append(iconEl);
-        $(iconEl).dblclick(onFolderClick);
+        $(iconEl).dblclick(onIconClick);
         $(iconEl).on('dragstart', iconDragStart);
         $(iconSpan).on('keydown paste', onFolderSpanTypeText);
         $(iconSpan).on('keyup', onFolderChangeSpanText);

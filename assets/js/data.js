@@ -3,7 +3,7 @@ import { displayQuickMessage, startLoading, endLoading } from './utils.js';
 let dataObj = Array();
 
 const getData = (type, key = null) => {
-    return key ? dataObj[type][key] : dataObj[type];
+    return (key !== null) ? (dataObj[type] ? dataObj[type][key] : undefined) : dataObj[type];
 }
 const setData = (type, key, val) => {
     if(type == 'settings') {

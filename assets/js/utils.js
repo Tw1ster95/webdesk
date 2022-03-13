@@ -39,6 +39,10 @@ const endLoading = () => {
     $('#loadingScreen').hide();
 }
 
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 export {
-    checkFileExists, GetGridElementsPosition, displayQuickMessage, startLoading, endLoading
+    checkFileExists, GetGridElementsPosition, displayQuickMessage, startLoading, endLoading, getRandomInt
 }

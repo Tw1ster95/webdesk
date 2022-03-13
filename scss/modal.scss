@@ -23,6 +23,8 @@
       .title {
         margin-left: 10px;
         font-weight: 700;
+        max-width: 70%;
+        overflow: hidden;
       }
 
       .top-buttons {
@@ -94,6 +96,15 @@
       }
       .main:not(.no-scroll) {
         overflow-y: scroll;
+      }
+      textarea.main {
+        width: 100%;
+        height: 99%;
+        resize: none;
+        border: unset;
+        box-shadow: unset;
+        outline: none;
+        padding: 5px 10px;
       }
     }
 

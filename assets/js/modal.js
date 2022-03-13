@@ -1,10 +1,12 @@
 import { getData } from './data.js';
 import { addToTaskbar, removeFromTaskbar, setTopTaskActive } from './taskbar.js';
 import { addDisplayModalItems } from './display-settings.js';
+import { getRandomInt } from './utils.js';
 
 const mTypes = {
     display: Symbol("display"),
-    folder: Symbol("folder")
+    folder: Symbol("folder"),
+    txt: Symbol("txt")
 }
 
 const loadModals = () => {
@@ -25,8 +27,8 @@ const createModal = ({ type, id, name }) => {
             });
             
             $(modalEl).css({
-                top: `${Math.floor(height/3)}px`,
-                left: `${Math.floor(width/3)}px`,
+                top: `${Math.floor(getRandomInt(height-100, height+100)/3)}px`,
+                left: `${Math.floor(getRandomInt(width-100, width+100)/3)}px`,
                 height: `auto`,
                 width: `400px`
             });
@@ -48,6 +50,29 @@ const createModal = ({ type, id, name }) => {
             });
 
             $(modalEl).css({
+                top: `${Math.floor(getRandomInt(height-100, height+100)/3)}px`,
+                left: `${Math.floor(getRandomInt(width-100, width+100)/3)}px`,
+                height: `${Math.floor(height/3)}px`,
+                width: `${Math.floor(width/3)}px`
+            });
+
+            addToTaskbar({
+                type: mTypes.folder,
+                id: id
+            });
+            break;
+        }
+        case mTypes.txt: {
+            const modalEl = $(`<div class="modal" window-type="txt" for-icon-id=${id}></div>`);
+            $('#modals').append(modalEl);
+
+            addModalItems({
+                type: mTypes.txt,
+                target: modalEl,
+                name: name
+            });
+
+            $(modalEl).css({
                 top: `${Math.floor(height/3)}px`,
                 left: `${Math.floor(width/3)}px`,
                 height: `${Math.floor(height/3)}px`,
@@ -55,7 +80,7 @@ const createModal = ({ type, id, name }) => {
             });
 
             addToTaskbar({
-                type: mTypes.folder,
+                type: mTypes.txt,
                 id: id
             });
             break;
@@ -73,6 +98,10 @@ const addModalItems = ({ target, type, name }) => {
         }
         case mTypes.folder: {
             $(target).append(`<div class="top" style="background-color: ${getData('settings', 'modal_top_color')}"><label class="title" style="color: ${getData('settings', 'modal_top_text_color')}">${name}</label><div class="top-buttons"><div class="minimize">_</div><div class="expand">[ ]</div><div class="close">X</div></div></div><div class="menu"></div><div class="window"><div class="side"></div><div class="main"></div></div><div class="resize"></div>`);
+            break;
+        }
+        case mTypes.txt: {
+            $(target).append(`<div class="top" style="background-color: ${getData('settings', 'modal_top_color')}"><label class="title" style="color: ${getData('settings', 'modal_top_text_color')}">${name}</label><div class="top-buttons"><div class="minimize">_</div><div class="expand">[ ]</div><div class="close">X</div></div></div><div class="menu"></div><div class="window"><textarea class="main txt-doc-content"></textarea></div><div class="resize"></div>`);
             break;
         }
     }
@@ -230,7 +259,8 @@ const toggleModal = ({ type, id, taskbar }) => {
             target = $('#displaySettingsModal');
             break;
         }
-        case mTypes.folder: {
+        case mTypes.folder:
+        case mTypes.txt: {
             target = $(`.modal[for-icon-id="${id}"]`);
             break;
         }
