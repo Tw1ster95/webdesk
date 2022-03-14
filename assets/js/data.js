@@ -112,7 +112,7 @@ const saveUserSettings = async () => {
     startLoading();
     const fd = new FormData();
     
-    for (const [key, value] of Object.entries(dataObj)) {
+    for (const [key, value] of Object.entries(dataObj['settings'])) {
         fd.append(key, value);
     }
     const response = await $.ajax({
