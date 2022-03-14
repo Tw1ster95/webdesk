@@ -56,16 +56,22 @@ const iconDrop = (e) => {
     if(dragRow == dropRow && dragCol == dropCol)
         return;
     
-    const dragElements = $(dragPosEl).clone();
-    const dropElements = $(dropPosEl).clone();
-    $(dragPosEl).html('');
-    $(dropPosEl).html('');
-    $(dragPosEl).append($(dropElements).children());
-    $(dropPosEl).append($(dragElements).children());
-    $(dragPosEl).dblclick(onIconClick);
-    $(dropPosEl).dblclick(onIconClick);
-    $(dragPosEl).on('dragstart', iconDragStart);
-    $(dropPosEl).on('dragstart', iconDragStart);
+    let dragIcon = $(dragPosEl).find('.icon');
+    dragIcon = (dragIcon.length > 0) ? $(dragIcon).clone() : null;
+    let dropIcon = $(dropPosEl).find('.icon');
+    dropIcon = (dropIcon.length > 0) ? $(dropIcon).clone() : null;
+    $(dragPosEl).empty();
+    $(dropPosEl).empty();
+    if(dragIcon) {
+        $(dropPosEl).append($(dragIcon));
+        $(dragIcon).dblclick(onIconClick);
+        $(dragIcon).on('dragstart', iconDragStart);
+    }
+    if(dropIcon) {
+        $(dragPosEl).append($(dropIcon));
+        $(dropIcon).dblclick(onIconClick);
+        $(dropIcon).on('dragstart', iconDragStart);
+    }
 
     if(!$(dragPosEl).is(':empty'))
         changeIconData({
