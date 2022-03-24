@@ -2,6 +2,7 @@ import { getData } from './data.js';
 import { addToTaskbar, removeFromTaskbar, setTopTaskActive } from './taskbar.js';
 import { addDisplayModalItems } from './display-settings.js';
 import { getRandomInt } from './utils.js';
+import { updateFile, loadFileContent } from './files.js';
 
 const mTypes = {
     display: Symbol("display"),
@@ -34,7 +35,8 @@ const createModal = ({ type, id, name }) => {
             });
 
             addToTaskbar({
-                type: mTypes.display
+                type: mTypes.display,
+                name: name
             });
 
             break;
@@ -58,7 +60,8 @@ const createModal = ({ type, id, name }) => {
 
             addToTaskbar({
                 type: mTypes.folder,
-                id: id
+                id: id,
+                name: name
             });
             break;
         }
@@ -67,6 +70,7 @@ const createModal = ({ type, id, name }) => {
             $('#modals').append(modalEl);
 
             addModalItems({
+                id: id,
                 type: mTypes.txt,
                 target: modalEl,
                 name: name
@@ -81,14 +85,15 @@ const createModal = ({ type, id, name }) => {
 
             addToTaskbar({
                 type: mTypes.txt,
-                id: id
+                id: id,
+                name: name
             });
             break;
         }
     }
 }
 
-const addModalItems = ({ target, type, name }) => {
+const addModalItems = async ({ target, type, name, id = null }) => {
     switch(type) {
         case mTypes.display: {
             $(target).append(`<div class="top" style="background-color: ${getData('settings', 'modal_top_color')}"><label class="title" style="color: ${getData('settings', 'modal_top_text_color')}">Display Settings</label><div class="top-buttons"><div class="minimize">_</div><div class="expand disabled">[ ]</div><div class="close">X</div></div></div><div class="window"><div class="main no-scroll"></div></div>`);
@@ -97,16 +102,41 @@ const addModalItems = ({ target, type, name }) => {
             break;
         }
         case mTypes.folder: {
-            $(target).append(`<div class="top" style="background-color: ${getData('settings', 'modal_top_color')}"><label class="title" style="color: ${getData('settings', 'modal_top_text_color')}">${name}</label><div class="top-buttons"><div class="minimize">_</div><div class="expand">[ ]</div><div class="close">X</div></div></div><div class="menu"></div><div class="window"><div class="side"></div><div class="main"></div></div><div class="resize"></div>`);
+            $(target).append(`<div class="top" style="background-color: ${getData('settings', 'modal_top_color')}"><label class="title" style="color: ${getData('settings', 'modal_top_text_color')}">${name}</label><div class="top-buttons"><div class="minimize">_</div><div class="expand">[ ]</div><div class="close">X</div></div></div><ul class="menu"></ul><div class="window"><div class="side"></div><div class="main"></div></div><div class="resize"></div>`);
             break;
         }
         case mTypes.txt: {
-            $(target).append(`<div class="top" style="background-color: ${getData('settings', 'modal_top_color')}"><label class="title" style="color: ${getData('settings', 'modal_top_text_color')}">${name}</label><div class="top-buttons"><div class="minimize">_</div><div class="expand">[ ]</div><div class="close">X</div></div></div><div class="menu"></div><div class="window"><textarea class="main txt-doc-content"></textarea></div><div class="resize"></div>`);
+            const content = await loadFileContent({
+                id: id,
+                type: 'txt'
+            });
+            $(target).append(`<div class="top" style="background-color: ${getData('settings', 'modal_top_color')}"><label class="title" style="color: ${getData('settings', 'modal_top_text_color')}">${name}</label><div class="top-buttons"><div class="minimize">_</div><div class="expand">[ ]</div><div class="close">X</div></div></div><ul class="menu"></ul><div class="window"><textarea class="main doc-content">${content}</textarea></div><div class="resize"></div>`);
+
+            addTopFileModalMenu(target, 'txt', id);
             break;
         }
     }
 
     addTopModalEvents(target);
+}
+
+const addTopFileModalMenu = (target, type, id) => {
+    const menu = $(target).find('.menu');
+    menu.append(
+        `<li>File
+            <ul class="submenu">
+                <li class="js-save-file">Save</li>
+            </ul>
+        </li>
+        <li>lalalala</li>`);
+
+    menu.find(`.js-save-file`).click((e) => {
+        updateFile({
+            id: id,
+            type: type,
+            content: $(target).find(`.doc-content`).val()
+        });
+    });
 }
 
 const addTopModalEvents = (target) => {
@@ -286,6 +316,10 @@ const toggleModal = ({ type, id, taskbar }) => {
     setTopTaskActive();
 }
 
+const renameModal = ({ id, name }) => {
+    $(`.modal[for-icon-id="${id}"] .top label.title`).text(name);
+}
+
 export {
-    createModal, toggleModal, mTypes, loadModals
+    createModal, toggleModal, mTypes, loadModals, renameModal
 }

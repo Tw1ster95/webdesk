@@ -137,6 +137,7 @@ body .desktop-grid .flex-file-space {
 }
 .taskbar * {
   display: flex;
+  position: relative;
   justify-content: center;
   align-items: center;
   height: 30px;
@@ -146,12 +147,29 @@ body .desktop-grid .flex-file-space {
 .taskbar *[window-type]:hover:not(:active) {
   box-shadow: inset 1px 1px 2px #000;
 }
+.taskbar *[window-type]:hover:not(:active) span {
+  display: block;
+}
 .taskbar *[window-type].active:not(:hover) {
   box-shadow: inset -2px -2px 5px #fff;
 }
 .taskbar *[window-type] img {
   width: 80%;
   height: 80%;
+}
+.taskbar *[window-type] span {
+  display: none;
+  overflow: hidden;
+  position: absolute;
+  width: 100px;
+  height: auto;
+  padding: 3px;
+  top: -100%;
+  text-align: center;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  background-color: #fff;
+  border-radius: 5px;
 }
 
 img {
@@ -222,9 +240,35 @@ img {
 .modals .modal .top .top-buttons .close {
   background-color: red;
 }
-.modals .modal .menu {
+.modals .modal ul.menu {
   background-color: grey;
-  height: 40px;
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  list-style: none;
+}
+.modals .modal ul.menu li {
+  position: relative;
+  padding: 5px 10px;
+  height: 100%;
+  cursor: pointer;
+}
+.modals .modal ul.menu li ul.submenu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #969696;
+}
+.modals .modal ul.menu li:not(:first-child) {
+  border-left: 1px solid #969696;
+}
+.modals .modal ul.menu li:hover {
+  background-color: #969696;
+}
+.modals .modal ul.menu li:hover ul.submenu {
+  display: block;
 }
 .modals .modal .window {
   display: flex;

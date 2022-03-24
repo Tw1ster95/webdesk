@@ -1,7 +1,9 @@
-import { createModal, toggleModal, mTypes } from './modal.js';
+import { createModal, toggleModal, mTypes, renameModal } from './modal.js';
 import { displayQuickMessage } from './utils.js';
 import { setData, getData, getIcons, generateNewIconData, changeIconData } from './data.js';
 import { updateFolderGrid } from './desktop.js';
+import { renameTaskbarItem } from './taskbar.js';
+import { updateFile } from './files.js';
 
 const loadIcons = async (id) => {
     const icons = await getIcons(id);
@@ -107,9 +109,20 @@ const onIconClick = (e) => {
 }
 
 const onFolderChangeSpanText = (e) => {
+    const id = $(e.currentTarget).parent().attr('icon-id');
+    const name = $(e.currentTarget).text();
+
     changeIconData({
-        id: $(e.currentTarget).parent().attr('icon-id'),
-        name: $(e.currentTarget).text()
+        id: id,
+        name: name
+    });
+    renameTaskbarItem({
+        id: id,
+        name: name
+    });
+    renameModal({
+        id: id,
+        name: name
     });
 }
 
@@ -120,7 +133,7 @@ const onFolderSpanTypeText = (e) => {
 
 const createNewIcon = async ({
         id = null,
-        type = null,
+        type,
         in_folder_id = 0,
         name = '',
         row = null,
@@ -146,31 +159,40 @@ const createNewIcon = async ({
             space = $(selector + ` .flex-file-space:empty`)[0];
     }
 
-    if(space) {
-        if(!id) {
-            id = await generateNewIconData({
-                type: getIconTypeId(type),
-                in_folder_id: in_folder_id,
-                name: name,
-                row: $(space).attr('data-row'),
-                col: $(space).attr('data-col')
-            });
+    if(!space) {
+        if(New) {
+            displayQuickMessage('There is no space for a new folder!');
         }
+        return;
+    }
+
+    if(!id) {
+        id = await generateNewIconData({
+            type: getIconTypeId(type),
+            in_folder_id: in_folder_id,
+            name: name,
+            row: $(space).attr('data-row'),
+            col: $(space).attr('data-col')
+        });
 
         if(!id)
             return;
-        
-        const iconEl = $(`<div class="icon" draggable="true" icon-id="${id}" icon-type="${type}"></div>`);
-        const iconSpan = $(`<span contenteditable="true">${name}</span>`);
-        $(iconEl).append(iconSpan);
-        $(space).append(iconEl);
-        $(iconEl).dblclick(onIconClick);
-        $(iconEl).on('dragstart', iconDragStart);
-        $(iconSpan).on('keydown paste', onFolderSpanTypeText);
-        $(iconSpan).on('keyup', onFolderChangeSpanText);
     }
-    else if(New)
-        displayQuickMessage('There is no space for a new folder!');
+    
+    const iconEl = $(`<div class="icon" draggable="true" icon-id="${id}" icon-type="${type}"></div>`);
+    const iconSpan = $(`<span contenteditable="true">${name}</span>`);
+    $(iconEl).append(iconSpan);
+    $(space).append(iconEl);
+    $(iconEl).dblclick(onIconClick);
+    $(iconEl).on('dragstart', iconDragStart);
+    $(iconSpan).on('keydown paste', onFolderSpanTypeText);
+    $(iconSpan).on('keyup', onFolderChangeSpanText);
+    
+    if(New)
+        updateFile({
+            id: id,
+            type: type
+        });
 }
 
 const setIconSize = (size) => {

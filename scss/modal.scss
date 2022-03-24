@@ -67,9 +67,38 @@
         }
       }
     }
-    .menu {
+    ul.menu {
       background-color: grey;
-      height: 40px;
+      height: 30px;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      list-style: none;
+
+      li {
+        position: relative;
+        padding: 5px 10px;
+        height: 100%;
+        cursor: pointer;
+
+        ul.submenu {
+          display: none;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          background-color: rgba(150, 150, 150);
+        }
+      }
+      li:not(:first-child) {
+        border-left: 1px solid rgba(150, 150, 150);
+      }
+
+      li:hover {
+        background-color: rgba(150, 150, 150);
+        ul.submenu {
+          display: block;
+        }
+      }
     }
     .window {
       display: flex;

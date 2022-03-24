@@ -16,6 +16,7 @@
 
   * {
     display: flex;
+    position: relative;
     justify-content: center;
     align-items: center;
     height: 30px;
@@ -25,6 +26,10 @@
 
   *[window-type]:hover:not(:active) {
     box-shadow: inset 1px 1px 2px #000;
+
+    span {
+      display: block;
+    }
   }
 
   *[window-type].active:not(:hover) {
@@ -34,5 +39,20 @@
   *[window-type] img {
     width: 80%;
     height: 80%;
+  }
+
+  *[window-type] span {
+    display: none;
+    overflow: hidden;
+    position: absolute;
+    width: 100px;
+    height: auto;
+    padding: 3px;
+    top: -100%;
+    text-align: center;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    background-color: #fff;
+    border-radius: 5px;
   }
 }

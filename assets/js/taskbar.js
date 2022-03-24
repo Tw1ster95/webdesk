@@ -9,25 +9,24 @@ const loadTaskbar = () => {
     </div>`);
 }
 
-const addToTaskbar = ({ type, id }) => {
+const addToTaskbar = ({ type, id, name }) => {
     let el;
     switch(type) {
         case mTypes.display: {
             el = $(`<div window-type="display"><img src="/assets/img/display-settings.png" alt="Taskbar Icon" /></div>`);
-            $('#taskbar').append(el);
             break;
         }
         case mTypes.folder: {
             el = $(`<div window-type="folder" window-id="${id}"><img src="/assets/img/folder.png" alt="Taskbar Icon" /></div>`);
-            $('#taskbar').append(el);
             break;
         }
         case mTypes.txt: {
             el = $(`<div window-type="txt" window-id="${id}"><img src="/assets/img/txt.png" alt="Taskbar Icon" /></div>`);
-            $('#taskbar').append(el);
             break;
         }
     }
+    $(el).append($(`<span>${name}</span>`));
+    $('#taskbar').append(el);
     $(el).click((e) => {
         const type = $(el).attr('window-type');
         const id = $(el).attr('window-id');
@@ -89,6 +88,10 @@ const setTopTaskActive = () => {
     $(target).addClass('active');
 }
 
+const renameTaskbarItem = ({ id, name }) => {
+    $(`#taskbar [window-id="${id}"] span`).text(name);
+}
+
 export {
-    addToTaskbar, removeFromTaskbar, setTopTaskActive, loadTaskbar
+    addToTaskbar, removeFromTaskbar, setTopTaskActive, loadTaskbar, renameTaskbarItem
 }
