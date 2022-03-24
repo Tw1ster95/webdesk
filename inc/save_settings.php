@@ -3,14 +3,15 @@ session_start();
 include_once 'config.php';
 include_once 'database.php';
 
-if (isset($_POST['userid'])) {
+if (isset($_POST['user_id'])) {
     $arrKeys = array(
         'bg_type',
         'bg_url',
         'bg_style',
         'icon_size',
         'taskbar_color',
-        'modal_top_color'
+        'modal_top_color',
+        'modal_top_text_color'
     );
     $arrVals = array();
 
@@ -30,7 +31,7 @@ if (isset($_POST['userid'])) {
         MAIN_MYSQL_DB
     );
 
-    $userid = $database->escape_string($_POST['userid']);
+    $userid = $database->escape_string($_POST['user_id']);
 
     if (count($arrKeys) > 0) {
         $database->update(
@@ -38,7 +39,7 @@ if (isset($_POST['userid'])) {
             $arrKeys,
             $arrVals,
             'user_id',
-            $_POST['userid']
+            $userid
         );
 
         echo json_encode(array(
