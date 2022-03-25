@@ -98,6 +98,14 @@ const desktopMenuAction = (action) => {
             });
             break;
         }
+        case "newimage": {
+            createNewIcon({
+                type: 'img',
+                in_folder_id: 0,
+                name: 'New Image'
+            });
+            break;
+        }
         case "display": {
             if(!$('#displaySettingsModal').length) {
                 createModal({

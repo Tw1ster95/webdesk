@@ -1,5 +1,7 @@
 <?php
 session_start();
+include_once '../config.php';
+include_once '../database.php';
 
 if (!isset($_SESSION['id'])) {
     echo json_encode(array(
@@ -26,14 +28,39 @@ if ($fail_msg !== NULL) {
     exit;
 }
 
-$dir = '../../files/' . $_SESSION['id'];
-$file_id = $_POST['file_id'];
-$file_type = $_POST['file_type'];
-$content = $_POST['content'];
+$userid = $_SESSION['id'];
+$dir = '../../files/' . $userid;
 
 if (!is_dir($dir)) {
     mkdir($dir);
 }
+
+$file_id = $_POST['file_id'];
+
+// Check file id in database
+$database = new Database();
+$database->connect(
+    MAIN_MYSQL_HOST,
+    MAIN_MYSQL_USERNAME,
+    MAIN_MYSQL_PASSWORD,
+    MAIN_MYSQL_DB
+);
+
+$fetchInfo = $database->get(array(
+    'table' => 'icons',
+    'filter' => "user_id = " . $userid . " AND id = " . $file_id
+));
+
+if ($fetchInfo->num_rows == 0) {
+    echo json_encode(array(
+        'status' => 'fail',
+        'message' => 'Error getting file. Could not find that file id in the database.'
+    ));
+    exit;
+}
+
+$file_type = $_POST['file_type'];
+$content = $_POST['content'];
 
 $dir .= '/' . $file_id . '.' . $file_type;
 

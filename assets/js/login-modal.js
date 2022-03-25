@@ -59,7 +59,7 @@ const loadLoginEvents = () => {
         fd.append('password', password);
 
         $.ajax({
-            url: 'inc/login_user.php',
+            url: 'inc/user/login_user.php',
             type: 'POST',
             data: fd,
             contentType: false,
@@ -101,7 +101,7 @@ const loadLoginEvents = () => {
         fd.append('password2', password2);
 
         $.ajax({
-            url: 'inc/register_user.php',
+            url: 'inc/user/register_user.php',
             type: 'POST',
             data: fd,
             contentType: false,

@@ -1,9 +1,13 @@
-import { endLoading, startLoading } from './utils.js';
+import { displayQuickMessage, endLoading, startLoading } from './utils.js';
+
+const editableIcons = array(
+    'txt'
+);
 
 const updateFile = async ({ id, type, content = '' }) => {
-    if(type == 'folder')
+    if(!editableIcons.find(type))
         return;
-    
+
     startLoading();
 
     const fd = new FormData();
@@ -27,7 +31,7 @@ const updateFile = async ({ id, type, content = '' }) => {
 }
 
 const loadFileContent = async ({ id, type }) => {
-    if(type == 'folder')
+    if(!editableIcons.find(type))
         return;
 
     startLoading();
@@ -50,8 +54,10 @@ const loadFileContent = async ({ id, type }) => {
     
     if(result.status == 'ok')
         return result.content;
-    else
+    else {
         displayQuickMessage(result.message);
+        return null;
+    }
 }
 
 export {

@@ -16,8 +16,7 @@ const loadIcons = async (id) => {
                 in_folder_id: icons[i].folder_id,
                 name: icons[i].name,
                 row: icons[i].pos_row,
-                col: icons[i].pos_col,
-                New: false
+                col: icons[i].pos_col
             });
         }
     }
@@ -137,14 +136,13 @@ const createNewIcon = async ({
         in_folder_id = 0,
         name = '',
         row = null,
-        col = null,
-        New = true
+        col = null
     }) => {
     
     if(!type)
         return;
     
-    let selector, space;
+    let selector, space, isNew = false;
     if(in_folder_id == 0)
         selector = '#desktop';
     else
@@ -167,6 +165,7 @@ const createNewIcon = async ({
     }
 
     if(!id) {
+        isNew = true;
         id = await generateNewIconData({
             type: getIconTypeId(type),
             in_folder_id: in_folder_id,
@@ -188,11 +187,16 @@ const createNewIcon = async ({
     $(iconSpan).on('keydown paste', onFolderSpanTypeText);
     $(iconSpan).on('keyup', onFolderChangeSpanText);
     
-    if(New)
-        updateFile({
-            id: id,
-            type: type
-        });
+    if(isNew) {
+        if(type == 'img') {
+            generateImageUrlModal();
+        }
+        else
+            updateFile({
+                id: id,
+                type: type
+            });
+    }
 }
 
 const setIconSize = (size) => {

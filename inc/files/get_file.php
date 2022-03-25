@@ -25,8 +25,6 @@ if ($fail_msg !== NULL) {
 }
 
 $dir = '../../files/' . $_SESSION['id'];
-$file_id = $_POST['file_id'];
-$file_type = $_POST['file_type'];
 
 if (!is_dir($dir)) {
     echo json_encode(array(
@@ -35,6 +33,9 @@ if (!is_dir($dir)) {
     ));
     exit;
 }
+
+$file_id = $_POST['file_id'];
+$file_type = $_POST['file_type'];
 
 $dir .= '/' . $file_id . '.' . $file_type;
 

@@ -14,7 +14,7 @@ const loadModals = () => {
     $('body').append(`<div class="modals" id="modals"></div>`);
 }
 
-const createModal = ({ type, id, name }) => {
+const createModal = async ({ type, id, name }) => {
     const width = $(window).width();
     const height = $(window).height();
     switch(type) {
@@ -66,6 +66,13 @@ const createModal = ({ type, id, name }) => {
             break;
         }
         case mTypes.txt: {
+            const content = await loadFileContent({
+                id: id,
+                type: 'txt'
+            });
+            if(content == null)
+                return;
+            
             const modalEl = $(`<div class="modal" window-type="txt" for-icon-id=${id}></div>`);
             $('#modals').append(modalEl);
 
@@ -73,7 +80,8 @@ const createModal = ({ type, id, name }) => {
                 id: id,
                 type: mTypes.txt,
                 target: modalEl,
-                name: name
+                name: name,
+                content: content
             });
 
             $(modalEl).css({
@@ -93,7 +101,7 @@ const createModal = ({ type, id, name }) => {
     }
 }
 
-const addModalItems = async ({ target, type, name, id = null }) => {
+const addModalItems = async ({ target, type, name, content = '', id = null }) => {
     switch(type) {
         case mTypes.display: {
             $(target).append(`<div class="top" style="background-color: ${getData('settings', 'modal_top_color')}"><label class="title" style="color: ${getData('settings', 'modal_top_text_color')}">Display Settings</label><div class="top-buttons"><div class="minimize">_</div><div class="expand disabled">[ ]</div><div class="close">X</div></div></div><div class="window"><div class="main no-scroll"></div></div>`);
@@ -106,10 +114,6 @@ const addModalItems = async ({ target, type, name, id = null }) => {
             break;
         }
         case mTypes.txt: {
-            const content = await loadFileContent({
-                id: id,
-                type: 'txt'
-            });
             $(target).append(`<div class="top" style="background-color: ${getData('settings', 'modal_top_color')}"><label class="title" style="color: ${getData('settings', 'modal_top_text_color')}">${name}</label><div class="top-buttons"><div class="minimize">_</div><div class="expand">[ ]</div><div class="close">X</div></div></div><ul class="menu"></ul><div class="window"><textarea class="main doc-content">${content}</textarea></div><div class="resize"></div>`);
 
             addTopFileModalMenu(target, 'txt', id);

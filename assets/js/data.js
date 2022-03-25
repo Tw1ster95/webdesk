@@ -66,7 +66,7 @@ const setData = (type, key, val) => {
 const getUserInfo = async () => {
     startLoading();
     const response = await $.ajax({
-        url: 'inc/get_user_info.php',
+        url: 'inc/user/get_user_info.php',
         type: 'post',
         contentType: false,
         processData: false
@@ -85,7 +85,7 @@ const getUserInfo = async () => {
 const getUserSettings = async (reset = false) => {
     startLoading();
     const response = await $.ajax({
-        url: 'inc/get_settings.php',
+        url: 'inc/user/get_settings.php',
         type: 'post',
         contentType: false,
         processData: false
@@ -116,7 +116,7 @@ const saveUserSettings = async () => {
         fd.append(key, value);
     }
     const response = await $.ajax({
-        url: 'inc/save_settings.php',
+        url: 'inc/user/save_settings.php',
         type: 'post',
         data: fd,
         contentType: false,
@@ -135,7 +135,7 @@ const getIcons = async (id) => {
     fd.append('in_folder_id', id);
 
     const response = await $.ajax({
-        url: 'inc/get_icons.php',
+        url: 'inc/icons/get_icons.php',
         type: 'post',
         data: fd,
         contentType: false,
@@ -193,7 +193,7 @@ const generateNewIconData = async ({
     fd.append('pos_col', col);
 
     const response = await $.ajax({
-        url: 'inc/create_new_icon.php',
+        url: 'inc/icons/create_new_icon.php',
         type: 'post',
         data: fd,
         contentType: false,
@@ -231,7 +231,7 @@ const changeIconData = async ({
         return;
 
     const response = await $.ajax({
-        url: 'inc/update_icon.php',
+        url: 'inc/icons/update_icon.php',
         type: 'post',
         data: fd,
         contentType: false,
