@@ -38,7 +38,7 @@ if (
             if ($database->create(
                 'img_urls',
                 array('icon_id', 'image_url'),
-                array($id, 'http://webdesk.test/assets/img/icons/noimage.jpg')
+                array($id, 'assets/img/icons/noimage.jpg')
             ) == TRUE) {
                 echo json_encode(array(
                     'status' => 'ok',

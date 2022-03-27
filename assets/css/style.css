@@ -6,13 +6,6 @@
   padding: 0;
 }
 
-body {
-  position: relative;
-  overflow: hidden;
-  width: 100vw;
-  height: 100vh;
-  font-family: sans-serif;
-}
 body .right-click-menu {
   display: none;
   z-index: 1000;
@@ -261,6 +254,9 @@ img {
   left: 0;
   background-color: #969696;
 }
+.modals .modal ul.menu li ul.submenu li:hover {
+  background-color: #c8c8c8;
+}
 .modals .modal ul.menu li:not(:first-child) {
   border-left: 1px solid #969696;
 }
@@ -303,6 +299,13 @@ img {
   box-shadow: unset;
   outline: none;
   padding: 5px 10px;
+}
+.modals .modal .window img.image-modal {
+  max-width: 100%;
+  max-height: 100%;
+  background-size: contain;
+  background-position: center;
+  margin: auto;
 }
 .modals .modal .resize {
   position: absolute;
@@ -586,10 +589,10 @@ button.medium,
   background-repeat: no-repeat;
 }
 .flex-file-space .icon[icon-type=folder] {
-  background-image: url(/assets/img/icons/folder.png);
+  background-image: url(/projects/webdesk/assets/img/icons/folder.png);
 }
 .flex-file-space .icon[icon-type=txt] {
-  background-image: url(/assets/img/icons/txt.png);
+  background-image: url(/projects/webdesk/assets/img/icons/txt.png);
 }
 
 /*# sourceMappingURL=style.css.map */

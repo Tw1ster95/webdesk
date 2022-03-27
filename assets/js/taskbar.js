@@ -1,5 +1,6 @@
 import { mTypes, toggleModal } from './modal.js';
 import { getData } from './data.js';
+import { getImageIconUrl } from './icons.js';
 
 const loadTaskbar = () => {
     $('body').append(`<div class="taskbar" id="taskbar" style="background-color: ${getData('settings', 'taskbar_color')}">
@@ -13,19 +14,19 @@ const addToTaskbar = ({ type, id, name }) => {
     let el;
     switch(type) {
         case mTypes.display: {
-            el = $(`<div window-type="display"><img src="/assets/img/icons/display-settings.png" alt="Taskbar Icon" /></div>`);
+            el = $(`<div window-type="display"><img src="assets/img/icons/display-settings.png" alt="Taskbar Icon" /></div>`);
             break;
         }
         case mTypes.folder: {
-            el = $(`<div window-type="folder" window-id="${id}"><img src="/assets/img/icons/folder.png" alt="Taskbar Icon" /></div>`);
+            el = $(`<div window-type="folder" window-id="${id}"><img src="assets/img/icons/folder.png" alt="Taskbar Icon" /></div>`);
             break;
         }
         case mTypes.txt: {
-            el = $(`<div window-type="txt" window-id="${id}"><img src="/assets/img/icons/txt.png" alt="Taskbar Icon" /></div>`);
+            el = $(`<div window-type="txt" window-id="${id}"><img src="assets/img/icons/txt.png" alt="Taskbar Icon" /></div>`);
             break;
         }
         case mTypes.img: {
-            el = $(`<div window-type="txt" window-id="${id}"><img src="/assets/img/icons/noimage.png" alt="Taskbar Icon" /></div>`);
+            el = $(`<div window-type="txt" window-id="${id}"><img src="${getImageIconUrl(id)}" alt="Taskbar Icon" /></div>`);
             break;
         }
     }

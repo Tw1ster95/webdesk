@@ -19,7 +19,7 @@ const displayLoginModal = () => {
                 <h2>Register</h2>
                 <input type="text" name="username" autocomplete="off" placeholder="Username">
                 <input type="password" name="password" placeholder="******">
-                <input type="password2" name="password2" placeholder="******">
+                <input type="password" name="password2" placeholder="******">
 
                 <button type="submit" class="small">Register</button>
 

@@ -3,6 +3,7 @@ import { addToTaskbar, removeFromTaskbar, setTopTaskActive } from './taskbar.js'
 import { addDisplayModalItems } from './display-settings.js';
 import { getRandomInt } from './utils.js';
 import { updateFile, loadFileContent } from './files.js';
+import { getImageIconUrl } from './icons.js';
 
 const mTypes = {
     display: Symbol("display"),
@@ -99,6 +100,31 @@ const createModal = async ({ type, id, name }) => {
             });
             break;
         }
+        case mTypes.img: {
+            const modalEl = $(`<div class="modal" window-type="txt" for-icon-id=${id}></div>`);
+            $('#modals').append(modalEl);
+
+            addModalItems({
+                id: id,
+                type: mTypes.img,
+                target: modalEl,
+                name: name
+            });
+
+            $(modalEl).css({
+                top: `${Math.floor(height/3)}px`,
+                left: `${Math.floor(width/3)}px`,
+                height: `${Math.floor(height/3)}px`,
+                width: `${Math.floor(width/3)}px`
+            });
+
+            addToTaskbar({
+                type: mTypes.img,
+                id: id,
+                name: name
+            });
+            break;
+        }
     }
 }
 
@@ -116,6 +142,12 @@ const addModalItems = async ({ target, type, name, content = '', id = null }) =>
         }
         case mTypes.txt: {
             $(target).append(`<div class="top" style="background-color: ${getData('settings', 'modal_top_color')}"><label class="title" style="color: ${getData('settings', 'modal_top_text_color')}">${name}</label><div class="top-buttons"><div class="minimize">_</div><div class="expand">[ ]</div><div class="close">X</div></div></div><ul class="menu"></ul><div class="window"><textarea class="main doc-content">${content}</textarea></div><div class="resize"></div>`);
+
+            addTopFileModalMenu(target, 'txt', id);
+            break;
+        }
+        case mTypes.img: {
+            $(target).append(`<div class="top" style="background-color: ${getData('settings', 'modal_top_color')}"><label class="title" style="color: ${getData('settings', 'modal_top_text_color')}">${name}</label><div class="top-buttons"><div class="minimize">_</div><div class="expand">[ ]</div><div class="close">X</div></div></div><ul class="menu"></ul><div class="window"><img class="image-modal" src="${getImageIconUrl(id)}"/></div><div class="resize"></div>`);
 
             addTopFileModalMenu(target, 'txt', id);
             break;

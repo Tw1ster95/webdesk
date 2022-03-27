@@ -306,7 +306,7 @@ const getImageUrl = async (id) => {
     const result = JSON.parse(response);
 
     if(result.status !== 'ok')
-        return 'http://webdesk.test/assets/img/icons/noimage.jpg';
+        return 'assets/img/icons/noimage.jpg';
     
     return result.url;
 }

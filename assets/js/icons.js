@@ -190,7 +190,7 @@ const createNewIcon = async ({
     if(isNew) {
         if(type == 'img') {
             $(iconEl).css({
-                'background-image': 'url(http://webdesk.test/assets/img/icons/noimage.jpg)'
+                'background-image': 'url(assets/img/icons/noimage.jpg)'
             });
             askForImageUrl({
                     id: id,
@@ -220,6 +220,11 @@ const removeIcon = async (icon_id) => {
     $(`.icon[icon-id="${icon_id}"]`).remove();
 }
 
+const getImageIconUrl = (icon_id) => {
+    const url = $(`.icon[icon-id="${icon_id}"]`).css('background-image');
+    return url.slice(5, url.length-2);
+}
+
 export {
-    iconAllowDrop, iconDrop, createNewIcon, setIconSize, loadIcons, removeIcon
+    iconAllowDrop, iconDrop, createNewIcon, setIconSize, loadIcons, removeIcon, getImageIconUrl
 }
