@@ -38,18 +38,16 @@
     }
   }
 
-  .icon[icon-type="folder"] {
+  .icon[icon-type] {
     background: unset;
-    background: url(/assets/img/folder.png);
     background-position: center;
-    background-size: contain;
+    background-size: cover;
     background-repeat: no-repeat;
   }
+  .icon[icon-type="folder"] {
+    background-image: url(/assets/img/icons/folder.png);
+  }
   .icon[icon-type="txt"] {
-    background: unset;
-    background: url(/assets/img/txt.png);
-    background-position: center;
-    background-size: contain;
-    background-repeat: no-repeat;
+    background-image: url(/assets/img/icons/txt.png);
   }
 }

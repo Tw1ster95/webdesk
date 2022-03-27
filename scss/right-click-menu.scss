@@ -5,7 +5,7 @@ body {
   height: 100vh;
   font-family: sans-serif;
 
-  .desktop-menu {
+  .right-click-menu {
     display: none;
     z-index: 1000;
     position: absolute;
@@ -32,7 +32,7 @@ body {
         transform: translateY(-50%);
       }
 
-      .desktop-submenu {
+      .right-click-submenu {
         display: none;
         z-index: 1000;
         position: absolute;
@@ -57,7 +57,7 @@ body {
     li:hover {
       background-color: #def;
 
-      .desktop-submenu {
+      .right-click-submenu {
         display: block;
       }
     }

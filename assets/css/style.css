@@ -13,7 +13,7 @@ body {
   height: 100vh;
   font-family: sans-serif;
 }
-body .desktop-menu {
+body .right-click-menu {
   display: none;
   z-index: 1000;
   position: absolute;
@@ -24,7 +24,7 @@ body .desktop-menu {
   border-radius: 5px;
   padding: 0;
 }
-body .desktop-menu li {
+body .right-click-menu li {
   position: relative;
   padding: 8px 12px;
   cursor: pointer;
@@ -33,13 +33,13 @@ body .desktop-menu li {
   user-select: none;
   width: 150px;
 }
-body .desktop-menu li i {
+body .right-click-menu li i {
   position: absolute;
   top: 50%;
   right: 5%;
   transform: translateY(-50%);
 }
-body .desktop-menu li .desktop-submenu {
+body .right-click-menu li .right-click-submenu {
   display: none;
   z-index: 1000;
   position: absolute;
@@ -53,16 +53,16 @@ body .desktop-menu li .desktop-submenu {
   border-radius: 5px;
   padding: 0;
 }
-body .desktop-menu li .desktop-submenu li:hover {
+body .right-click-menu li .right-click-submenu li:hover {
   background-color: #def;
 }
-body .desktop-menu li:has(ul) {
+body .right-click-menu li:has(ul) {
   background-color: red;
 }
-body .desktop-menu li:hover {
+body .right-click-menu li:hover {
   background-color: #def;
 }
-body .desktop-menu li:hover .desktop-submenu {
+body .right-click-menu li:hover .right-click-submenu {
   display: block;
 }
 
@@ -515,6 +515,33 @@ button.medium,
   font-weight: 700;
 }
 
+.img-url-ask-modal {
+  position: fixed;
+  width: 500px;
+  height: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border-radius: 5px;
+  padding: 20px;
+  border: 1px solid #a3a3a3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.img-url-ask-modal label {
+  user-select: none;
+}
+.img-url-ask-modal label span {
+  font-style: italic;
+}
+.img-url-ask-modal input {
+  width: 100%;
+}
+
 .flex-file-space .icon {
   position: relative;
   width: 70%;
@@ -552,19 +579,17 @@ button.medium,
   height: auto;
   overflow: auto;
 }
-.flex-file-space .icon[icon-type=folder] {
+.flex-file-space .icon[icon-type] {
   background: unset;
-  background: url(/assets/img/folder.png);
   background-position: center;
-  background-size: contain;
+  background-size: cover;
   background-repeat: no-repeat;
 }
+.flex-file-space .icon[icon-type=folder] {
+  background-image: url(/assets/img/icons/folder.png);
+}
 .flex-file-space .icon[icon-type=txt] {
-  background: unset;
-  background: url(/assets/img/txt.png);
-  background-position: center;
-  background-size: contain;
-  background-repeat: no-repeat;
+  background-image: url(/assets/img/icons/txt.png);
 }
 
 /*# sourceMappingURL=style.css.map */

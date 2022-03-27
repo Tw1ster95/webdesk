@@ -1,4 +1,5 @@
-import { displayQuickMessage, startLoading, endLoading } from './utils.js';
+import { startLoading, endLoading } from './utils.js';
+import { displayQuickMessage } from './popups.js';
 
 let dataObj = Array();
 
@@ -244,6 +245,72 @@ const changeIconData = async ({
         displayQuickMessage(result.message);
 }
 
+const removeIconData = async (icon_id) => {
+    const fd = new FormData();
+    fd.append('icon_id', icon_id);
+
+    const response = await $.ajax({
+        url: 'inc/icons/remove_icon.php',
+        type: 'post',
+        data: fd,
+        contentType: false,
+        processData: false
+    });
+
+    const result = JSON.parse(response);
+
+    displayQuickMessage(result.message);
+
+    if(result.status == 'ok')
+        return true;
+
+    return false;
+}
+
+const updateImageUrl = async ({ id, url }) => {
+    if(url.length == 0)    return false;
+
+    const fd = new FormData();
+    fd.append('icon_id', id);
+    fd.append('url', url);
+
+    const response = await $.ajax({
+        url: 'inc/files/update_image_url.php',
+        type: 'post',
+        data: fd,
+        contentType: false,
+        processData: false
+    });
+
+    const result = JSON.parse(response);
+    
+    displayQuickMessage(result.message);
+    
+    if(result.status == 'ok')
+        return true;
+    return false;
+}
+
+const getImageUrl = async (id) => {
+    const fd = new FormData();
+    fd.append('icon_id', id);
+
+    const response = await $.ajax({
+        url: 'inc/files/get_image_url.php',
+        type: 'post',
+        data: fd,
+        contentType: false,
+        processData: false
+    });
+
+    const result = JSON.parse(response);
+
+    if(result.status !== 'ok')
+        return 'http://webdesk.test/assets/img/icons/noimage.jpg';
+    
+    return result.url;
+}
+
 export {
-    getData, setData, getUserInfo, getUserSettings, saveUserSettings, getIcons, loadWebsiteData, generateNewIconData, changeIconData
+    getData, setData, getUserInfo, getUserSettings, saveUserSettings, getIcons, loadWebsiteData, generateNewIconData, changeIconData, updateImageUrl, getImageUrl, removeIconData
 }

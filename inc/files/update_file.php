@@ -35,7 +35,6 @@ if (!is_dir($dir)) {
     mkdir($dir);
 }
 
-$file_id = $_POST['file_id'];
 
 // Check file id in database
 $database = new Database();
@@ -45,6 +44,8 @@ $database->connect(
     MAIN_MYSQL_PASSWORD,
     MAIN_MYSQL_DB
 );
+
+$file_id = $database->escape_string($_POST['file_id']);
 
 $fetchInfo = $database->get(array(
     'table' => 'icons',

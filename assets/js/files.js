@@ -1,11 +1,12 @@
-import { displayQuickMessage, endLoading, startLoading } from './utils.js';
+import { endLoading, startLoading } from './utils.js';
+import { displayQuickMessage } from './popups.js';
 
-const editableIcons = array(
+const editableIcons = Array(
     'txt'
 );
 
 const updateFile = async ({ id, type, content = '' }) => {
-    if(!editableIcons.find(type))
+    if(editableIcons.indexOf(type) == -1)
         return;
 
     startLoading();
@@ -31,7 +32,7 @@ const updateFile = async ({ id, type, content = '' }) => {
 }
 
 const loadFileContent = async ({ id, type }) => {
-    if(!editableIcons.find(type))
+    if(editableIcons.indexOf(type) == -1)
         return;
 
     startLoading();

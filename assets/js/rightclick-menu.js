@@ -1,21 +1,23 @@
-import { createNewIcon, setIconSize } from './icons.js'
-import { createModal, toggleModal, mTypes } from './modal.js';
+import { removeIconData } from './data.js';
+import { createNewIcon, setIconSize, removeIcon } from './icons.js'
+import { createModal, toggleModal, mTypes, closeModal } from './modal.js';
+import { removeFromTaskbar } from './taskbar.js';
 
 let lastClickTime = new Date().getTime();
 
 const loadRightClickMenu = () => {
 
     // Load desktop menu html
-    $('body').append(`<ul class='desktop-menu'>
+    $('body').append(`<ul class='right-click-menu desktop-menu'>
         <li data-action="submenu">View<i class="fa fa-angle-right"></i>
-            <ul class='desktop-submenu'>
+            <ul class='right-click-submenu'>
                 <li data-action="l-icons">Large Icons</li>
                 <li data-action="m-icons">Medium Icons</li>
                 <li data-action="s-icons">Small Icons</li>
             </ul>
         </li>
         <li data-action="submenu">Sort by<i class="fa fa-angle-right"></i>
-            <ul class='desktop-submenu'>
+            <ul class='right-click-submenu'>
                 <li data-action="l-icons">Name</li>
                 <li data-action="m-icons">Size</li>
                 <li data-action="s-icons">Item type</li>
@@ -23,7 +25,7 @@ const loadRightClickMenu = () => {
         </li>
         <li data-action="refresh">Refresh</li>
         <li data-action="submenu">New<i class="fa fa-angle-right"></i>
-            <ul class='desktop-submenu'>
+            <ul class='right-click-submenu'>
                 <li data-action="newfolder">Folder</li>
                 <li data-action="newtxtdoc">Text Document</li>
                 <li data-action="newimage">Image</li>
@@ -32,43 +34,61 @@ const loadRightClickMenu = () => {
         <li data-action="display">Display</li>
     </ul>`);
 
+    // Load icon menu html
+    $('body').append(`<ul class='right-click-menu icon-menu'>
+        <li data-action="deleteicon">Delete</li>
+    </ul>`);
+
     // On right click open custom menu
     $(document).bind("contextmenu", (e) => {
         e.preventDefault();
     
         if($(e.target).hasClass('flex-file-space')) {
-            $(".desktop-menu").finish().toggle(100).
-                css({
+            const parent = $(e.target).parent();
+            if($(parent).hasClass('desktop-grid')) {
+                $(".right-click-menu").hide();
+                $(".desktop-menu").css({
+                        top: e.pageY + "px",
+                        left: e.pageX + "px"
+                    }).show(100);
+            }
+        }
+        else if($(e.target).hasClass('icon')) {
+            $(".right-click-menu").hide();
+            $('.icon-menu').attr('for-icon-id', $(e.target).attr('icon-id'));
+            $(".icon-menu").css({
                     top: e.pageY + "px",
                     left: e.pageX + "px"
-                });
+                }).show(100);
         }
     });
     
     // On mousedown hide desktop menu
     $(document).bind("mousedown", (e) => {
-        if(!$(e.target).parents(".desktop-menu").length > 0)
-            $(".desktop-menu").hide(100);
+        if(!$(e.target).parents(".right-click-menu").length > 0)
+            $(".right-click-menu").hide(100);
     });
 
     // Load Desktop right click menu items
-    $(".desktop-menu li").click((e) => {
+    $(".right-click-menu li").click((e) => {
         const time = new Date().getTime();
         if(time - lastClickTime < 50) return;
         lastClickTime = time;
 
         const action = $(e.target).attr("data-action");
 
-        if(action == 'submenu')
+        if(action == 'right-click-submenu')
             return;
     
-        desktopMenuAction(action);
+        const for_icon_id = $(e.target).parent('.right-click-menu').attr("for-icon-id");
 
-        $(".desktop-menu").hide(100);
+        desktopMenuAction(action, for_icon_id);
+
+        $(".right-click-menu").hide(100);
     });
 }
 
-const desktopMenuAction = (action) => {
+const desktopMenuAction = async (action, icon_id) => {
     switch(action) {
         case "l-icons": {
             setIconSize(150);
@@ -116,6 +136,14 @@ const desktopMenuAction = (action) => {
                 toggleModal({
                     type: mTypes.display
                 });
+            }
+            break;
+        }
+        case "deleteicon": {
+            if((await removeIconData(icon_id))) {
+                removeIcon(icon_id);
+                closeModal({ id: icon_id });
+                removeFromTaskbar({ id: icon_id });
             }
             break;
         }

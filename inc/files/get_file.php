@@ -9,17 +9,17 @@ if (!isset($_SESSION['id'])) {
     exit;
 }
 
-$fail_msg = NULL;
 if (!isset($_POST['file_id'])) {
-    $fail_msg = 'Error getting file. File ID not set.';
-} else if (!isset($_POST['file_type'])) {
-    $fail_msg = 'Error getting file. File type not set.';
-}
-
-if ($fail_msg !== NULL) {
     echo json_encode(array(
         'status' => 'fail',
-        'message' => $fail_msg
+        'message' => 'Error getting file. File ID not set.'
+    ));
+    exit;
+}
+if (!isset($_POST['file_type'])) {
+    echo json_encode(array(
+        'status' => 'fail',
+        'message' => 'Error getting file. File type not set.'
     ));
     exit;
 }

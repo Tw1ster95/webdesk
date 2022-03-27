@@ -33,6 +33,26 @@ if (
     ) == TRUE) {
         $id = $database->getLastInsertedId();
 
+        // type 3 = img
+        if ($type == 3) {
+            if ($database->create(
+                'img_urls',
+                array('icon_id', 'image_url'),
+                array($id, 'http://webdesk.test/assets/img/icons/noimage.jpg')
+            ) == TRUE) {
+                echo json_encode(array(
+                    'status' => 'ok',
+                    'id' => $id
+                ));
+            } else {
+                echo json_encode(array(
+                    'status' => 'fail',
+                    'message' => 'Icon generated but could not insert image data to the img_urls table.'
+                ));
+            }
+            exit;
+        }
+
         echo json_encode(array(
             'status' => 'ok',
             'id' => $id

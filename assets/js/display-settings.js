@@ -1,5 +1,6 @@
 import { setData, getData, getUserSettings, saveUserSettings } from "./data.js";
-import { checkFileExists, displayQuickMessage } from './utils.js';
+import { checkFileExists } from './utils.js';
+import { displayQuickMessage } from './popups.js';
 
 const addDisplayModalItems = (target) => {
     const table = $(`<table class="settings-table"></table>`);

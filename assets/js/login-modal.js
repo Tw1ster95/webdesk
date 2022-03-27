@@ -1,6 +1,6 @@
 import { loadOS } from './main.js';
 import { setData } from './data.js';
-import { displayQuickMessage } from './utils.js';
+import { displayQuickMessage } from './popups.js';
 
 const displayLoginModal = () => {
     $('body').append(`<div class="login-container">

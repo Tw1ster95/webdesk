@@ -112,6 +112,21 @@ class Database
         return $this->conn->query($qry);
     }
 
+    public function delete($table, $where = null)
+    {
+        if (!isset($table)) {
+            echo 'Error: Table is needed.';
+            exit;
+        }
+
+        $qry = "DELETE FROM " . $table;
+
+        if ($where)
+            $qry = $qry . " WHERE " . $where;
+
+        return $this->conn->query($qry);
+    }
+
     public function encodePassword($password)
     {
         return md5($password);

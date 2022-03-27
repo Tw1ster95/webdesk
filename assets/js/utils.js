@@ -17,18 +17,6 @@ const GetGridElementsPosition = (index) => {
     return { row: rowPosition, column: colPosition } ;
 }
 
-const displayQuickMessage = (message) => {
-    let msgEl = $('#quickMsgBlock');
-    if(msgEl.length == 0) {
-        msgEl = $(`<div id="quickMsgBlock" class="quick-msg-block" style="display: none;">${message}</div>`);
-        $('body').append(msgEl);
-    }
-    else
-        $(msgEl).stop().hide().text(message);
-    
-    $(msgEl).show(100).delay(2500).fadeOut();
-}
-
 const startLoading = () => {
     $('body').css('cursor', 'wait');
     $('#loadingScreen').show();
@@ -44,5 +32,5 @@ function getRandomInt(min, max) {
 }
 
 export {
-    checkFileExists, GetGridElementsPosition, displayQuickMessage, startLoading, endLoading, getRandomInt
+    checkFileExists, GetGridElementsPosition, startLoading, endLoading, getRandomInt
 }

@@ -13,15 +13,19 @@ const addToTaskbar = ({ type, id, name }) => {
     let el;
     switch(type) {
         case mTypes.display: {
-            el = $(`<div window-type="display"><img src="/assets/img/display-settings.png" alt="Taskbar Icon" /></div>`);
+            el = $(`<div window-type="display"><img src="/assets/img/icons/display-settings.png" alt="Taskbar Icon" /></div>`);
             break;
         }
         case mTypes.folder: {
-            el = $(`<div window-type="folder" window-id="${id}"><img src="/assets/img/folder.png" alt="Taskbar Icon" /></div>`);
+            el = $(`<div window-type="folder" window-id="${id}"><img src="/assets/img/icons/folder.png" alt="Taskbar Icon" /></div>`);
             break;
         }
         case mTypes.txt: {
-            el = $(`<div window-type="txt" window-id="${id}"><img src="/assets/img/txt.png" alt="Taskbar Icon" /></div>`);
+            el = $(`<div window-type="txt" window-id="${id}"><img src="/assets/img/icons/txt.png" alt="Taskbar Icon" /></div>`);
+            break;
+        }
+        case mTypes.img: {
+            el = $(`<div window-type="txt" window-id="${id}"><img src="/assets/img/icons/noimage.png" alt="Taskbar Icon" /></div>`);
             break;
         }
     }
@@ -40,14 +44,13 @@ const addToTaskbar = ({ type, id, name }) => {
     setTopTaskActive();
 }
 
-const removeFromTaskbar = ({ type, id }) => {
+const removeFromTaskbar = ({ type = null, id }) => {
     switch(type) {
         case mTypes.display: {
             $(`#taskbar [window-type="display"]`).remove();
             break;
         }
-        case mTypes.folder:
-        case mTypes.txt: {
+        default: {
             $(`#taskbar [window-id="${id}"]`).remove();
             break;
         }

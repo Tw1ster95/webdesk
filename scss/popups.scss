@@ -1,0 +1,45 @@
+.quick-msg-block {
+  position: fixed;
+  width: 300px;
+  height: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 5px;
+  text-align: center;
+  padding: 20px;
+  border: 1px solid rgb(163, 163, 163);
+  user-select: none;
+  font-weight: 700;
+}
+
+.img-url-ask-modal {
+  position: fixed;
+  width: 500px;
+  height: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 255, 255);
+  border-radius: 5px;
+  padding: 20px;
+  border: 1px solid rgb(163, 163, 163);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  label {
+    user-select: none;
+
+    span {
+      font-style: italic;
+    }
+  }
+
+  input {
+    width: 100%;
+  }
+}

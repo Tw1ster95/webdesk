@@ -1,9 +1,9 @@
 import { createModal, toggleModal, mTypes, renameModal } from './modal.js';
-import { displayQuickMessage } from './utils.js';
-import { setData, getData, getIcons, generateNewIconData, changeIconData } from './data.js';
+import { setData, getData, getIcons, generateNewIconData, changeIconData, getImageUrl } from './data.js';
 import { updateFolderGrid } from './desktop.js';
 import { renameTaskbarItem } from './taskbar.js';
 import { updateFile } from './files.js';
+import { askForImageUrl, displayQuickMessage } from './popups.js';
 
 const loadIcons = async (id) => {
     const icons = await getIcons(id);
@@ -186,15 +186,27 @@ const createNewIcon = async ({
     $(iconEl).on('dragstart', iconDragStart);
     $(iconSpan).on('keydown paste', onFolderSpanTypeText);
     $(iconSpan).on('keyup', onFolderChangeSpanText);
-    
+
     if(isNew) {
         if(type == 'img') {
-            generateImageUrlModal();
-        }
+            $(iconEl).css({
+                'background-image': 'url(http://webdesk.test/assets/img/icons/noimage.jpg)'
+            });
+            askForImageUrl({
+                    id: id,
+                    name: name
+                });
+            }
         else
             updateFile({
                 id: id,
                 type: type
+            });
+    }
+    else {
+        if(type == 'img')
+            $(iconEl).css({
+                'background-image': `url(${(await getImageUrl(id))})`
             });
     }
 }
@@ -204,6 +216,10 @@ const setIconSize = (size) => {
     updateFolderGrid('#desktop');
 }
 
+const removeIcon = async (icon_id) => {
+    $(`.icon[icon-id="${icon_id}"]`).remove();
+}
+
 export {
-    iconAllowDrop, iconDrop, createNewIcon, setIconSize, loadIcons
+    iconAllowDrop, iconDrop, createNewIcon, setIconSize, loadIcons, removeIcon
 }

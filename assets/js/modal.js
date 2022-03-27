@@ -7,7 +7,8 @@ import { updateFile, loadFileContent } from './files.js';
 const mTypes = {
     display: Symbol("display"),
     folder: Symbol("folder"),
-    txt: Symbol("txt")
+    txt: Symbol("txt"),
+    img: Symbol("img")
 }
 
 const loadModals = () => {
@@ -324,6 +325,10 @@ const renameModal = ({ id, name }) => {
     $(`.modal[for-icon-id="${id}"] .top label.title`).text(name);
 }
 
+const closeModal = ({ id }) => {
+    $(`.modal[for-icon-id="${id}"]`).remove();
+}
+
 export {
-    createModal, toggleModal, mTypes, loadModals, renameModal
+    createModal, toggleModal, mTypes, loadModals, renameModal, closeModal
 }
