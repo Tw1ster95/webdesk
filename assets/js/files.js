@@ -5,7 +5,7 @@ const editableIcons = Array(
     'txt'
 );
 
-const updateFile = async ({ id, type, content = '' }) => {
+const updateFile = async ({ id, type, content = '', isNew = false }) => {
     if(editableIcons.indexOf(type) == -1)
         return;
 
@@ -26,7 +26,7 @@ const updateFile = async ({ id, type, content = '' }) => {
 
     const result = JSON.parse(response);
 
-    if(result.status !== 'ok')
+    if(result.status == 'fail' || !isNew)
         displayQuickMessage(result.message);
     endLoading();
 }

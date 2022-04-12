@@ -589,10 +589,10 @@ button.medium,
   background-repeat: no-repeat;
 }
 .flex-file-space .icon[icon-type=folder] {
-  background-image: url(/projects/webdesk/assets/img/icons/folder.png);
+  background-image: url(/assets/img/icons/folder.png);
 }
 .flex-file-space .icon[icon-type=txt] {
-  background-image: url(/projects/webdesk/assets/img/icons/txt.png);
+  background-image: url(/assets/img/icons/txt.png);
 }
 
 /*# sourceMappingURL=style.css.map */

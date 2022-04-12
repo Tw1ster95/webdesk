@@ -44,13 +44,15 @@ if ($fetchInfo->num_rows == 0) {
 
 $img_info = $fetchInfo->fetch_assoc();
 
-$header_response = get_headers($img_info['image_url'], 1);
-if (strpos($header_response[0], "404") !== false) {
-    echo json_encode(array(
-        'status' => 'fail',
-        'message' => 'Error setting image url. Image url is invalid.'
-    ));
-    exit;
+if (filter_var($img_info['image_url'], FILTER_VALIDATE_URL)) {
+    $header_response = get_headers($img_info['image_url'], 1);
+    if (isset($header_response[0]) && strpos($header_response[0], "404") !== false) {
+        echo json_encode(array(
+            'status' => 'fail',
+            'message' => 'Error setting image url. Image url is invalid.'
+        ));
+        exit;
+    }
 }
 
 echo json_encode(array(

@@ -200,7 +200,8 @@ const createNewIcon = async ({
         else
             updateFile({
                 id: id,
-                type: type
+                type: type,
+                isNew: true
             });
     }
     else {

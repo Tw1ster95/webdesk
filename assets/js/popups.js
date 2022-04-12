@@ -1,11 +1,11 @@
 import { updateImageUrl } from "./data.js";
 
-const askForImageUrl = ({ id, name }) => {
+const askForImageUrl = ({ id, name, current = null }) => {
     let el = $(`.img-url-ask-modal[for-icon-id="${id}"]`);
     if(el.length == 0) {
         el = $(`<div class="img-url-ask-modal" for-icon-id="${id}">
             <label for="img${id}UrlInput">Paste a URL for the image you want to import to <span>${name}</span>.</label>
-            <input type="text" id="img${id}UrlInput"></input>
+            <input type="text" id="img${id}UrlInput" value="${current}"></input>
             <button type="button">Close</button>
         </div>`);
         $('body').append(el);
@@ -19,11 +19,11 @@ const askForImageUrl = ({ id, name }) => {
                 id: id,
                 url: url
             }))) {
-                console.log($(`.icon[icon-id="${id}"]`));
-                
                 $(`.icon[icon-id="${id}"]`).css({
                     'background-image': `url(${url})`
                 });
+                $(`.modal[for-icon-id="${id}"] .image-modal`).attr(`src`, url);
+                $(`#taskbar [window-id="${id}"] img`).attr(`src`, url);
                 $(el).remove();
             }
         });

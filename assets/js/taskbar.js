@@ -1,6 +1,7 @@
 import { mTypes, toggleModal } from './modal.js';
 import { getData } from './data.js';
 import { getImageIconUrl } from './icons.js';
+import { observeDeleteElement } from './utils.js';
 
 const loadTaskbar = () => {
     $('body').append(`<div class="taskbar" id="taskbar" style="background-color: ${getData('settings', 'taskbar_color')}">
@@ -8,6 +9,7 @@ const loadTaskbar = () => {
             <img src="assets/img/win10logo.png" alt="OS Logo">
         </div>
     </div>`);
+    observeDeleteElement('taskbar');
 }
 
 const addToTaskbar = ({ type, id, name }) => {
@@ -26,7 +28,7 @@ const addToTaskbar = ({ type, id, name }) => {
             break;
         }
         case mTypes.img: {
-            el = $(`<div window-type="txt" window-id="${id}"><img src="${getImageIconUrl(id)}" alt="Taskbar Icon" /></div>`);
+            el = $(`<div window-type="img" window-id="${id}"><img src="${getImageIconUrl(id)}" alt="Taskbar Icon" /></div>`);
             break;
         }
     }

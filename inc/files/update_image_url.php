@@ -35,7 +35,7 @@ if (!filter_var($_POST['url'], FILTER_VALIDATE_URL)) {
 }
 
 $header_response = get_headers($_POST['url'], 1);
-if (strpos($header_response[0], "404") !== false) {
+if (strpos(array_key_first($header_response), "404") !== false && strpos(array_key_first($header_response), "403") !== false) {
     echo json_encode(array(
         'status' => 'fail',
         'message' => 'Error setting image url. Image url is invalid.'

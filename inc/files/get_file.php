@@ -39,6 +39,15 @@ $file_type = $_POST['file_type'];
 
 $dir .= '/' . $file_id . '.' . $file_type;
 
+if(!file_exists($dir)) {
+    file_put_contents($dir, '');
+    echo json_encode(array(
+        'status' => 'fail',
+        'message' => 'Error getting file. File was not found. Generated a new empty one.'
+    ));
+    exit;
+}
+
 $content = file_get_contents($dir);
 
 echo json_encode(array(

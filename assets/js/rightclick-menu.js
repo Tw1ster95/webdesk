@@ -2,13 +2,14 @@ import { removeIconData } from './data.js';
 import { createNewIcon, setIconSize, removeIcon } from './icons.js'
 import { createModal, toggleModal, mTypes, closeModal } from './modal.js';
 import { removeFromTaskbar } from './taskbar.js';
+import { observeDeleteElement } from './utils.js';
 
 let lastClickTime = new Date().getTime();
 
 const loadRightClickMenu = () => {
 
     // Load desktop menu html
-    $('body').append(`<ul class='right-click-menu desktop-menu'>
+    $('body').append(`<ul class='right-click-menu desktop-menu' id='desktop-rc-menu'>
         <li data-action="submenu">View<i class="fa fa-angle-right"></i>
             <ul class='right-click-submenu'>
                 <li data-action="l-icons">Large Icons</li>
@@ -33,11 +34,13 @@ const loadRightClickMenu = () => {
         </li>
         <li data-action="display">Display</li>
     </ul>`);
+    observeDeleteElement('desktop-rc-menu');
 
     // Load icon menu html
-    $('body').append(`<ul class='right-click-menu icon-menu'>
+    $('body').append(`<ul class='right-click-menu icon-menu' id='icon-rc-menu'>
         <li data-action="deleteicon">Delete</li>
     </ul>`);
+    observeDeleteElement('icon-rc-menu');
 
     // On right click open custom menu
     $(document).bind("contextmenu", (e) => {

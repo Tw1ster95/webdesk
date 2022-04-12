@@ -68,5 +68,6 @@ $dir .= '/' . $file_id . '.' . $file_type;
 file_put_contents($dir, $content);
 
 echo json_encode(array(
-    'status' => 'ok'
+    'status' => 'ok',
+    'message' => 'File saved.'
 ));

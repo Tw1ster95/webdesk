@@ -1,9 +1,10 @@
-import { getData } from './data.js';
+import { getData, updateImageUrl } from './data.js';
 import { addToTaskbar, removeFromTaskbar, setTopTaskActive } from './taskbar.js';
 import { addDisplayModalItems } from './display-settings.js';
-import { getRandomInt } from './utils.js';
+import { getRandomInt, observeDeleteElement } from './utils.js';
 import { updateFile, loadFileContent } from './files.js';
 import { getImageIconUrl } from './icons.js';
+import { askForImageUrl } from './popups.js';
 
 const mTypes = {
     display: Symbol("display"),
@@ -14,6 +15,7 @@ const mTypes = {
 
 const loadModals = () => {
     $('body').append(`<div class="modals" id="modals"></div>`);
+    observeDeleteElement('modals');
 }
 
 const createModal = async ({ type, id, name }) => {
@@ -101,7 +103,7 @@ const createModal = async ({ type, id, name }) => {
             break;
         }
         case mTypes.img: {
-            const modalEl = $(`<div class="modal" window-type="txt" for-icon-id=${id}></div>`);
+            const modalEl = $(`<div class="modal" window-type="img" for-icon-id=${id}></div>`);
             $('#modals').append(modalEl);
 
             addModalItems({
@@ -143,37 +145,46 @@ const addModalItems = async ({ target, type, name, content = '', id = null }) =>
         case mTypes.txt: {
             $(target).append(`<div class="top" style="background-color: ${getData('settings', 'modal_top_color')}"><label class="title" style="color: ${getData('settings', 'modal_top_text_color')}">${name}</label><div class="top-buttons"><div class="minimize">_</div><div class="expand">[ ]</div><div class="close">X</div></div></div><ul class="menu"></ul><div class="window"><textarea class="main doc-content">${content}</textarea></div><div class="resize"></div>`);
 
-            addTopFileModalMenu(target, 'txt', id);
+            const menu = $(target).find('.menu');
+            menu.append(
+                `<li>File
+                    <ul class="submenu">
+                        <li class="js-save-file">Save</li>
+                    </ul>
+                </li>`);
+
+            menu.find(`.js-save-file`).click((e) => {
+                updateFile({
+                    id: id,
+                    type: 'txt',
+                    content: $(target).find(`.doc-content`).val()
+                });
+            });
             break;
         }
         case mTypes.img: {
             $(target).append(`<div class="top" style="background-color: ${getData('settings', 'modal_top_color')}"><label class="title" style="color: ${getData('settings', 'modal_top_text_color')}">${name}</label><div class="top-buttons"><div class="minimize">_</div><div class="expand">[ ]</div><div class="close">X</div></div></div><ul class="menu"></ul><div class="window"><img class="image-modal" src="${getImageIconUrl(id)}"/></div><div class="resize"></div>`);
 
-            addTopFileModalMenu(target, 'txt', id);
+            const menu = $(target).find('.menu');
+            menu.append(
+                `<li>File
+                    <ul class="submenu">
+                        <li class="js-change-img">Change Image</li>
+                    </ul>
+                </li>`);
+
+            menu.find(`.js-change-img`).click((e) => {
+                askForImageUrl({
+                    id: id,
+                    name: name,
+                    current: getImageIconUrl(id)
+                })
+            });
             break;
         }
     }
 
     addTopModalEvents(target);
-}
-
-const addTopFileModalMenu = (target, type, id) => {
-    const menu = $(target).find('.menu');
-    menu.append(
-        `<li>File
-            <ul class="submenu">
-                <li class="js-save-file">Save</li>
-            </ul>
-        </li>
-        <li>lalalala</li>`);
-
-    menu.find(`.js-save-file`).click((e) => {
-        updateFile({
-            id: id,
-            type: type,
-            content: $(target).find(`.doc-content`).val()
-        });
-    });
 }
 
 const addTopModalEvents = (target) => {

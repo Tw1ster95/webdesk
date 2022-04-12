@@ -1,9 +1,11 @@
 import { iconAllowDrop, iconDrop, loadIcons } from './icons.js';
 import { getData } from './data.js';
+import { observeDeleteElement } from './utils.js';
 
 const loadDesktop = () => {
     $('body').append(`<div class="desktop-grid" id="desktop"></div>`);
     generateFolderGrid('#desktop');
+    observeDeleteElement('desktop');
     loadIcons(0);
 }
 

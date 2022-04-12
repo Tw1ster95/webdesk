@@ -1,4 +1,5 @@
 import { getData } from './data.js';
+import { observeDeleteElement } from './utils.js';
 
 const loadBackground = () => {
     const bg_type = getData('settings', 'bg_type');
@@ -14,6 +15,8 @@ const loadBackground = () => {
         $(`<img class="${bg_style}" src="${bg_url}" alt="Background Image">`) :
         $(`<video class="${bg_style}" muted autoplay loop src="${bg_url}" alt="Background Video">`)
     );
+
+    observeDeleteElement('desktopBackground');
 }
 
 export {
