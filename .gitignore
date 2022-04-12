@@ -7,3 +7,6 @@ files/*/*/*
 files/*.*
 files/*/*.*
 files/*/*/*.*
+
+files/*
+!files/.gitignore
