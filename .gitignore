@@ -1,5 +1,9 @@
 /node_modules
 /inc/config.php
+
 /files/*
 /files/*/*
 /files/*/*/*
+/files/*.*
+/files/*/*.*
+/files/*/*/*.*
