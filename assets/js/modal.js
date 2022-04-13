@@ -1,9 +1,9 @@
-import { getData, updateImageUrl } from './data.js';
+import { getData } from './data.js';
 import { addToTaskbar, removeFromTaskbar, setTopTaskActive } from './taskbar.js';
 import { addDisplayModalItems } from './display-settings.js';
 import { getRandomInt, observeDeleteElement } from './utils.js';
 import { updateFile, loadFileContent } from './files.js';
-import { getImageIconUrl } from './icons.js';
+import { getImageIconUrl, iconAllowDrop, iconDrop, loadIcons } from './icons.js';
 import { askForImageUrl } from './popups.js';
 
 const mTypes = {
@@ -67,6 +67,8 @@ const createModal = async ({ type, id, name }) => {
                 id: id,
                 name: name
             });
+
+            loadIcons(id);
             break;
         }
         case mTypes.txt: {
@@ -140,51 +142,24 @@ const addModalItems = async ({ target, type, name, content = '', id = null }) =>
         }
         case mTypes.folder: {
             $(target).append(`<div class="top" style="background-color: ${getData('settings', 'modal_top_color')}"><label class="title" style="color: ${getData('settings', 'modal_top_text_color')}">${name}</label><div class="top-buttons"><div class="minimize">_</div><div class="expand">[ ]</div><div class="close">X</div></div></div><ul class="menu"></ul><div class="window"><div class="side"></div><div class="main"></div></div><div class="resize"></div>`);
+
+            const main = $(target).find('.main');
+            $(main).on('dragover', iconAllowDrop);
+            $(main).on('drop', iconDrop);
             break;
         }
         case mTypes.txt: {
             $(target).append(`<div class="top" style="background-color: ${getData('settings', 'modal_top_color')}"><label class="title" style="color: ${getData('settings', 'modal_top_text_color')}">${name}</label><div class="top-buttons"><div class="minimize">_</div><div class="expand">[ ]</div><div class="close">X</div></div></div><ul class="menu"></ul><div class="window"><textarea class="main doc-content">${content}</textarea></div><div class="resize"></div>`);
-
-            const menu = $(target).find('.menu');
-            menu.append(
-                `<li>File
-                    <ul class="submenu">
-                        <li class="js-save-file">Save</li>
-                    </ul>
-                </li>`);
-
-            menu.find(`.js-save-file`).click((e) => {
-                updateFile({
-                    id: id,
-                    type: 'txt',
-                    content: $(target).find(`.doc-content`).val()
-                });
-            });
             break;
         }
         case mTypes.img: {
             $(target).append(`<div class="top" style="background-color: ${getData('settings', 'modal_top_color')}"><label class="title" style="color: ${getData('settings', 'modal_top_text_color')}">${name}</label><div class="top-buttons"><div class="minimize">_</div><div class="expand">[ ]</div><div class="close">X</div></div></div><ul class="menu"></ul><div class="window"><img class="image-modal" src="${getImageIconUrl(id)}"/></div><div class="resize"></div>`);
-
-            const menu = $(target).find('.menu');
-            menu.append(
-                `<li>File
-                    <ul class="submenu">
-                        <li class="js-change-img">Change Image</li>
-                    </ul>
-                </li>`);
-
-            menu.find(`.js-change-img`).click((e) => {
-                askForImageUrl({
-                    id: id,
-                    name: name,
-                    current: getImageIconUrl(id)
-                })
-            });
             break;
         }
     }
 
     addTopModalEvents(target);
+    addTopMenu({target, id, name, type});
 }
 
 const addTopModalEvents = (target) => {
@@ -295,6 +270,48 @@ const addTopModalEvents = (target) => {
         dragModal = false;
         resizeModal = false;
     });
+}
+
+const addTopMenu = ({ target, id, name, type }) => {
+    const menu = $(target).find('.menu');
+    if(!menu)
+        return;
+
+    switch(type) {
+        case mTypes.txt: {
+            menu.append(
+                `<li>File
+                    <ul class="submenu">
+                        <li class="js-save-file">Save</li>
+                    </ul>
+                </li>`);
+
+            menu.find(`.js-save-file`).click((e) => {
+                updateFile({
+                    id: id,
+                    type: 'txt',
+                    content: $(target).find(`.doc-content`).val()
+                });
+            });
+            break;
+        }
+        case mTypes.img: {
+            menu.append(
+                `<li>File
+                    <ul class="submenu">
+                        <li class="js-change-img">Change Image</li>
+                    </ul>
+                </li>`);
+
+            menu.find(`.js-change-img`).click((e) => {
+                askForImageUrl({
+                    id: id,
+                    name: name,
+                    current: getImageIconUrl(id)
+                })
+            });
+        }
+    }
 }
 
 const toggleModalExpand = (target) => {

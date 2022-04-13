@@ -1,6 +1,6 @@
 import { displayLoginModal } from './login-modal.js';
 import { getUserInfo, getData, getUserSettings, loadWebsiteData } from './data.js';
-import { updateFolderGrid, loadDesktop } from './desktop.js';
+import { updateDesktopGrid, loadDesktop } from './desktop.js';
 import { loadRightClickMenu } from './rightclick-menu.js';
 import { loadTaskbar } from './taskbar.js';
 import { loadModals } from './modal.js';
@@ -30,7 +30,7 @@ $(window).on('load', async () => {
 // On window resize change desktop grid
 $(window).resize(() => {
     if(getData('user', 'userid'))
-        updateFolderGrid('#desktop');
+        updateDesktopGrid('#desktop');
 });
 
 export {

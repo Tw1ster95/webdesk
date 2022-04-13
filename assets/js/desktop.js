@@ -4,13 +4,14 @@ import { observeDeleteElement } from './utils.js';
 
 const loadDesktop = () => {
     $('body').append(`<div class="desktop-grid" id="desktop"></div>`);
-    generateFolderGrid('#desktop');
+    generateDesktopGrid('#desktop');
     observeDeleteElement('desktop');
     loadIcons(0);
 }
 
-const generateFolderGrid = (selector) => {
-    const target = $(selector);
+const generateDesktopGrid = (target) => {
+    if(typeof(target) == 'string')
+        target = $(target);
 
     const icon_size = getData('settings', 'icon_size');
     const width = window.innerWidth;
@@ -27,7 +28,7 @@ const generateFolderGrid = (selector) => {
     for(let r = 1; r <= rows; r++) {
         for(let c = 1; c <= cols; c++) {
             fileSpaceEl = $(`<div class="flex-file-space" data-row="${r}" data-col="${c}" style="grid-area: ${r} / ${c} / auto / auto;"></div>`);
-            $("#desktop").append(fileSpaceEl);
+            $(target).append(fileSpaceEl);
             $(fileSpaceEl).on('dragover', iconAllowDrop);
             $(fileSpaceEl).on('drop', iconDrop);
         }
@@ -38,8 +39,9 @@ const generateFolderGrid = (selector) => {
     $('.flex-file-space').css('font-size', `${Math.floor(icon_size/6)}px`);
 }
 
-const updateFolderGrid = (selector) => {
-    const target = $(selector);
+const updateDesktopGrid = (target) => {
+    if(typeof(target) == 'string')
+        target = $(target);
 
     const icon_size = getData('settings', 'icon_size');
     const width = window.innerWidth;
@@ -55,7 +57,7 @@ const updateFolderGrid = (selector) => {
         for(let r = 1; r <= rows; r++) {
             for(let c = oldCols; c <= cols; c++) {
                 fileSpaceEl = $(`<div class="flex-file-space" data-row="${r}" data-col="${c}" style="grid-area: ${r} / ${c} / auto / auto;"></div>`);
-                $("#desktop").append(fileSpaceEl);
+                $(target).append(fileSpaceEl);
                 $(fileSpaceEl).on('dragover', iconAllowDrop);
                 $(fileSpaceEl).on('drop', iconDrop);
             }
@@ -71,7 +73,7 @@ const updateFolderGrid = (selector) => {
         for(let c = 1; c <= cols; c++) {
             for(let r = oldRows; r <= rows; r++) {
                 fileSpaceEl = $(`<div class="flex-file-space" data-row="${r}" data-col="${c}" style="grid-area: ${r} / ${c} / auto / auto;"></div>`);
-                $("#desktop").append(fileSpaceEl);
+                $(target).append(fileSpaceEl);
                 $(fileSpaceEl).on('dragover', iconAllowDrop);
                 $(fileSpaceEl).on('drop', iconDrop);
             }
@@ -94,5 +96,5 @@ const updateFolderGrid = (selector) => {
 }
 
 export {
-    loadDesktop, generateFolderGrid, updateFolderGrid
+    loadDesktop, generateDesktopGrid, updateDesktopGrid
 }

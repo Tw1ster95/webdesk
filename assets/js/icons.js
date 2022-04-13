@@ -1,6 +1,6 @@
 import { createModal, toggleModal, mTypes, renameModal } from './modal.js';
 import { setData, getData, getIcons, generateNewIconData, changeIconData, getImageUrl } from './data.js';
-import { updateFolderGrid } from './desktop.js';
+import { updateDesktopGrid } from './desktop.js';
 import { renameTaskbarItem } from './taskbar.js';
 import { updateFile } from './files.js';
 import { askForImageUrl, displayQuickMessage } from './popups.js';
@@ -13,7 +13,7 @@ const loadIcons = async (id) => {
             createNewIcon({
                 id: icons[i].id,
                 type: getIconTypeText(icons[i].type),
-                in_folder_id: icons[i].folder_id,
+                in_folder_id: icons[i].in_folder_id,
                 name: icons[i].name,
                 row: icons[i].pos_row,
                 col: icons[i].pos_col
@@ -34,7 +34,11 @@ const iconAllowDrop = (e) => {
 }
 const iconDragStart = (e) => {
     const fileSpace = $(e.target).parents()[0];
-    e.originalEvent.dataTransfer.setData("text", ($(fileSpace).attr('data-row') + '|' + $(fileSpace).attr('data-col')));
+    const col = $(fileSpace).attr('data-col');
+    const row = $(fileSpace).attr('data-row');
+    const modal_id = (col && row) ? 0 : ($(fileSpace).parent().parent().parent().attr('for-icon-id'));
+    const icon_id = (col && row) ? 0 : ($(fileSpace).find('.icon').attr('icon-id'));
+    e.originalEvent.dataTransfer.setData("text", (row + '|' + col + '|' + modal_id + '|' + icon_id));
 }
 const iconDrop = (e) => {
     e.preventDefault();
@@ -44,48 +48,87 @@ const iconDrop = (e) => {
     if(dragPos == undefined)
         return;
     
-    const [dragRow, dragCol] = dragPos.split('|');
+    const [dragRow, dragCol, modal_id, icon_id] = dragPos.split('|');
+
+    const fromFolder = (modal_id && modal_id > 0) ? true : false;
     
-    const dragPosEl = $(`.flex-file-space[data-row="${dragRow}"][data-col="${dragCol}"]`);
+    const dragPosEl = (fromFolder) ? ($(`.modal[for-icon-id=${modal_id}] .flex-file-space .icon[icon-id=${icon_id}]`).parent()) : ($(`#desktop .flex-file-space[data-row="${dragRow}"][data-col="${dragCol}"]`));
+
     if(!dragPosEl.length)
         return;
-    
+
     const dropPosEl = $(e.currentTarget);
-    const dropRow = $(dropPosEl).attr('data-row');
-    const dropCol = $(dropPosEl).attr('data-col');
+    if($(dropPosEl).hasClass('flex-file-space')) {
+        const dropRow = $(dropPosEl).attr('data-row');
+        const dropCol = $(dropPosEl).attr('data-col');
 
-    if(dragRow == dropRow && dragCol == dropCol)
-        return;
-    
-    let dragIcon = $(dragPosEl).find('.icon');
-    dragIcon = (dragIcon.length > 0) ? $(dragIcon).clone() : null;
-    let dropIcon = $(dropPosEl).find('.icon');
-    dropIcon = (dropIcon.length > 0) ? $(dropIcon).clone() : null;
-    $(dragPosEl).empty();
-    $(dropPosEl).empty();
-    if(dragIcon) {
-        $(dropPosEl).append($(dragIcon));
-        $(dragIcon).dblclick(onIconClick);
-        $(dragIcon).on('dragstart', iconDragStart);
-    }
-    if(dropIcon) {
-        $(dragPosEl).append($(dropIcon));
-        $(dropIcon).dblclick(onIconClick);
-        $(dropIcon).on('dragstart', iconDragStart);
-    }
+        const dropModal = (dropRow && dropCol) ? 0 : ($(dropPosEl).parent().parent().parent().attr('for-icon-id'));
 
-    if(!$(dragPosEl).is(':empty'))
-        changeIconData({
-            id: $($(dragPosEl).children()[0]).attr('icon-id'),
-            row: dragRow,
-            col: dragCol
-        });
-    if(!$(dropPosEl).is(':empty'))
-        changeIconData({
-            id: $($(dropPosEl).children()[0]).attr('icon-id'),
-            row: dropRow,
-            col: dropCol
-        });
+        if(dragRow == dropRow && dragCol == dropCol)
+            return;
+        
+        let dragIcon = $(dragPosEl).find('.icon');
+        dragIcon = (dragIcon.length > 0) ? $(dragIcon).clone() : null;
+        let dropIcon = $(dropPosEl).find('.icon');
+        dropIcon = (dropIcon.length > 0) ? $(dropIcon).clone() : null;
+
+        if(fromFolder) $(dragPosEl).remove();
+        else $(dragPosEl).empty();
+
+        $(dropPosEl).empty();
+        if(dragIcon) {
+            $(dropPosEl).append($(dragIcon));
+            $(dragIcon).dblclick(onIconClick);
+            $(dragIcon).on('dragstart', iconDragStart);
+        }
+        if(dropIcon) {
+            $(dragPosEl).append($(dropIcon));
+            $(dropIcon).dblclick(onIconClick);
+            $(dropIcon).on('dragstart', iconDragStart);
+        }
+        if(!$(dragPosEl).is(':empty'))
+            changeIconData({
+                id: $($(dragPosEl).children()[0]).attr('icon-id'),
+                in_folder_id: dropModal,
+                row: (dropModal) ? 0 : dropRow,
+                col: (dropModal) ? 0 : dropCol
+            });
+        if(!$(dropPosEl).is(':empty'))
+            changeIconData({
+                id: $($(dropPosEl).children()[0]).attr('icon-id'),
+                in_folder_id: dropModal,
+                row: (dropModal) ? 0 : dropRow,
+                col: (dropModal) ? 0 : dropCol
+            });
+    }
+    else {
+        const modal = $(dropPosEl).parent().parent();
+        if(!modal.length)
+            return;
+        let dragIcon = $(dragPosEl).find('.icon');
+        dragIcon = (dragIcon.length > 0) ? $(dragIcon).clone() : null;
+
+        if(fromFolder) $(dragPosEl).remove();
+        else $(dragPosEl).empty();
+
+        if(dragIcon) {
+            const icon_size = getData('settings', 'icon_size');
+            const fileSpaceEl = $(`<div class="flex-file-space" style='width: ${icon_size}px; height: ${icon_size}px;'></div>`);
+
+            $(fileSpaceEl).append($(dragIcon));
+            $(dropPosEl).append($(fileSpaceEl));
+            $(dragIcon).dblclick(onIconClick);
+            $(dragIcon).on('dragstart', iconDragStart);
+
+            const folder_id = $(modal).attr('for-icon-id');
+            changeIconData({
+                id: $(dragIcon).attr('icon-id'),
+                in_folder_id: folder_id,
+                row: 0,
+                col: 0
+            });
+        }
+    }
 }
 
 const onIconClick = (e) => {
@@ -142,26 +185,28 @@ const createNewIcon = async ({
     if(!type)
         return;
     
-    let selector, space, isNew = false;
-    if(in_folder_id == 0)
-        selector = '#desktop';
-    else
-        selector = '#desktop';
-    
-    if(row == null || col == null) {
-        space = $(selector + ` .flex-file-space:empty`)[0];
+    let space, isNew = false;
+    if(in_folder_id == 0) {
+        if(row == null || col == null) {
+            space = $(`#desktop .flex-file-space:empty`)[0];
+        }
+        else {
+            space = $('#desktop').find(`.flex-file-space[data-row="${row}"][data-col="${col}"]`);
+            if(!$(space).length)
+                space = $(`#desktop .flex-file-space:empty`)[0];
+        }
+
+        if(!space) {
+            if(New) {
+                displayQuickMessage('There is no space for a new folder!');
+            }
+            return;
+        }
     }
     else {
-        space = $(selector).find(`.flex-file-space[data-row="${row}"][data-col="${col}"]`);
-        if(!$(space).length)
-            space = $(selector + ` .flex-file-space:empty`)[0];
-    }
-
-    if(!space) {
-        if(New) {
-            displayQuickMessage('There is no space for a new folder!');
-        }
-        return;
+        const icon_size = getData('settings', 'icon_size');
+        space = $(`<div class="flex-file-space" style='width: ${icon_size}px; height: ${icon_size}px;'></div>`);
+        $(`.modal[for-icon-id="${in_folder_id}"] .main`).append(space);
     }
 
     if(!id) {
@@ -170,8 +215,8 @@ const createNewIcon = async ({
             type: getIconTypeId(type),
             in_folder_id: in_folder_id,
             name: name,
-            row: $(space).attr('data-row'),
-            col: $(space).attr('data-col')
+            row: $(space).attr('data-row') || 0,
+            col: $(space).attr('data-col') || 0
         });
 
         if(!id)
@@ -214,7 +259,7 @@ const createNewIcon = async ({
 
 const setIconSize = (size) => {
     setData('settings', 'icon_size', size);
-    updateFolderGrid('#desktop');
+    updateDesktopGrid('#desktop');
 }
 
 const removeIcon = async (icon_id) => {
